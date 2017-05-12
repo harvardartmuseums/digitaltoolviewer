@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "A 3D gallery generated from Digital Tool JSON objects.",
   "main": "index.js",
-  "scripts": {
+ "engines": {    "node": "7.2.0"
+  },  "scripts": {
     "start": "index.js"
   },
-  "author": "Gavi Levy Haskell",
-  "dependencies": {
-    "express": "4.15.2",
-    "socket.io": "2.0.1"
+  "author": "gavriella-levy-haskell",
+ "license": "ISC",  "dependencies": {
+    "express": "4.14.0",
+    "socket.io": "1.5.1"
   }
 }
