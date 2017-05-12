@@ -1108,6 +1108,8 @@ function getFormData(e) {
 	
 	socket.emit("getTour", document.getElementById("tourNumber").value);
 
+	document.getElementById("tourPrompt").remove();
+
 	return false;
 }
 
@@ -1122,6 +1124,7 @@ function getTourNumber() {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
 		element.classList.add("tourPrompt");
+		element.id = "tourPrompt";
 		element.innerHTML = "<span>Tour number:<br /><form onsubmit=\"getFormData(event)\"><input type=\"number\" min=\"0\" size=\"4\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
 }
