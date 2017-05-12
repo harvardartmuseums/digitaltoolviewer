@@ -1063,6 +1063,23 @@ function init() {
 		}
 	});
 
+	cssRenderer = new THREE.CSS3DRenderer();
+	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	cssRenderer.domElement.className = "threeJS";
+	document.body.appendChild(cssRenderer.domElement);
+
+	renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	renderer.domElement.className = "threeJS clickThrough";
+	cssRenderer.domElement.appendChild(renderer.domElement);
+
+	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
+	//interactionRenderer.autoClearDepth = false;
+	//interactionRenderer.setSize(canvas.offsetWidth/3, canvas.offsetHeight/3);
+	//interactionRenderer.domElement.style.position = "absolute";
+	//interactionRenderer.domElement.style.bottom = 0;
+	//document.body.appendChild(interactionRenderer.domElement);
+
 	getTourNumber();
 }
 
@@ -1110,23 +1127,6 @@ function finishInit() {
 	building = new TourRoom(tour);
 
 	scene.add(building);
-
-	cssRenderer = new THREE.CSS3DRenderer();
-	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	cssRenderer.domElement.className += " threeJS";
-	document.body.appendChild(cssRenderer.domElement);
-
-	renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
-	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	renderer.domElement.className += " threeJS clickThrough";
-	cssRenderer.domElement.appendChild(renderer.domElement);
-
-	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
-	//interactionRenderer.autoClearDepth = false;
-	//interactionRenderer.setSize(canvas.offsetWidth/3, canvas.offsetHeight/3);
-	//interactionRenderer.domElement.style.position = "absolute";
-	//interactionRenderer.domElement.style.bottom = 0;
-	//document.body.appendChild(interactionRenderer.domElement);
 
 	// Adjust 
 	window.addEventListener("resize", function() {
