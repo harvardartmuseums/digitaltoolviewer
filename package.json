@@ -5,7 +5,7 @@
   "main": "index.js",
  "engines": {    "node": "7.2.0"
   },  "scripts": {
-    "start": "index.js"
+    "start": "node index.js"
   },
   "author": "gavriella-levy-haskell",
  "license": "ISC",  "dependencies": {
