@@ -1089,7 +1089,7 @@ function getFormData() {
 
 function getTourNumber() {
 	var tourNumber;
-	var regex = new RegExp("\?tour=([0-9]*)");
+	var regex = new RegExp("\\?tour=([0-9]*)");
 	var match = regex.exec(window.location.search);
 	if (match != null) {
 		tourNumber = match[1];
