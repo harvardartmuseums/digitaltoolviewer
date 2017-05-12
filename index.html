@@ -74,8 +74,21 @@ body, html {
 	object-fit: contain;
 }
 
+@keyframes slide {
+	0% {
+		left: 0%;
+	}
+	100% {
+		left: 100%;
+	}
+}
+
 .slideshowModule.slides div {
-	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	animation: slide 15s infinite;
 }
 
 .slideshowModule.slides img {
@@ -124,7 +137,7 @@ body, html {
 	}
 }
 
-.tourPrompt {
+#tourPrompt {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -135,10 +148,7 @@ body, html {
 	height: 100%;
 	color: #FFFFFF;
 	z-index: 10;
-}
-
-.tourPrompt span {
-	
+	font-family: 'Cabin';
 }
 </style>
 
@@ -515,36 +525,34 @@ function SlideshowModule(width, height, module) {
 		element.style.width = 4*width + "px";
 		element.style.height = 4*height + "px";
 
-		var container = document.createElement("div");
-		element.appendChild(container);
-		container.style.width = module.images.length*100 + "%";
-
-		for (var i = module.images.length - 1; i >= 0; i--) {
-			container.innerHTML += "<img src=\"" + module.images[i].file + "\" class=\"" + i + "\" />";
-		}
-
-
-
 		setTimeout(function() {
 			generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
 		}.bind(this.mesh), 10);
 
+		var container = document.createElement("div");
+		element.appendChild(container);
+		container.style.width = module.images.length*100 + "%";
+
+		for (var i = 0; i < module.images.length; i++) {
+			element = document.createElement("img");
+			element.src = module.images[i].file;
+			element.classList.add(i);
+			element.width = 100/module.images.length + "%";
+			container.appendChild(element);
+		}
+
 	} else {
-		if (module.images.length <= 16) {
-			var max = Math.ceil(Math.sqrt(module.images.length));
-			var i = 0;
-			for (var j = 0; j < max; j++) {
-				for (var k = 0; k < max; k++) {
-					if (i < module.images.length) {
-						Image3D(this.mesh, module.images[i].file, new THREE.Vector3((-max/2 + .5 + k)*width/max, (max/2 - .5 - j)*height/max, 0), width/max, height/max, true);
-						i++;
-					} else {
-						return this.mesh;
-					}
+		var max = Math.ceil(Math.sqrt(module.images.length));
+		var i = 0;
+		for (var j = 0; j < max; j++) {
+			for (var k = 0; k < max; k++) {
+				if (i < module.images.length) {
+					Image3D(this.mesh, module.images[i].file, new THREE.Vector3((-max/2 + .5 + k)*width/max, (max/2 - .5 - j)*height/max, 0), width/max, height/max, true);
+					i++;
+				} else {
+					return this.mesh;
 				}
 			}
-		} else {
-			
 		}
 	}
 	
@@ -1123,7 +1131,6 @@ function getTourNumber() {
 	} else {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
-		element.classList.add("tourPrompt");
 		element.id = "tourPrompt";
 		element.innerHTML = "<span>Tour number:<br /><form onsubmit=\"getFormData(event)\"><input type=\"number\" min=\"0\" size=\"4\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
