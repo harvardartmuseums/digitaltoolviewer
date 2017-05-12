@@ -4,12 +4,11 @@
   "description": "A 3D gallery generated from Digital Tool JSON objects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "index.js"
   },
   "author": "Gavi Levy Haskell",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.15.2",
-    "socket.io": "^2.0.1"
+    "express": "4.15.2",
+    "socket.io": "2.0.1"
   }
 }
