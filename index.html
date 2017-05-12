@@ -1,0 +1,1237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Digital Tool Lightbox Viewer</title>
+
+<style>
+body, html {
+	background-color: #000000;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.videoModule {
+	background-color: #000000;
+}
+
+.videoModule .error {
+	box-sizing: border-box;
+	background-color: #000000;
+	color: #FFFFFF;
+	padding: 1%;
+	font-size: 10px;
+	font-family: 'Cabin';
+	width: 100%;
+	height: 100%;
+}
+
+.textModule {
+	box-sizing: border-box;
+	padding: 16px 48px;
+	font-size: 16px;
+	line-height: 155%;
+	font-family: 'Cabin';
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+.textModule h3 {
+	text-align: center;
+	font-weight: normal;
+	font-size: 155%;
+	line-height: 125%;
+}
+
+.textModule a {
+	color: #000000;
+}
+
+.textModule a:hover {
+	color: #AAAAAA;
+}
+
+.textModule a:visited {
+	color: #000000;
+}
+
+.overlayModule {
+	background-color: #000000;
+}
+
+.overlayModule img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.slideshowModule.slides div {
+	
+
+.slideshowModule.slides img {
+	float: left;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	background-color: #000000;
+}
+
+.slideshowModule.grid img {
+	float: left;
+	object-fit: contain;
+}
+
+.clickThrough {
+	pointer-events: none;
+}
+
+.threeJS {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 0px;
+	width: 100vw;
+	height: 100vh;
+}
+
+.threeJS .threeJS {
+	margin: 0px;
+}
+
+@media screen and (min-aspect-ratio: 1/1) {
+	.threeJS {
+		margin: 0px calc((100vw - 100vh*16/9)/2);
+		width: calc(100vh*16/9);
+		height: 100vh;
+	}
+}
+
+@media screen and (max-aspect-ratio: 1/1) {
+	.threeJS {
+		margin: calc((100vh - 100vw*9/16)/2) 0px;
+		width: 100vw;
+		height: calc(100vw*9/16);
+	}
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="canvas" class="threeJS"></div>
+
+<script src="js/three.min.js"></script>
+<script src="js/CSS3DRenderer.js"></script>
+<script src="js/Mirror.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io();
+
+var scene;
+var camera;
+var renderer;
+
+var cssOverlay;
+var cssRenderer;
+
+var interactionCamera;
+var interactionRenderer;
+
+var moveSphere;
+var moveRay = new THREE.Raycaster();
+
+var resetTimer;
+var resetRounds = 0;
+
+var canvas;
+
+var keysDown = {};
+
+var doorWidth = 200;
+var wallUnitWidth = 600;
+var doorHeight = 350;
+var wallHeight = 600;
+var wallDepth = 25;
+
+var wallMaterial = floorMaterial = ceilingMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
+
+var screenMaterial = new THREE.MeshStandardMaterial({color: 0x000000, metalness: 0, roughness: 0});
+var monitorMaterial = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0, roughness: .6});
+
+var textMaterial = new THREE.MeshStandardMaterial({metalness: 0, color: 0x000000, roughness: .8});
+
+var cutoutMaterial = new THREE.MeshBasicMaterial({color: 0x000000, opacity: 0.0});
+
+var brightMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
+
+var font;
+
+var tour;
+
+var building;
+
+var obstacles = [];
+
+var moduleLocations = [];
+
+var mirrors = [];
+
+var frustum;
+var cameraViewMatrix;
+
+var vimeoURL = new RegExp('(?:vimeo.com/|vimeo.com/video/)([0-9]+)', 'i');
+var youTubeURL = new RegExp('(?:youtube.com/watch\\?v=|youtu.be/|youtube.com/embed/)([0-9a-zA-Z]+)', 'i');
+
+var lastUpdated;
+var ended = true;
+
+var blueScreen = "<div class=\"error\">A problem has been detected and Windows has been shut down to prevent damage to your computer.<br /><br />If this is the first time you've seen this Stop error screen, restart your computer. If this screen appears again, follow these steps:<br /><br />Check to make sure any new hardware or software is properly installed. If this is a new installation, ask your hardware or software manufacturer for any Windows updates you might need.<br /><br />If problems continue, disable or remove any newly installed hardware or software. Disable BIOS memory options such as caching or shadowing. If you need to use Safe Mode to remove or disable components, restart your computer, press F8 to select Advanced Startup Options, and then select Safe Mode.<br /><br />Technical information:<br /><br />*** STOP: 0x00000050 (0xFD3094C2, 0x00000001, 0xFBFE7617, 0x00000000)<br /><br /><br />Collecting data for crash dump ...<br />Initializing disk for crash dump ...<br />Beginning dump of physical memory.<br />Dumping physical memory to disk: 100<br />Physical memory dump complete.</div>";
+
+var moduleTypes = {
+	1: {label: false, cons: TextModule},
+	2: {label: true, media: "images", cons: ImageModule, frame: GlazedFrame},
+	3: {label: false, cons: SlideshowModule, frame: Screen},
+	4: {label: true, media: "videos", cons: VideoModule, frame: Screen},
+	5: {label: true, media: "audio", cons: AudioModule, frame: Screen},
+	6: {label: true, media: "images", cons: CloseupModule, frame: GlazedFrame},
+	7: {label: true, media: "images", cons: OverlayModule, frame: Screen},
+	8: {label: true, media: "images", cons: ComparisonModule, frame: Screen},
+	10: {label: false, cons: SearchModule, frame: Screen},
+	11: {label: false, cons: EmbedModule, frame: Screen},
+	12: {label: false, cons: MiradorModule, frame: Screen}
+};
+
+
+init();
+
+// Find index of last space in a string, counting from end
+function lastSpaceIndex(text) {
+	var lastSpace = text.split("").reverse().join("").indexOf(" ");
+	if (lastSpace == -1) {
+		lastSpace = 0;
+	}
+	return lastSpace;
+}
+
+// Put wrapped text on the given canvas
+function wrapText(context, x, y, text, fontSize, font, up = false, width = 1020) {
+	var chars = Math.floor(width/fontSize*2);
+
+	context.fillStyle = "#000000";
+	context.font = fontSize + "px " + font;
+	
+	var i = 0;
+	var lastSpace = 0;
+	if (up) {
+		var lines = [];
+		while (text.length > 0) {
+			if (text.length > chars) {
+				lastSpace = lastSpaceIndex(text.slice(0, chars));
+			} else {
+				lastSpace = 0;
+			}
+			lines.push(text.slice(0, chars - lastSpace));
+			text = text.slice(chars - lastSpace);
+			i--;
+		}
+		for (var j = 0; j < lines.length; j++) {
+			context.fillText(lines[j], x, (y - (lines.length - j)*(fontSize + 10)));
+		}
+	} else {
+		while (text.length > 0) {
+			if (text.length > chars) {
+				lastSpace = lastSpaceIndex(text.slice(0, chars));
+			} else {
+				lastSpace = 0;
+			}
+			context.fillText(text.slice(0, chars - lastSpace), x, (y + i*(fontSize + 10)));
+			text = text.slice(chars - lastSpace);
+			i++;
+		}
+	} 
+
+	return (y + i*(fontSize + 10));
+}
+
+// Put centered text on the given context
+function centerText(context, width, height, text, fontSize, font) {
+	var chars = Math.floor(width/fontSize*2);
+
+	context.fillStyle = "#000000";
+	context.font = fontSize + "px " + font;
+	context.textAlign = "center";
+	
+	var i = 0;
+	var lastSpace = 0;
+
+	var lines = [];
+
+	while (text.length > 0) {
+		if (text.length > chars) {
+			lastSpace = lastSpaceIndex(text.slice(0, chars));
+		} else {
+			lastSpace = 0;
+		}
+		lines.push(text.slice(0, chars - lastSpace));
+		text = text.slice(chars - lastSpace);
+	}
+
+	for (var i = 0; i < lines.length; i++) {
+		context.fillText(lines[i], width/2, (height + fontSize*(i*2 - lines.length + 1.5))/2);
+	}
+}
+
+function TStand(title, image, caption, credit, description) {
+	this.mesh = new THREE.Group();
+
+	// Each side's label
+	var textPanel = new TextPanel(title, image, caption, credit, description);
+	textPanel.scale.set(.3, .3, .3);
+	textPanel.position.set(0, wallHeight/3, 0);
+	this.mesh.add(textPanel);
+
+	var textPanel = new TextPanel(title, image, caption, credit, description);
+	textPanel.scale.set(.3, .3, .3);
+	textPanel.rotateY(THREE.Math.degToRad(180));
+	textPanel.position.set(0, wallHeight/3, 0);
+	this.mesh.add(textPanel);
+
+	// Upright
+	var geometry = new THREE.BoxBufferGeometry(.4*wallUnitWidth/4, wallHeight/3 + .3*wallUnitWidth/6 + .05*wallUnitWidth/4, .3*wallDepth - .01);
+	var stand = new THREE.Mesh(geometry, wallMaterial);
+	stand.position.set(0, (wallHeight/3 + .3*wallUnitWidth/6 + .05*wallUnitWidth/4)/2, 0);
+	this.mesh.add(stand);
+	obstacles.push(stand);
+
+	// Base
+	geometry = new THREE.BoxBufferGeometry(.4*wallUnitWidth/4, wallDepth/10, .4*wallUnitWidth/3);
+	stand = new THREE.Mesh(geometry, wallMaterial);
+	stand.position.set(0, wallDepth/20, 0);
+	this.mesh.add(stand);
+
+	return this.mesh;
+}
+
+function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), width = cssElement.offsetWidth, height = cssElement.offsetHeight, scale = new THREE.Vector3(1, 1, 1), interactive = false, highres = false) {
+	// set a hair forward of position to avoid collisions
+	pos.z += .01;
+
+	var cssObject = new THREE.CSS3DObject(cssElement);
+	cssOverlay.add(cssObject);
+
+	if (highres) {
+		width = Math.floor(width/4);
+		height = Math.floor(height/4);
+	}
+
+	var geometry = new THREE.PlaneBufferGeometry(width - 3, height - 3);
+	var cutoutPlane = new THREE.Mesh(geometry, cutoutMaterial);
+	cutoutPlane.position.set(pos.x, pos.y, pos.z);
+	cutoutPlane.scale.set(scale.x, scale.y, scale.z);
+	cutoutPlane.layers.set(2);
+	mesh.add(cutoutPlane);
+	
+	if (interactive) {
+		var interactionPlane = cutoutPlane.clone();
+		interactionPlane.material = brightMaterial;
+		interactionPlane.position.set(pos.x, pos.y, pos.z);
+		interactionPlane.layers.set(1);
+		mesh.add(interactionPlane);
+	}
+
+	// adjust css object location, orientation, and scale
+	// to match its WebGL plane
+	mesh.updateMatrixWorld();
+	cssObject.position.setFromMatrixPosition(cutoutPlane.matrixWorld);
+	cssObject.setRotationFromQuaternion(cutoutPlane.getWorldQuaternion());
+	cssObject.scale.setFromMatrixScale(cutoutPlane.matrixWorld);
+
+	if (highres) {
+		cssObject.scale.x *= .25;
+		cssObject.scale.y *= .25;
+	}
+
+	// if not currently updating renderer, update renderer
+	if (ended) {
+		animate();
+	}
+}
+
+function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHeight, interactive = false) {
+	// Create image, wait for it to load
+	var imageElement = document.createElement("img");
+	imageElement.onload = function () {
+		// calculate size for image in scene, and center
+		scale = new THREE.Vector3(1, 1, 1);
+		if (imageElement.width/imageElement.height > boxWidth/boxHeight) {
+			scale.setScalar(boxWidth/imageElement.width);
+		} else {
+			scale.setScalar(boxHeight/imageElement.height);
+			if (!interactive) {
+				pos.x += -(boxWidth - imageElement.width*boxHeight/imageElement.height)/2;
+			}
+		}
+
+		generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
+	};
+	imageElement.src = image;
+	var imageObject = new THREE.CSS3DObject(imageElement);
+	cssOverlay.add(imageObject);
+}
+
+function TextPanel(title, image, caption, credit, description) {
+	this.mesh = new THREE.Group();
+
+	var panel = document.createElement("canvas");
+	panel.width = "1024";
+	panel.height = "2048";
+	var context = panel.getContext("2d");
+
+	context.fillStyle = "#FFFFFF";
+	context.fillRect(0, 0, 1024, 2048);
+
+	// Add title (and optionally description) from top
+	var offsetTop = wrapText(context, 10, 70, title, 60, "Helvetica") + 20;
+	if (description != undefined) {
+		offsetTop = wrapText(context, 10, offsetTop, description, 30, "Helvetica") + 20;
+	}
+
+	// Add credit and caption from bottom
+	var offsetBottom = wrapText(context, 10, 1365, credit, 20, "Helvetica", true) - 10;
+	offsetBottom = wrapText(context, 10, offsetBottom, caption, 30, "Helvetica", true) - 30;
+
+	var pixelRatio = (wallUnitWidth/4)/1024;
+	var boxWidth = 1004*pixelRatio;
+	var boxHeight = (offsetBottom - offsetTop - 40)*pixelRatio;
+
+	Image3D(this.mesh, image, new THREE.Vector3(0, (wallUnitWidth/6 - offsetTop*pixelRatio - boxHeight/2), wallDepth/2), boxWidth, boxHeight);
+
+	// create label from HTML5 canvas
+	geometry = new THREE.BoxBufferGeometry(wallUnitWidth/4, wallUnitWidth/2, wallDepth);
+	var texture = new THREE.CanvasTexture(panel);
+	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var label = new THREE.Mesh(geometry, material);
+	label.position.set(0, wallUnitWidth/6 - wallUnitWidth/4, 0);
+	this.mesh.add(label);
+
+	this.mesh.position.set(0, wallHeight/2, 0);
+	this.mesh.rotateY(THREE.Math.degToRad(180));
+	
+
+	return this.mesh;
+}
+
+function ModuleLabel(width, title, caption, credit) {
+	var panel = document.createElement("canvas");
+	panel.width = "1024";
+	panel.height = "512";
+	var context = panel.getContext("2d");
+
+	context.fillStyle = "#FFFFFF";
+	context.fillRect(0, 0, 1024, 512);
+
+	// Add title and caption from top
+	var offsetTop = wrapText(context, 50, 70, title, 55, "Helvetica", false, 924) + 20;
+	if (caption != undefined) {
+		wrapText(context, 50, offsetTop, caption, 35, "Helvetica", false, 924);
+	}
+
+	// Add credit from bottom
+	wrapText(context, 50, 512, credit, 25, "Helvetica", true, 924);
+
+	var geometry = new THREE.BoxBufferGeometry(width, width/2, .02);
+	var texture = new THREE.CanvasTexture(panel);
+	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var label = new THREE.Mesh(geometry, material);
+
+	this.mesh = label;
+	
+	return this.mesh;
+}
+
+function TextModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	var element = document.createElement("div");
+	document.body.appendChild(element);
+	element.innerHTML = module.text;
+	element.className = "textModule";
+	element.style.width = 4*(2*width/3 + 6) + "px";
+	element.style.maxHeight = 4*(height + 6) + "px";
+
+	setTimeout(function() {
+		generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
+	}.bind(this.mesh), 10);
+	
+	return this.mesh;
+}
+
+function ImageModule(width, height, module) {
+	this.mesh = new THREE.Group();
+
+	Image3D(this.mesh, module.images[0].file, undefined, width, height, true);
+	
+	return this.mesh;
+}
+
+function SlideshowModule(width, height, module) {
+	this.mesh = new THREE.Group();
+
+	if (module.view_type == 1) {
+
+		var element = document.createElement("div");
+		document.body.appendChild(element);
+		element.className = "slideshowModule slides";
+		element.style.width = 4*width + "px";
+		element.style.height = 4*height + "px";
+
+		var container = document.createElement("div");
+		element.appendChild(container);
+		container.style.width = module.images.length*100 + "%";
+
+		for (var i = module.images.length - 1; i >= 0; i--) {
+			container.innerHTML += "<img src=\"" + module.images[i].file + "\" class=\"" + i + "\" />";
+		}
+
+
+
+		setTimeout(function() {
+			generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
+		}.bind(this.mesh), 10);
+
+	} else {
+		if (module.images.length <= 16) {
+			var max = Math.ceil(Math.sqrt(module.images.length));
+			var i = 0;
+			for (var j = 0; j < max; j++) {
+				for (var k = 0; k < max; k++) {
+					if (i < module.images.length) {
+						Image3D(this.mesh, module.images[i].file, new THREE.Vector3((-max/2 + .5 + k)*width/max, (max/2 - .5 - j)*height/max, 0), width/max, height/max, true);
+						i++;
+					} else {
+						return this.mesh;
+					}
+				}
+			}
+		} else {
+			
+		}
+	}
+	
+
+	return this.mesh;
+}
+
+function VideoModule(width, height, module) {
+	this.mesh = new THREE.Group();
+
+	// Create image, wait for it to load
+	var videoElement = document.createElement("div");
+	document.body.appendChild(videoElement);
+	videoElement.className = "videoModule";
+	videoElement.style.width = 4*width  + "px";
+	videoElement.style.height = 4*height  + "px";
+
+	var vimeo = vimeoURL.exec(module.videos.url);
+	var youTube = youTubeURL.exec(module.videos.url);
+	if (vimeo != null) {
+		videoElement.innerHTML = "<iframe src=\"https://player.vimeo.com/video/" + vimeo[1] + "?color=ffffff&title=0&byline=0&portrait=0\" width=\"" + 4*width + "\" height=\"" + 4*height + "\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+	} else if (youTube != null) {
+		videoElement.innerHTML = "<iframe width=\"" + 4*width + "\" height=\"" + 4*height + "\" src=\"https://www.youtube.com/embed/" + youTube[1] + "?rel=0&amp;controls=0&amp;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";
+	} else {
+		videoElement.innerHTML = blueScreen;
+	}
+
+	setTimeout(function() {
+		generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true); 
+	}.bind(this.mesh), 10);
+
+	return this.mesh;
+}
+
+function AudioModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	return this.mesh;
+}
+
+function CloseupModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	Image3D(this.mesh, module.images[0].file, undefined, width, height, true);
+	
+	return this.mesh;
+}
+
+function OverlayModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	var element = document.createElement("div");
+	document.body.appendChild(element);
+	element.innerHTML = "<img src=\"" + module.images[1].file + "\" class=\"1\" /><img src=\"" + module.images[0].file + "\" class=\"0\" />";
+	element.className = "overlayModule";
+	element.style.width = 4*width + "px";
+	element.style.height = 4*height + "px";
+
+	setTimeout(function() {
+		generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
+	}.bind(this.mesh), 10);
+	
+	return this.mesh;
+
+
+	this.mesh = new THREE.Group();
+	
+	Image3D(this.mesh, module.images[0].file, undefined, width, height, true);
+	
+	return this.mesh;
+}
+
+function ComparisonModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	Image3D(this.mesh, module.images[0].file, new THREE.Vector3(-width/4, 0, 0), width/2, height, true);
+
+	Image3D(this.mesh, module.images[1].file, new THREE.Vector3(width/4, 0, 0), width/2, height, true);
+	
+	return this.mesh;
+}
+
+function SearchModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	
+	
+	return this.mesh;
+}
+
+function EmbedModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	
+	
+	return this.mesh;
+}
+
+function MiradorModule(width, height, module) {
+	this.mesh = new THREE.Group();
+	
+	
+	
+	return this.mesh;
+}
+
+function randomSign() {
+	return (1 - 2*Math.round(Math.random()));
+}
+
+function Module(module, width, height) {
+	this.mesh = new THREE.Group();
+
+	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
+	var top = right = offset;
+	var bottom = left = -offset;
+
+	var type = moduleTypes[module.type];
+	if (type == undefined) {
+		return this.mesh;
+	}
+
+	if (type.label) {
+		var labelWidth = offset*2/3;
+
+		var label;
+		if (type.media == "images") {
+			label = new ModuleLabel(labelWidth, module.images[0].title, module.images[0].caption, module.images[0].credit);
+		} else {
+			label = new ModuleLabel(labelWidth, module[type.media].title, module[type.media].caption, module[type.media].credit);
+		}
+
+		var verticalAlign = randomSign();
+
+		if ((module.type == 7 || module.type == 8) && (module.images[0].title + module.images[0].caption + module.images[0].credit != module.images[1].title, module.images[1].caption, module.images[1].credit)) {
+			label.position.set(-(offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
+			this.mesh.add(label);
+
+			label = new ModuleLabel(labelWidth, module.images[1].title, module.images[1].caption, module.images[1].credit);
+			label.position.set((offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
+		} else {
+			label.position.set(randomSign()*(offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
+		}
+
+		top -= labelWidth*(verticalAlign + 1)/2;
+		bottom -= labelWidth*(verticalAlign - 1)/2;
+
+		this.mesh.add(label);
+	}
+
+	var width = right - left;
+	var height = top - bottom;
+
+	if (type.frame != undefined) {
+		var moduleObj = new type.frame(width, height, type.cons, module);
+	} else {
+		var moduleObj = new type.cons(width, height, module);
+	}
+	moduleObj.position.set(left + width/2, bottom + height/2, 0);
+	this.mesh.add(moduleObj);
+
+	return this.mesh;
+}
+
+function Frame(width, height, frameWidth, frameProtrusion, material) {
+	this.mesh = new THREE.Group();
+
+	var geometry = new THREE.BoxBufferGeometry(width - frameWidth, frameWidth, frameWidth + frameProtrusion);
+	var frame = new THREE.Mesh(geometry, monitorMaterial);
+	frame.position.set(0, height/2 - frameWidth, frameProtrusion + frameWidth/2);
+	frame.layers.enable(1);
+	this.mesh.add(frame);
+
+	frame = new THREE.Mesh(geometry, monitorMaterial);
+	frame.position.set(0, -height/2 + frameWidth, frameProtrusion + frameWidth/2);
+	frame.layers.enable(1);
+	this.mesh.add(frame);
+
+	geometry = new THREE.BoxBufferGeometry(frameWidth, height - frameWidth, frameWidth + frameProtrusion);
+	frame = new THREE.Mesh(geometry, monitorMaterial);
+	frame.position.set(width/2 - frameWidth, 0, frameProtrusion + frameWidth/2);
+	frame.layers.enable(1);
+	this.mesh.add(frame);
+
+	frame = new THREE.Mesh(geometry, monitorMaterial);
+	frame.position.set(-width/2 + frameWidth, 0, frameProtrusion + frameWidth/2);
+	frame.layers.enable(1);
+	this.mesh.add(frame);
+
+	return this.mesh;
+}
+
+function GlazedFrame(width, height, constructor, module) {
+	this.mesh = new THREE.Group();
+
+	var obj = constructor(width - wallDepth/5, height - wallDepth/5, module);
+	this.mesh.add(obj);
+
+	var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080});
+	mirrors.push(mirror);
+	mirror.position.set(0, 0, wallDepth/20 + .05);
+	this.mesh.add(mirror);
+
+	var frame = new Frame(width, height, wallDepth/10, wallDepth/40, monitorMaterial);
+	frame.position.set(0, 0, 0);
+	this.mesh.add(frame);
+
+
+
+	return this.mesh;
+}
+
+function Screen(width, height, constructor, module) {
+	this.mesh = new THREE.Group();
+
+	var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080, color: 0xaaaaaa});
+	mirrors.push(mirror);
+	mirror.position.set(0, 0, 2*wallDepth/10 + .05);
+	this.mesh.add(mirror);
+
+	var geometry = new THREE.BoxBufferGeometry(width - wallDepth/5, height - wallDepth/5, wallDepth/10);
+	var screen = new THREE.Mesh(geometry, screenMaterial);
+	screen.position.set(0, 0, 1.5*wallDepth/10);
+	screen.layers.enable(1);
+	this.mesh.add(screen);
+
+	var frame = new Frame(width, height, wallDepth/10, wallDepth/40, monitorMaterial);
+	frame.position.set(0, 0, wallDepth/10);
+	this.mesh.add(frame);
+
+	var obj = constructor(width - wallDepth/5, height - wallDepth/5, module);
+	obj.position.set(0, 0, 2*wallDepth/10);
+	this.mesh.add(obj);
+
+	return this.mesh;
+}
+
+function Slide(slide) {
+	this.mesh = new THREE.Group();
+
+	var panel = document.createElement("canvas");
+	panel.className = "slideTitle";
+	panel.width = "512";
+	panel.height = "512";
+	var context = panel.getContext("2d");
+
+	context.fillStyle = "#FFFFFF";
+	context.fillRect(0, 0, 512, 512);
+
+	centerText(context, 512, 512, slide.title, 80, "Helvetica");
+
+	geometry = new THREE.BoxBufferGeometry((wallUnitWidth - wallDepth*3)/6, (wallUnitWidth - wallDepth*3)/6, .02);
+	var texture = new THREE.CanvasTexture(panel);
+
+	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var label = new THREE.Mesh(geometry, material);
+	label.position.set(0, -(wallUnitWidth - wallDepth*3)/8, 0);
+	this.mesh.add(label);
+
+	var module;
+	if (slide.modules.length == 1) {
+		module = new Module(slide.modules[0]);
+		module.position.set(0, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		this.mesh.add(module);
+	} else {
+		var locations = moduleLocations.slice(0, 2*Math.ceil(slide.modules.length/2));
+
+		var location;
+		for (var i = 0; i < slide.modules.length; i++) {
+			if (locations.length == 0) {
+				break;
+			}
+			module = new Module(slide.modules[i]);
+			location = Math.floor(locations.length*Math.random());
+			module.position.copy(locations[location]);
+			locations.splice(location, 1);
+			this.mesh.add(module);
+		}
+	}
+
+	return this.mesh;
+}
+
+function Stop(stop) {
+	this.mesh = new THREE.Group();
+	if (stop == undefined) {
+		this.mesh.add(new Wall());
+	} else {
+		this.mesh.add(new Wall(true));
+
+		var textPanel = new TextPanel(stop.title, stop.image_file, stop.image_caption, stop.image_credit);
+		textPanel.position.set(-wallUnitWidth/3, wallHeight/2 - wallUnitWidth/12, -.01);
+		this.mesh.add(textPanel);
+		
+		var wall;
+		var extraWalls = (stop.slides.length <= 3)? 0 : Math.ceil((stop.slides.length - 3)/2);
+
+		for (var i = 0; i <= extraWalls; i++) {
+			wall = new Wall();
+			wall.position.set(wallUnitWidth/2 - wallDepth/2, 0, wallUnitWidth*(i + .5));
+			wall.rotateY(THREE.Math.degToRad(90));
+			this.mesh.add(wall);
+
+			wall = new Wall();
+			wall.position.set(-wallUnitWidth/2 + wallDepth/2, 0, wallUnitWidth*(i + .5));
+			wall.rotateY(THREE.Math.degToRad(90));
+			this.mesh.add(wall);	
+		}
+		
+		wall = new Wall();
+		wall.position.set(0, 0, wallUnitWidth*(extraWalls + 1) + wallDepth/2);
+		this.mesh.add(wall);
+
+		if (stop.slides.length == 1) {
+			slide = new Slide(stop.slides[0]);
+			slide.position.set(0, wallHeight/2, wallUnitWidth - wallDepth/2);
+			slide.rotateY(THREE.Math.degToRad(180));
+			this.mesh.add(slide);
+		} else {
+			var gap = Math.floor(((extraWalls*2 + 3) - stop.slides.length)/2);
+
+			var slideIndex = 0;
+			var slide;
+	
+			for (var i = 0; i < extraWalls + 1; i++) {
+				slide = new Slide(stop.slides[slideIndex]);
+				slide.position.set(wallUnitWidth/2 - wallDepth, wallHeight/2, wallUnitWidth*(i + .5));
+				slide.rotateY(THREE.Math.degToRad(-90));
+				this.mesh.add(slide);
+				slideIndex++;
+			}
+
+			slide = new Slide(stop.slides[slideIndex]);
+			slide.position.set(0, wallHeight/2, wallUnitWidth*(extraWalls + 1));
+			slide.rotateY(THREE.Math.degToRad(180));
+			this.mesh.add(slide);
+			slideIndex++;
+
+			for (var i = extraWalls + 1; i > 0; i--) {
+				if (slideIndex == stop.slides.length) {
+					break;
+				}
+				slide = new Slide(stop.slides[slideIndex]);
+				slide.position.set(-wallUnitWidth/2 + wallDepth, wallHeight/2, wallUnitWidth*(i - .5));
+				slide.rotateY(THREE.Math.degToRad(90));
+				this.mesh.add(slide);
+				slideIndex++;
+			}
+		}
+
+		var floor = new Floor(1, extraWalls + 1);
+		floor.position.set(0, -wallDepth/2, (wallUnitWidth*(extraWalls + 1) + wallDepth)/2);
+		this.mesh.add(floor);
+		
+		var ceiling = new Ceiling(1, extraWalls + 1);
+		ceiling.position.set(0, wallHeight + wallDepth/2, (wallUnitWidth*(extraWalls + 1) + wallDepth)/2);
+		this.mesh.add(ceiling);
+	}
+	return this.mesh;
+}
+
+function TourRoom(tourData) {
+	this.mesh = new THREE.Group();
+
+	var wall;
+	var walls = (tourData.stops.length == 0)? 4 : Math.ceil(tourData.stops.length/4)*4;
+
+	var offsetCenter = (wallUnitWidth*walls/4 + wallDepth)/2;
+	var offsetWall = walls/4/2 - .5;
+
+	this.mesh.add(new Floor(walls/4, walls/4));
+	this.mesh.add(new Ceiling(walls/4, walls/4));
+
+	var tstand = new TStand(tourData.title, tourData.image_file, tourData.image_caption, tourData.image_credit, tourData.description);
+	tstand.position.set(0, 0, -wallDepth*3.01);
+	this.mesh.add(tstand);
+
+	for (var i = 0; i < walls; i++) {
+		wall = new Stop(tourData.stops[i]);
+		switch (i%4) {
+			case 0:
+				wall.position.set((i/4 - offsetWall)*wallUnitWidth, 0, -offsetCenter);
+				wall.rotateY(THREE.Math.degToRad(180));
+				break;
+			case 1:
+				wall.position.set(((i - 1)/4 - offsetWall)*wallUnitWidth, 0, offsetCenter);
+				break;
+			case 2:
+				wall.position.set(offsetCenter, 0, (offsetWall - (i - 2)/4)*wallUnitWidth);
+				wall.rotateY(THREE.Math.degToRad(90));
+				break;
+			case 3:
+				wall.position.set(-offsetCenter, 0, ((i - 3)/4 - offsetWall)*wallUnitWidth);
+				wall.rotateY(THREE.Math.degToRad(-90));
+				break;
+		}
+		this.mesh.add(wall);
+	}
+	
+	return this.mesh;	
+}
+
+function Floor(width = 1, breadth = 1) {
+	this.mesh = new THREE.Group();
+
+	var geometry = new THREE.BoxBufferGeometry(wallUnitWidth*width, wallDepth, wallUnitWidth*breadth);
+	var box = new THREE.Mesh(geometry, floorMaterial);
+	this.mesh.add(box);
+
+	var light = new THREE.PointLight(0xffffff, .2);
+	light.position.set(0, wallHeight/3 + wallDepth/2, 0);
+	light.layers.enable(1);
+	this.mesh.add(light);
+
+	this.mesh.position.set(0, -wallDepth/2, 0);
+
+	return this.mesh;
+}
+
+function Ceiling(width = 1, breadth = 1) {
+	this.mesh = new THREE.Group();
+
+	var geometry = new THREE.BoxBufferGeometry(wallUnitWidth*width, wallDepth, wallUnitWidth*breadth);
+	var ceiling = new THREE.Mesh(geometry, ceilingMaterial);
+	this.mesh.add(ceiling);
+	
+	this.mesh.position.set(0, wallHeight + wallDepth/2, 0);
+
+	return this.mesh;
+}
+
+function Wall(door = false) {
+	this.mesh = new THREE.Group();
+
+	var geometry;
+	var box;
+
+	if (door) {
+		// Door sides
+		geometry = new THREE.BoxBufferGeometry((wallUnitWidth - doorWidth)/2, wallHeight, wallDepth);
+
+		box = new THREE.Mesh(geometry, wallMaterial);
+		box.position.set((wallUnitWidth - doorWidth)/2, wallHeight/2, 0);
+		this.mesh.add(box);
+		obstacles.push(box);
+	
+		box = new THREE.Mesh(geometry, wallMaterial);
+		box.position.set(-(wallUnitWidth - doorWidth)/2, wallHeight/2, 0);
+		this.mesh.add(box);
+		obstacles.push(box);
+
+		// Door top
+		geometry = new THREE.BoxBufferGeometry(doorWidth, wallHeight - doorHeight, wallDepth);
+
+		box = new THREE.Mesh(geometry, wallMaterial);
+		box.position.set(0, (wallHeight + doorHeight)/2, 0);
+		this.mesh.add(box);
+
+		// Door bottom
+		geometry = new THREE.BoxBufferGeometry(wallUnitWidth, wallDepth, wallDepth);
+
+		box = new THREE.Mesh(geometry, floorMaterial);
+		box.position.set(0, -wallDepth/2, 0);
+		this.mesh.add(box);
+	} else {
+		// Plain wall
+		geometry = new THREE.BoxBufferGeometry(wallUnitWidth, wallHeight, wallDepth);
+
+		box = new THREE.Mesh(geometry, wallMaterial);
+		box.position.set(0, wallHeight/2, 0);
+		this.mesh.add(box);
+		obstacles.push(box);
+	}
+
+	return this.mesh;
+}
+
+function init() {
+	var order = [0, 2, -1, -2, 3];
+
+	var gridLocations = [
+		[1, 0], [2, 0], 
+		[0, 1], [3, 1],
+		[0, 0], [3, 0],
+		[1, 2], [2, 2],
+		[0, 2], [3, 2]
+	];
+
+	var l;
+	for (var i = 0; i < gridLocations.length; i++) {
+		l = gridLocations[i];
+		moduleLocations.push(new THREE.Vector3((l[0] - 1.5)*(wallUnitWidth - wallDepth*3)/4, (l[1] - 1.5)*(wallUnitWidth - wallDepth*3)/4, .01));
+	}
+
+	scene = new THREE.Scene();
+	cssOverlay = new THREE.Scene();
+
+	canvas = document.getElementById("canvas");
+	
+	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, 10000);
+	camera.layers.enable(2);
+	camera.position.z = 0;
+	camera.position.y = 200;
+	camera.rotateY(THREE.Math.degToRad(0));
+
+	frustum = new THREE.Frustum();
+	cameraViewProjectionMatrix = new THREE.Matrix4();
+
+	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
+
+	//interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
+
+	keysDown = {37: false, 39: false, 38: false, 40: false};
+
+	document.addEventListener("keydown", function(e) {
+		resetRounds = 0;
+		if ([37, 38, 39, 40].indexOf(e.which) != -1) {
+			keysDown[e.which] = true;
+		}
+		lastUpdated = new Date();
+		if (ended) {
+			ended = false;
+			animate();
+		}
+	});
+	document.addEventListener("keyup", function(e) {
+		resetRounds = 0;
+		if ([37, 38, 39, 40].indexOf(e.which) != -1) {
+			keysDown[e.which] = false;
+		}
+		lastUpdated = new Date();
+		if (ended) {
+			ended = false;
+			animate();
+		}
+	});
+
+	cssRenderer = new THREE.CSS3DRenderer();
+	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	cssRenderer.domElement.className += " threeJS";
+	document.body.appendChild(cssRenderer.domElement);
+
+	renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	renderer.domElement.className += " threeJS clickThrough";
+	cssRenderer.domElement.appendChild(renderer.domElement);
+
+	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
+	//interactionRenderer.autoClearDepth = false;
+	//interactionRenderer.setSize(canvas.offsetWidth/3, canvas.offsetHeight/3);
+	//interactionRenderer.domElement.style.position = "absolute";
+	//interactionRenderer.domElement.style.bottom = 0;
+	//document.body.appendChild(interactionRenderer.domElement);
+
+	getTourNumber();
+}
+
+function getFormData() {
+	socket.emit("getTour", tourNumber);
+}
+
+function getTourNumber() {
+	var tourNumber;
+	var regex = new RegExp("?tour=([0-9]*)");
+	var match = regex.exec(window.location.search);
+	if (match != null) {
+		tourNumber = match[1];
+		socket.emit("getTour", tourNumber);
+	} else {
+		var element = document.createElement("div");
+		document.body.appendChild(element);
+		element.className = "tourPrompt";
+		element.innerHTML = "<span>Tour number:<br /><input type=\"text\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" onclick=\"getFormData()\" /></span>";
+	}
+}
+
+socket.on("tourData", function(data) {
+	tour = data;
+
+	finishInit();
+});
+
+function checkMove(newPos) {
+	moveSphere.set(newPos, wallDepth*2);	
+
+	var box = new THREE.Box3();
+
+	for (var i = 0; i < obstacles.length; i++) {
+		box.setFromObject(obstacles[i]);
+		if (box.intersectsSphere(moveSphere)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function finishInit() {
+	building = new TourRoom(tour);
+
+	scene.add(building);
+
+	// Adjust 
+	window.addEventListener("resize", function() {
+		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+		cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+
+		if (ended) {
+			animate();
+		}
+	});
+
+	// Every minute, check to see if scene should be reset
+	resetTimer = setInterval(reset, 60000);
+
+	lastUpdated = new Date();
+	if (ended) {
+		ended = false;
+		animate();
+	}
+}
+
+// Moves the camera, if the arrow keys are down
+// (Timed to smooth out motion)
+function keyHandler() {
+	if (keysDown[37]) {
+		camera.rotateY(THREE.Math.degToRad(1));
+		checkMirrors();
+	} 
+	if (keysDown[39]) {
+		camera.rotateY(THREE.Math.degToRad(-1));
+		checkMirrors();
+	} 
+	if (keysDown[38]) {
+		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(5)))) {
+			camera.position.add(camera.getWorldDirection().multiplyScalar(5));
+			checkMirrors();
+		}
+	} 
+	if (keysDown[40]) {
+		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-5)))) {
+			camera.position.add(camera.getWorldDirection().multiplyScalar(-5));
+			checkMirrors();
+		}
+	}
+}
+
+function moveInteractionCamera() {
+	interactionCamera.position.set(camera.position.x, camera.position.y, camera.position.z);
+	interactionCamera.setRotationFromQuaternion(camera.getWorldQuaternion());
+}
+
+function checkMirrors() {
+	camera.updateMatrixWorld();
+	camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+	cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+	frustum.setFromMatrix(cameraViewProjectionMatrix);
+	camera.layers.set(0);
+	camera.layers.enable(2);
+	for (var i = 0; i < mirrors.length; i++) {
+		if (frustum.intersectsObject(mirrors[i])) {
+			camera.layers.enable(mirrors[i].layer);
+		}
+	}
+}
+
+// Animate both the WebGL and the CSS transforms scenes
+function animate() {
+	var now = new Date();
+	if ((now - lastUpdated.valueOf()) < 5000) {
+		requestAnimationFrame(animate);
+	} else {
+		ended = true;
+	}
+
+	keyHandler();
+
+	renderer.render(scene, camera);
+	cssRenderer.render(cssOverlay, camera);
+
+	//moveInteractionCamera();
+
+	//interactionRenderer.clearDepth();
+	//interactionCamera.layers.set(0);
+	//interactionRenderer.render(scene, interactionCamera);
+	//interactionCamera.layers.set(1);
+	//interactionRenderer.render(scene, interactionCamera);
+}
+
+// Reset the view to its initial state
+function reset() {
+	if (resetRounds < 5) {
+		resetRounds++;
+	} else {
+		camera.position.z = 0;
+		camera.position.x = 0;
+		camera.position.y = 200;
+		camera.rotation.y = THREE.Math.degToRad(0);
+		resetRounds = 0;
+
+		if (ended) {
+			animate();
+		}
+	}
+}
+
+</script>
+</body>
+</html>
