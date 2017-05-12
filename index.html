@@ -1066,14 +1066,14 @@ function init() {
 
 	cssRenderer = new THREE.CSS3DRenderer();
 	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	cssRenderer.domElement.classList.add("threeJS");
 	document.body.appendChild(cssRenderer.domElement);
+	cssRenderer.domElement.classList.add("threeJS");
 
 	renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	cssRenderer.domElement.appendChild(renderer.domElement);
 	renderer.domElement.classList.add("threeJS");
 	renderer.domElement.classList.add("clickThrough");
-	cssRenderer.domElement.appendChild(renderer.domElement);
 
 	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
 	//interactionRenderer.autoClearDepth = false;
