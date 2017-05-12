@@ -466,7 +466,7 @@ function TextModule(width, height, module) {
 	var element = document.createElement("div");
 	document.body.appendChild(element);
 	element.innerHTML = module.text;
-	element.className = "textModule";
+	element.classList.add("textModule");
 	element.style.width = 4*(2*width/3 + 6) + "px";
 	element.style.maxHeight = 4*(height + 6) + "px";
 
@@ -492,7 +492,8 @@ function SlideshowModule(width, height, module) {
 
 		var element = document.createElement("div");
 		document.body.appendChild(element);
-		element.className = "slideshowModule slides";
+		element.classList.add("slideshowModule"); 
+		element.classList.add("slides");
 		element.style.width = 4*width + "px";
 		element.style.height = 4*height + "px";
 
@@ -539,7 +540,7 @@ function VideoModule(width, height, module) {
 	// Create image, wait for it to load
 	var videoElement = document.createElement("div");
 	document.body.appendChild(videoElement);
-	videoElement.className = "videoModule";
+	videoElement.classList.add("videoModule");
 	videoElement.style.width = 4*width  + "px";
 	videoElement.style.height = 4*height  + "px";
 
@@ -580,7 +581,7 @@ function OverlayModule(width, height, module) {
 	var element = document.createElement("div");
 	document.body.appendChild(element);
 	element.innerHTML = "<img src=\"" + module.images[1].file + "\" class=\"1\" /><img src=\"" + module.images[0].file + "\" class=\"0\" />";
-	element.className = "overlayModule";
+	element.classList.add("overlayModule");
 	element.style.width = 4*width + "px";
 	element.style.height = 4*height + "px";
 
@@ -767,7 +768,7 @@ function Slide(slide) {
 	this.mesh = new THREE.Group();
 
 	var panel = document.createElement("canvas");
-	panel.className = "slideTitle";
+	panel.classList("slideTitle");
 	panel.width = "512";
 	panel.height = "512";
 	var context = panel.getContext("2d");
@@ -1065,12 +1066,13 @@ function init() {
 
 	cssRenderer = new THREE.CSS3DRenderer();
 	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	cssRenderer.domElement.className = "threeJS";
+	cssRenderer.domElement.classList.add("threeJS");
 	document.body.appendChild(cssRenderer.domElement);
 
 	renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	renderer.domElement.className = "threeJS clickThrough";
+	renderer.domElement.classList.add("threeJS");
+	renderer.domElement.classList.add("clickThrough");
 	cssRenderer.domElement.appendChild(renderer.domElement);
 
 	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
@@ -1097,7 +1099,7 @@ function getTourNumber() {
 	} else {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
-		element.className = "tourPrompt";
+		element.classList.add("tourPrompt");
 		element.innerHTML = "<span>Tour number:<br /><input type=\"text\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" onclick=\"getFormData()\" /></span>";
 	}
 }
