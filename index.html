@@ -1103,8 +1103,12 @@ function init() {
 	getTourNumber();
 }
 
-function getFormData() {
+function getFormData(e) {
+	e.preventDefault();
+	
 	socket.emit("getTour", document.getElementById("tourNumber").value);
+
+	return false;
 }
 
 function getTourNumber() {
@@ -1118,7 +1122,7 @@ function getTourNumber() {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
 		element.classList.add("tourPrompt");
-		element.innerHTML = "<span>Tour number:<br /><form onsubmit=\"getFormData()\"><input type=\"number\" min=\"0\" size=\"4\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
+		element.innerHTML = "<span>Tour number:<br /><form onsubmit=\"getFormData(event)\"><input type=\"number\" min=\"0\" size=\"4\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
 }
 
