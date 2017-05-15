@@ -74,15 +74,6 @@ body, html {
 	object-fit: contain;
 }
 
-@keyframes slide {
-	5% {
-		left: 0%;
-	}
-	100% {
-		left: -100%;
-	}
-}
-
 .slideshowModule.slides {
 	position: absolute;
 	top: 0px;
@@ -96,7 +87,6 @@ body, html {
 	left: 0px;
 	height: 100%;
 	width: 100%;
-	animation: slide 15s linear infinite;
 }
 
 .slideshowModule.slides img {
@@ -245,6 +235,8 @@ var moduleTypes = {
 	11: {label: false, cons: EmbedModule, frame: Screen},
 	12: {label: false, cons: MiradorModule, frame: Screen}
 };
+
+var styleSheet;
 
 
 init();
@@ -535,6 +527,9 @@ function SlideshowModule(width, height, module) {
 		var container = document.createElement("div");
 		element.appendChild(container);
 		container.style.width = (module.images.length + 1)*100 + "%";
+
+		styleSheet.insertRule("@keyframes s" + module.id + " { 5% {left: 0%;} 100% {left: -" + (module.images.length + 1)*100 + "%}}", styleSheet.length);
+		container.style.animation = "s" + module.id + " " + 5*(1.05 - .1*Math.random()) + "s linear infinite";
 
 		var image;
 		for (var i = 0; i < module.images.length; i++) {
@@ -1079,6 +1074,9 @@ function init() {
 		l = gridLocations[i];
 		moduleLocations.push(new THREE.Vector3((l[0] - 1.5)*(wallUnitWidth - wallDepth*3)/4, (l[1] - 1.5)*(wallUnitWidth - wallDepth*3)/4, .01));
 	}
+
+	styleSheet = document.createElement("style");
+	document.head.appendChild(styleSheet);
 
 	scene = new THREE.Scene();
 	cssOverlay = new THREE.Scene();
