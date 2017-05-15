@@ -1077,6 +1077,7 @@ function init() {
 
 	styleSheet = document.createElement("style");
 	document.head.appendChild(styleSheet);
+	styleSheet = styleSheet.sheet;
 
 	scene = new THREE.Scene();
 	cssOverlay = new THREE.Scene();
