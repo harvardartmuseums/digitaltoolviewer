@@ -260,6 +260,10 @@ function lastSpaceIndex(text) {
 
 // Put wrapped text on the given canvas
 function wrapText(context, x, y, text, fontSize, font, up = false, width = 1020) {
+	if (text == undefined) {
+		return y;
+	}
+
 	var chars = Math.floor(width/fontSize*2);
 
 	context.fillStyle = "#000000";
@@ -477,9 +481,7 @@ function ModuleLabel(width, title, caption, credit) {
 
 	// Add title and caption from top
 	var offsetTop = wrapText(context, 50, 70, title, 55, "Helvetica", false, 924) + 20;
-	if (caption != undefined) {
-		wrapText(context, 50, offsetTop, caption, 35, "Helvetica", false, 924);
-	}
+	wrapText(context, 50, offsetTop, caption, 35, "Helvetica", false, 924);
 
 	// Add credit from bottom
 	wrapText(context, 50, 512, credit, 25, "Helvetica", true, 924);
@@ -699,7 +701,6 @@ function Module(module, width, height) {
 	}
 
 	if (type.label) {
-		console.log(module.type);
 		var labelWidth = offset*2/3;
 
 		var label;
