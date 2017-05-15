@@ -530,7 +530,7 @@ function SlideshowModule(width, height, module) {
 
 		var index = styleSheet.length;
 		styleSheet.insertRule("@keyframes s" + module.id + " { 5% {left: 0%;} 100% {left: -" + module.images.length*100 + "%}}", index);
-		container.style.animation = "s" + module.id + " " + 10*(1.05 - .1*Math.random()) + "s linear infinite";
+		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.05 - .1*Math.random()) + "s linear infinite";
 
 		var image;
 		for (var i = 0; i < module.images.length; i++) {
@@ -698,9 +698,6 @@ function Module(module, width, height) {
 	var bottom = left = -offset;
 
 	var type = moduleTypes[module.type];
-	if (type == undefined) {
-		return this.mesh;
-	}
 
 	if (type.label) {
 		var labelWidth = offset*2/3;
@@ -817,6 +814,22 @@ function Screen(width, height, constructor, module) {
 	return this.mesh;
 }
 
+function cleanModules(modules) {
+	var validTypes = Object.keys(moduleTypes);
+
+	var textToRemove = /Fig(?:ure)?.? [0-9]*/;
+	
+	for (var i = 0; i < modules.length; i++) {
+		if (validTypes.indexOf(modules[i].type) == -1) {
+			modules.splice(i, 1);
+		} else if (modules[i].type == 1 && textToRemove.exec(modules[i].text)) {
+			modules.splice(i, 2);
+		}
+	}
+
+	return modules;
+}
+
 function Slide(slide) {
 	this.mesh = new THREE.Group();
 
@@ -839,20 +852,22 @@ function Slide(slide) {
 	label.position.set(0, -(wallUnitWidth - wallDepth*3)/8, 0);
 	this.mesh.add(label);
 
+	var modules = cleanModules(slide.modules);
+	
 	var module;
-	if (slide.modules.length == 1) {
-		module = new Module(slide.modules[0]);
+	if (modules.length == 1) {
+		module = new Module(modules[0]);
 		module.position.set(0, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
 		this.mesh.add(module);
 	} else {
-		var locations = moduleLocations.slice(0, 2*Math.ceil(slide.modules.length/2));
+		var locations = moduleLocations.slice(0, 2*Math.ceil(modules.length/2));
 
 		var location;
-		for (var i = 0; i < slide.modules.length; i++) {
+		for (var i = 0; i < modules.length; i++) {
 			if (locations.length == 0) {
 				break;
 			}
-			module = new Module(slide.modules[i]);
+			module = new Module(modules[i]);
 			location = Math.floor(locations.length*Math.random());
 			module.position.copy(locations[location]);
 			locations.splice(location, 1);
