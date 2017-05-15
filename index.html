@@ -528,8 +528,9 @@ function SlideshowModule(width, height, module) {
 		element.appendChild(container);
 		container.style.width = (module.images.length + 1)*100 + "%";
 
-		styleSheet.insertRule("@keyframes s" + module.id + " { 5% {left: 0%;} 100% {left: -" + (module.images.length + 1)*100 + "%}}", styleSheet.length);
-		container.style.animation = "s" + module.id + " " + 5*(1.05 - .1*Math.random()) + "s linear infinite";
+		var index = styleSheet.length;
+		styleSheet.insertRule("@keyframes s" + module.id + " { 5% {left: 0%;} 100% {left: -" + module.images.length*100 + "%}}", index);
+		container.style.animation = "s" + module.id + " " + 10*(1.05 - .1*Math.random()) + "s linear infinite";
 
 		var image;
 		for (var i = 0; i < module.images.length; i++) {
