@@ -647,8 +647,6 @@ function ComparisonModule(width, height, module) {
 function EmbedModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
-	alert(module.embed.embed_type + " " + module.embed.embed_code);
-
 	var embedElement = document.createElement("div");
 	document.body.appendChild(embedElement);
 	embedElement.classList.add("embedModule");
@@ -696,6 +694,8 @@ function Module(module, width, height) {
 	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
 	var top = right = offset;
 	var bottom = left = -offset;
+
+	console.log(module.type);
 
 	var type = moduleTypes[module.type];
 	if (type == undefined) {
