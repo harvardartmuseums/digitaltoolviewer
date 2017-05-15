@@ -526,21 +526,22 @@ function SlideshowModule(width, height, module) {
 		element.style.width = 4*width + "px";
 		element.style.height = 4*height + "px";
 
-		setTimeout(function() {
-			generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
-		}.bind(this.mesh), 10);
-
 		var container = document.createElement("div");
 		element.appendChild(container);
 		container.style.width = module.images.length*100 + "%";
 
+		var image;
 		for (var i = 0; i < module.images.length; i++) {
-			element = document.createElement("img");
-			element.src = module.images[i].file;
-			element.classList.add(i);
-			element.width = 100/module.images.length + "%";
-			container.appendChild(element);
+			image = document.createElement("img");
+			image.src = module.images[i].file;
+			image.classList.add(i);
+			image.width = 100/module.images.length + "%";
+			container.appendChild(image);
 		}
+
+		setTimeout(function() {
+			generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
+		}.bind(this.mesh), 10);
 
 	} else {
 		var max = Math.ceil(Math.sqrt(module.images.length));
