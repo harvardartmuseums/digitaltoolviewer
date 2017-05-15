@@ -818,16 +818,21 @@ function cleanModules(modules) {
 	var validTypes = Object.keys(moduleTypes);
 
 	var textToRemove = /^Fig(?:ure)?.? [0-9]*$/;
+
+	ret = [];
 	
 	for (var i = 0; i < modules.length; i++) {
 		if (validTypes.indexOf(modules[i].type) == -1) {
-			modules.splice(i, 1);
-		} else if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
-			modules.splice(i, 2);
+			continue;
+		} 
+		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
+			i++;
+			continue;
 		}
+		ret.push(modules[i]);
 	}
 
-	return modules;
+	return ret;
 }
 
 function Slide(slide) {
