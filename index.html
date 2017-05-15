@@ -647,6 +647,8 @@ function ComparisonModule(width, height, module) {
 function EmbedModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
+	alert(module.embed.embed_type + " " + module.embed.embed_code);
+
 	var embedElement = document.createElement("div");
 	document.body.appendChild(embedElement);
 	embedElement.classList.add("embedModule");
