@@ -242,7 +242,6 @@ var moduleTypes = {
 	6: {label: true, media: "images", cons: CloseupModule, frame: GlazedFrame},
 	7: {label: true, media: "images", cons: OverlayModule, frame: Screen},
 	8: {label: true, media: "images", cons: ComparisonModule, frame: Screen},
-	10: {label: false, cons: SearchModule, frame: Screen},
 	11: {label: false, cons: EmbedModule, frame: Screen},
 	12: {label: false, cons: MiradorModule, frame: Screen}
 };
@@ -596,6 +595,8 @@ function VideoModule(width, height, module) {
 
 function AudioModule(width, height, module) {
 	this.mesh = new THREE.Group();
+
+	
 	
 	return this.mesh;
 }
@@ -641,18 +642,24 @@ function ComparisonModule(width, height, module) {
 	return this.mesh;
 }
 
-function SearchModule(width, height, module) {
-	this.mesh = new THREE.Group();
-	
-	
-	
-	return this.mesh;
-}
-
 function EmbedModule(width, height, module) {
 	this.mesh = new THREE.Group();
-	
-	
+
+	var embedElement = document.createElement("div");
+	document.body.appendChild(embedElement);
+	embedElement.classList.add("embedModule");
+	embedElement.style.width = 4*width  + "px";
+	embedElement.style.height = 4*height  + "px";
+
+	if (module.embed.embed_type == 1) {
+		embedElement.innerHTML = "<iframe src=\"" + module.embed.embed_code + "\" frameborder=\"0\" style=\"border:0\" width=\"" + 4*width + "px\" height=\"" + 4*height + "px\" allowfullscreen></iframe>";
+	} else if (module.embed.embed_type == 2) {
+		embedElement.innerHTML = module.embed.embed_code;
+	}
+
+	setTimeout(function() {
+		generateCutout(this, embedElement, undefined, undefined, undefined, undefined, true, true); 
+	}.bind(this.mesh), 10);
 	
 	return this.mesh;
 }
