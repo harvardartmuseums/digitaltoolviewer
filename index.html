@@ -94,7 +94,6 @@ body, html {
 
 .slideshowModule.slides img {
 	float: left;
-	width: 100%;
 	height: 100%;
 	object-fit: contain;
 	background-color: #000000;
@@ -535,7 +534,7 @@ function SlideshowModule(width, height, module) {
 			image = document.createElement("img");
 			image.src = module.images[i].file;
 			image.classList.add(i);
-			image.width = 100/module.images.length + "%";
+			image.style.width = 100/module.images.length + "%";
 			container.appendChild(image);
 		}
 
