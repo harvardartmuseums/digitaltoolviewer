@@ -75,10 +75,10 @@ body, html {
 }
 
 @keyframes slide {
-	5%, 95% {
+	5%, 100% {
 		left: 0%;
 	}
-	90% {
+	90%, 95% {
 		left: -100%;
 	}
 }
@@ -526,7 +526,6 @@ function SlideshowModule(width, height, module) {
 	if (module.view_type == 1) {
 
 		var element = document.createElement("div");
-		//document.body.appendChild(element);
 		element.classList.add("slideshowModule"); 
 		element.classList.add("slides");
 		element.style.width = 4*width + "px";
@@ -619,7 +618,7 @@ function OverlayModule(width, height, module) {
 	element.style.height = 4*height + "px";
 
 	setTimeout(function() {
-		generateCutout(this, element, undefined, undefined, undefined, undefined, true, true);
+		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true);
 	}.bind(this.mesh), 10);
 	
 	return this.mesh;
