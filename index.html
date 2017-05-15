@@ -75,10 +75,10 @@ body, html {
 }
 
 @keyframes slide {
-	5%, 100% {
+	5% {
 		left: 0%;
 	}
-	90%, 95% {
+	100% {
 		left: -100%;
 	}
 }
@@ -238,7 +238,7 @@ var moduleTypes = {
 	2: {label: true, media: "images", cons: ImageModule, frame: GlazedFrame},
 	3: {label: false, cons: SlideshowModule, frame: Screen},
 	4: {label: true, media: "videos", cons: VideoModule, frame: Screen},
-	5: {label: true, media: "audio", cons: AudioModule, frame: Screen},
+	5: {label: true, media: "audio", cons: AudioModule},
 	6: {label: true, media: "images", cons: CloseupModule, frame: GlazedFrame},
 	7: {label: true, media: "images", cons: OverlayModule, frame: Screen},
 	8: {label: true, media: "images", cons: ComparisonModule, frame: Screen},
@@ -534,16 +534,22 @@ function SlideshowModule(width, height, module) {
 
 		var container = document.createElement("div");
 		element.appendChild(container);
-		container.style.width = module.images.length*100 + "%";
+		container.style.width = (module.images.length + 1)*100 + "%";
 
 		var image;
 		for (var i = 0; i < module.images.length; i++) {
 			image = document.createElement("img");
 			image.src = module.images[i].file;
 			image.classList.add(i);
-			image.style.width = 100/module.images.length + "%";
+			image.style.width = 100/(module.images.length + 1) + "%";
 			container.appendChild(image);
 		}
+
+		image = document.createElement("img");
+		image.src = module.images[0].file;
+		image.classList.add(0);
+		image.style.width = 100/(module.images.length + 1) + "%";
+		container.appendChild(image);
 
 		setTimeout(function() {
 			generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true);
