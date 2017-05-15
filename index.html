@@ -816,19 +816,23 @@ function Screen(width, height, constructor, module) {
 
 function cleanModules(modules) {
 	var validTypes = Object.keys(moduleTypes);
+	console.log("Valid types: " + validTypes.join(", "));
 
 	var textToRemove = /^Fig(?:ure)?.? [0-9]*$/;
 
 	ret = [];
 	
 	for (var i = 0; i < modules.length; i++) {
-		if (validTypes.indexOf(modules[i].type) == -1) {
+		if ((validTypes.indexOf(modules[i].type) != -1) {
+			console.log("Ditched invalid type " + modules[i].type);
 			continue;
 		} 
 		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
+			console.log("Ditched figure header " + modules[i].text + " and image " + modules[i + 1].id);
 			i++;
 			continue;
 		}
+		console.log("Included module " + modules[i].id);
 		ret.push(modules[i]);
 	}
 
