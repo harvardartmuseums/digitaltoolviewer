@@ -695,12 +695,11 @@ function Module(module, width, height) {
 	var top = right = offset;
 	var bottom = left = -offset;
 
-	console.log(module.type);
-
 	var type = moduleTypes[module.type];
 	if (type == undefined) {
 		return this.mesh;
 	}
+	console.log(type.cons);
 
 	if (type.label) {
 		var labelWidth = offset*2/3;
