@@ -514,16 +514,8 @@ function TextModule(width, height, module) {
 function ImageModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
-	var img = new Image();
-	img.onload = function() {
-		if (img.height == 15 && img.width == 409) {
-			this.mesh.add(new TextModule(width, height, {text: module.title}));
-		} else {
-			Image3D(this.mesh, module.images[0].file, undefined, width, height, true);
-		}
-	};
-	img.src = module.images[0].file;
-
+	Image3D(this.mesh, module.images[0].file, undefined, width, height, true);
+	
 	return this.mesh;
 }
 
@@ -713,6 +705,24 @@ function Module(module, width, height) {
 	var top = right = offset;
 	var bottom = left = -offset;
 
+	if (module.type == 2) {
+		var img = new Image();
+		img.onload = function() {
+			if (img.height == 15 && img.width == 409) {
+				this.mesh.add(new TextModule(width, height, {text: [module.images[0].title, module.images[0].caption, module.images[0].credit].join("<br />")}));
+			} else {
+				finishModule(this.mesh, width, height, module);
+			}
+		}.bind(this);
+		img.src = module.images[0].file;
+	} else {
+		finishModule(this.mesh, width, height, module);
+	}
+
+	return this.mesh;
+}
+
+function finishModule(mesh, width, height, module) {
 	var type = moduleTypes[module.type];
 
 	if (type.label) {
@@ -729,7 +739,7 @@ function Module(module, width, height) {
 
 		if ((module.type == 7 || module.type == 8) && (module.images[0].title + module.images[0].caption + module.images[0].credit != module.images[1].title, module.images[1].caption, module.images[1].credit)) {
 			label.position.set(-(offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
-			this.mesh.add(label);
+			mesh.add(label);
 
 			label = new ModuleLabel(labelWidth, module.images[1].title, module.images[1].caption, module.images[1].credit);
 			label.position.set((offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
@@ -740,7 +750,7 @@ function Module(module, width, height) {
 		top -= labelWidth*(verticalAlign + 1)/2;
 		bottom -= labelWidth*(verticalAlign - 1)/2;
 
-		this.mesh.add(label);
+		mesh.add(label);
 	}
 
 	var width = right - left;
@@ -752,9 +762,7 @@ function Module(module, width, height) {
 		var moduleObj = new type.cons(width, height, module);
 	}
 	moduleObj.position.set(left + width/2, bottom + height/2, 0);
-	this.mesh.add(moduleObj);
-
-	return this.mesh;
+	mesh.add(moduleObj);
 }
 
 function Frame(width, height, frameWidth, frameProtrusion, material) {
