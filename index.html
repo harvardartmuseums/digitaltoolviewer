@@ -318,6 +318,11 @@ function centerText(context, width, height, text, fontSize, font) {
 		text = text.slice(chars - lastSpace);
 	}
 
+	if (lines.length > 6) {
+		centerText(context, width, height, text, fontSize - 2, font);
+		return;
+	}
+
 	for (var i = 0; i < lines.length; i++) {
 		context.fillText(lines[i], width/2, (height + fontSize*(i*2 - lines.length + 1.5))/2);
 	}
