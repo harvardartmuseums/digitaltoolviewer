@@ -319,7 +319,7 @@ function centerText(context, width, height, text, fontSize, font) {
 	}
 
 	if (lines.length > 6) {
-		centerText(context, width, height, text, fontSize - 2, font);
+		centerText(context, width, height, lines.join(""), fontSize - 2, font);
 		return;
 	}
 
