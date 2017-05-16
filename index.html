@@ -835,13 +835,12 @@ function cleanModules(modules) {
 			continue;
 		} 
 		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
-			i++;
 			continue;
 		}
 		if (modules[i].type == 2) {
 			imageTest = new Image();
 			imageTest.src = modules[i].images[0].file;
-			if (imageTest.naturalWidth == 409 && imageTest.naturalHeight == 15) {
+			if (imageTest.width == 409 && imageTest.height == 15) {
 				imageTest.remove();
 				continue;
 			}
