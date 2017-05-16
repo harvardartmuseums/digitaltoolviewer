@@ -701,10 +701,6 @@ function randomSign() {
 function Module(module, width, height) {
 	this.mesh = new THREE.Group();
 
-	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
-	var top = right = offset;
-	var bottom = left = -offset;
-
 	if (module.type == 2) {
 		var img = new Image();
 		img.onload = function() {
@@ -724,6 +720,10 @@ function Module(module, width, height) {
 
 function finishModule(mesh, width, height, module) {
 	var type = moduleTypes[module.type];
+
+	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
+	var top = right = offset;
+	var bottom = left = -offset;
 
 	if (type.label) {
 		var labelWidth = offset*2/3;
