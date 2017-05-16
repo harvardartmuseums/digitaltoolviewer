@@ -619,7 +619,7 @@ function OverlayModule(width, height, module) {
 	
 	var element = document.createElement("div");
 	element.innerHTML = "<img src=\"" + module.images[1].file + "\" id=\"" + module.id + "_1\" /><img src=\"" + module.images[0].file + "\" id=\"" + module.id + "_0\" />";
-	document.getElementById(module.id + "_0").style.clip-path = "inset(0 0 100% 50%)";
+	document.getElementById(module.id + "_0").style.clipPath = "inset(0 0 100% 50%)";
 	element.classList.add("overlayModule");
 	element.style.width = 4*width + "px";
 	element.style.height = 4*height + "px";
