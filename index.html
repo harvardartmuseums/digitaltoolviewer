@@ -216,6 +216,8 @@ var mirrors = [];
 var frustum;
 var cameraViewMatrix;
 
+var hairlineComparison;
+
 var vimeoURL = new RegExp('(?:vimeo.com/|vimeo.com/video/)([0-9]+)', 'i');
 var youTubeURL = new RegExp('(?:youtube.com/watch\\?v=|youtu.be/|youtube.com/embed/)([0-9a-zA-Z]+)', 'i');
 
@@ -825,10 +827,11 @@ function Screen(width, height, constructor, module) {
 function cleanModules(modules) {
 	var validTypes = Object.keys(moduleTypes);
 
-	var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)+Fig(ure)?\.? [0-9]*(<\/[^>]*>)+$/;
+	var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)(+Fig(ure)?\.? [0-9]*|Locate on the Floor Plan|Click here for.*(<\/[^>]*>)+$/;
 
 	ret = [];
 	
+	var comparisonImage;
 	for (var i = 0; i < modules.length; i++) {
 		if (validTypes.indexOf(modules[i].type.toString()) == -1) {
 			continue;
@@ -836,6 +839,13 @@ function cleanModules(modules) {
 		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
 			i++;
 			continue;
+		}
+		if (modules[i].type == 2) {
+			comparisonImage = new Image();
+			comparisonImage.src = modules[i].images[0].file;
+			if (hairlineComparison === getBase64Image(comparisonImage)) {
+				continue;
+			}
 		}
 		ret.push(modules[i]);
 	}
@@ -1103,6 +1113,10 @@ function init() {
 		l = gridLocations[i];
 		moduleLocations.push(new THREE.Vector3((l[0] - 1.5)*(wallUnitWidth - wallDepth*3)/4, (l[1] - 1.5)*(wallUnitWidth - wallDepth*3)/4, .01));
 	}
+
+	var hairline = new Image();
+	hairline.src = "hr.jpg";
+	hairlineComparison = getBase64Image(hairline);
 
 	styleSheet = document.createElement("style");
 	document.head.appendChild(styleSheet);
