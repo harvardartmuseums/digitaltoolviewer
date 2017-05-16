@@ -825,7 +825,7 @@ function cleanModules(modules) {
 	ret = [];
 	
 	for (var i = 0; i < modules.length; i++) {
-		if (validTypes.indexOf(parseInt(modules[i].type)) == -1) {
+		if (validTypes.indexOf(modules[i].type.toString()) == -1) {
 			continue;
 		} 
 		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
