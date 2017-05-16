@@ -1119,7 +1119,7 @@ function init() {
 
 	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
 
-	//interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
+	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
 
 	keysDown = {37: false, 39: false, 38: false, 40: false};
 
@@ -1157,12 +1157,12 @@ function init() {
 	renderer.domElement.classList.add("threeJS");
 	renderer.domElement.classList.add("clickThrough");
 
-	//interactionRenderer = new THREE.WebGLRenderer({antialias: true});
-	//interactionRenderer.autoClearDepth = false;
-	//interactionRenderer.setSize(canvas.offsetWidth/3, canvas.offsetHeight/3);
-	//interactionRenderer.domElement.style.position = "absolute";
-	//interactionRenderer.domElement.style.bottom = 0;
-	//document.body.appendChild(interactionRenderer.domElement);
+	interactionRenderer = new THREE.WebGLRenderer({antialias: true});
+	interactionRenderer.autoClearDepth = false;
+	interactionRenderer.setSize(canvas.offsetWidth/3, canvas.offsetHeight/3);
+	interactionRenderer.domElement.style.position = "absolute";
+	interactionRenderer.domElement.style.bottom = 0;
+	document.body.appendChild(interactionRenderer.domElement);
 
 	getTourNumber();
 }
@@ -1296,13 +1296,13 @@ function animate() {
 	renderer.render(scene, camera);
 	cssRenderer.render(cssOverlay, camera);
 
-	//moveInteractionCamera();
+	moveInteractionCamera();
 
-	//interactionRenderer.clearDepth();
-	//interactionCamera.layers.set(0);
-	//interactionRenderer.render(scene, interactionCamera);
-	//interactionCamera.layers.set(1);
-	//interactionRenderer.render(scene, interactionCamera);
+	interactionRenderer.clearDepth();
+	interactionCamera.layers.set(0);
+	interactionRenderer.render(scene, interactionCamera);
+	interactionCamera.layers.set(1);
+	interactionRenderer.render(scene, interactionCamera);
 }
 
 // Reset the view to its initial state
