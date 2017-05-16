@@ -825,7 +825,7 @@ function Screen(width, height, constructor, module) {
 function cleanModules(modules) {
 	var validTypes = Object.keys(moduleTypes);
 
-	var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)(+Fig(ure)?\.? [0-9]*|Locate on the Floor Plan|Click here for.*)(<\/[^>]*>)+$/;
+	var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)+(?:Fig(?:ure)?\.? [0-9]*|Locate on the Floor Plan|Click here for.*)(<\/[^>]*>)+$/;
 
 	ret = [];
 	
