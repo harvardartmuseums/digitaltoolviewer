@@ -431,6 +431,7 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 				scaleList.push(scale);
 				console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[2].y + ", " + scaleList[3].z);
+			}, 10);
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 			scaleList.push(scale);
