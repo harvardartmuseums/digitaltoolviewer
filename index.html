@@ -411,9 +411,7 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHeight, interactive = false) {
 	// Create image, wait for it to load
 	var imageElement = document.createElement("img");
-	var imageObject = new THREE.CSS3DObject(imageElement);
-	cssOverlay.add(imageObject);
-
+	var start = new Date();
 	imageElement.onload = function () {
 		// calculate size for image in scene, and center
 		scale = new THREE.Vector3(1, 1, 1);
@@ -426,9 +424,18 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 			}
 		}
 
-		generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
+		var now = new Date();
+		if (start.valueOf() + 10 < now.valueOf()) {
+			setTimeout(function () {
+				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
+			}, 10 - (now.valueOf() - start.valueOf()));
+		} else {
+			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
+		}
 	};
 	imageElement.src = image;
+	var imageObject = new THREE.CSS3DObject(imageElement);
+	cssOverlay.add(imageObject);
 }
 
 function TextPanel(title, image, caption, credit, description) {
