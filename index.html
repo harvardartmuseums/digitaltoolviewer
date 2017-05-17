@@ -832,20 +832,21 @@ function cleanModules(modules, slide, fixedModules) {
 	}
 
 	var module = modules.shift();
+	console.log(modules.length + " " + module);
 	if (validTypes.indexOf(module.type.toString()) == -1) {
 		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 1 && (textToRemove.exec(module.text) != null)) {
 		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 2) {
 		var img = new Image();
-		img.onload = function () {
+		img.onload = function (modules, slide, fixedModules) {
 			if (img.width == 409 && img.height == 15) {
 				cleanModules(modules, slide, fixedModules);
 			} else {
 				fixedModules.push(module);
 				cleanModules(modules, slide, fixedModules);
 			}
-		};
+		}.bind(null, modules, slide, fixedModules);
 		img.src = module.images[0].file;
 	} else {
 		fixedModules.push(module);
