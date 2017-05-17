@@ -725,7 +725,7 @@ function Module(module) {
 
 		if ((module.type == 7 || module.type == 8) && (module.images[0].title + module.images[0].caption + module.images[0].credit != module.images[1].title, module.images[1].caption, module.images[1].credit)) {
 			label.position.set(-(offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
-			mesh.add(label);
+			this.mesh.add(label);
 
 			label = new ModuleLabel(labelWidth, module.images[1].title, module.images[1].caption, module.images[1].credit);
 			label.position.set((offset - labelWidth/2), verticalAlign*(offset - labelWidth/2), 0);
@@ -736,7 +736,7 @@ function Module(module) {
 		top -= labelWidth*(verticalAlign + 1)/2;
 		bottom -= labelWidth*(verticalAlign - 1)/2;
 
-		mesh.add(label);
+		this.mesh.add(label);
 	}
 
 	var width = right - left;
@@ -748,7 +748,7 @@ function Module(module) {
 		var moduleObj = new type.cons(width, height, module);
 	}
 	moduleObj.position.set(left + width/2, bottom + height/2, 0);
-	mesh.add(moduleObj);
+	this.mesh.add(moduleObj);
 
 	return this.mesh;
 }
