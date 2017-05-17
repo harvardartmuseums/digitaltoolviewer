@@ -435,7 +435,7 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 			scaleList.push(scale);
-			console.log(scaleList.join(", "));
+			console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[2].y + ", " + scaleList[3].z);
 		}
 	};
 	imageElement.src = image;
@@ -560,7 +560,7 @@ function SlideshowModule(width, height, module) {
 		}
 		keyframes += "100% {left: -" + module.images.length*100 + "%}}";
 		styleSheet.insertRule(keyframes, index);
-		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.1 - .2*Math.random()) + "s linear infinite";
+		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.1 - .2*Math.random()) + "s infinite";
 
 		var image;
 		for (var i = 0; i < module.images.length; i++) {
