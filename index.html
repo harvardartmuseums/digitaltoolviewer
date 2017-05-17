@@ -894,6 +894,7 @@ function addModulesToSlide(modules, slide) {
 		slide.add(module);
 
 		module = new Module(modules[1]);
+		module.position.set(-(wallUnitWidth - wallDepth*3)/8, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
 		slide.add(module);
 	} else {
 		var locations = moduleLocations.slice(0, 2*Math.ceil(modules.length/2));
