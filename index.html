@@ -698,27 +698,27 @@ function randomSign() {
 	return (1 - 2*Math.round(Math.random()));
 }
 
-function Module(module, width, height) {
+function Module(module) {
 	this.mesh = new THREE.Group();
 
 	if (module.type == 2) {
 		var img = new Image();
 		img.onload = function() {
 			if (img.height == 15 && img.width == 409) {
-				this.mesh.add(new TextModule(width, height, {text: [module.images[0].title, module.images[0].caption, module.images[0].credit].join("<br />")}));
+				this.mesh.add(new TextModule((wallUnitWidth - wallDepth*3)/4 - wallDepth/5, (wallUnitWidth - wallDepth*3)/4 - wallDepth/5, {text: [module.images[0].title, module.images[0].caption, module.images[0].credit].join("<br />")}));
 			} else {
-				finishModule(this.mesh, width, height, module);
+				finishModule(this.mesh, module);
 			}
 		}.bind(this);
 		img.src = module.images[0].file;
 	} else {
-		finishModule(this.mesh, width, height, module);
+		finishModule(this.mesh, module);
 	}
 
 	return this.mesh;
 }
 
-function finishModule(mesh, width, height, module) {
+function finishModule(mesh, module) {
 	var type = moduleTypes[module.type];
 
 	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
