@@ -237,6 +237,10 @@ var moduleTypes = {
 	12: {label: false, cons: MiradorModule, frame: Screen}
 };
 
+var validTypes = Object.keys(moduleTypes);
+
+var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)+(?:Fig(?:ure)?\.? [0-9]*|Locate on the Floor Plan|Click here for.*)(<\/[^>]*>)+$/;
+
 var styleSheet;
 
 
@@ -701,24 +705,6 @@ function randomSign() {
 function Module(module) {
 	this.mesh = new THREE.Group();
 
-	if (module.type == 2) {
-		var img = new Image();
-		img.onload = function() {
-			if (img.height == 15 && img.width == 409) {
-				this.mesh.add(new TextModule((wallUnitWidth - wallDepth*3)/4 - wallDepth/5, (wallUnitWidth - wallDepth*3)/4 - wallDepth/5, {text: [module.images[0].title, module.images[0].caption, module.images[0].credit].join("<br />")}));
-			} else {
-				finishModule(this.mesh, module);
-			}
-		}.bind(this);
-		img.src = module.images[0].file;
-	} else {
-		finishModule(this.mesh, module);
-	}
-
-	return this.mesh;
-}
-
-function finishModule(mesh, module) {
 	var type = moduleTypes[module.type];
 
 	var offset = (wallUnitWidth - wallDepth*3)/8 - wallDepth/10;
@@ -763,6 +749,8 @@ function finishModule(mesh, module) {
 	}
 	moduleObj.position.set(left + width/2, bottom + height/2, 0);
 	mesh.add(moduleObj);
+
+	return this.mesh;
 }
 
 function Frame(width, height, frameWidth, frameProtrusion, material) {
@@ -838,25 +826,31 @@ function Screen(width, height, constructor, module) {
 	return this.mesh;
 }
 
-function cleanModules(modules) {
-	var validTypes = Object.keys(moduleTypes);
-
-	var textToRemove = /^(<[^>]*>&nbsp;<\/[^>]*>\n)?(<[^>]*>)+(?:Fig(?:ure)?\.? [0-9]*|Locate on the Floor Plan|Click here for.*)(<\/[^>]*>)+$/;
-
-	ret = [];
-	
-	var imageTest;
-	for (var i = 0; i < modules.length; i++) {
-		if (validTypes.indexOf(modules[i].type.toString()) == -1) {
-			continue;
-		} 
-		if (modules[i].type == 1 && (textToRemove.exec(modules[i].text) != null)) {
-			continue;
-		}
-		ret.push(modules[i]);
+function cleanModules(modules, scene, fixedModules) {
+	if (modules.length == 0) {
+		addModulesToSlide(fixedModules, slide);
 	}
 
-	return ret;
+	var module = modules.shift();
+	if (validTypes.indexOf(module.type.toString()) == -1) {
+		cleanModules(modules, scene, fixedModules);
+	} else if (module.type == 1 && (textToRemove.exec(module.text) != null)) {
+		cleanModules(modules, scene, fixedModules);
+	} else if (module.type == 2) {
+		var img = new Image();
+		img.onload = function () {
+			if (img.width == 409 && img.height == 15) {
+				cleanModules(modules, scene, fixedModules);
+			} else {
+				fixedModules.push(module);
+				cleanModules(modules, scene, fixedModules);
+			}
+		};
+		img.src = module.images[0].file;
+	} else {
+		fixedModules.push(module);
+		cleanModules(modules, scene, fixedModules);
+	}
 }
 
 function Slide(slide) {
@@ -881,13 +875,25 @@ function Slide(slide) {
 	label.position.set(0, -(wallUnitWidth - wallDepth*3)/8, 0);
 	this.mesh.add(label);
 
-	var modules = cleanModules(slide.modules);
-	
+	cleanModules(slide.modules, this.mesh, []);
+
+	return this.mesh;
+}
+
+function addModulesToSlide(modules, slide) {
 	var module;
 	if (modules.length == 1) {
 		module = new Module(modules[0]);
 		module.position.set(0, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
-		this.mesh.add(module);
+		slide.add(module);
+	} else if (modules.length == 2) {
+		module = new Module(modules[0]);
+		module.position.set((wallUnitWidth - wallDepth*3)/4, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		slide.add(module);
+
+		module = new Module(modules[1]);
+		module.position.set(-(wallUnitWidth - wallDepth*3)/4, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		slide.add(module);
 	} else {
 		var locations = moduleLocations.slice(0, 2*Math.ceil(modules.length/2));
 
@@ -900,11 +906,9 @@ function Slide(slide) {
 			location = Math.floor(locations.length*Math.random());
 			module.position.copy(locations[location]);
 			locations.splice(location, 1);
-			this.mesh.add(module);
+			slide.add(module);
 		}
 	}
-
-	return this.mesh;
 }
 
 function Stop(stop) {
