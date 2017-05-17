@@ -826,30 +826,30 @@ function Screen(width, height, constructor, module) {
 	return this.mesh;
 }
 
-function cleanModules(modules, scene, fixedModules) {
+function cleanModules(modules, slide, fixedModules) {
 	if (modules.length == 0) {
 		addModulesToSlide(fixedModules, slide);
 	}
 
 	var module = modules.shift();
 	if (validTypes.indexOf(module.type.toString()) == -1) {
-		cleanModules(modules, scene, fixedModules);
+		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 1 && (textToRemove.exec(module.text) != null)) {
-		cleanModules(modules, scene, fixedModules);
+		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 2) {
 		var img = new Image();
 		img.onload = function () {
 			if (img.width == 409 && img.height == 15) {
-				cleanModules(modules, scene, fixedModules);
+				cleanModules(modules, slide, fixedModules);
 			} else {
 				fixedModules.push(module);
-				cleanModules(modules, scene, fixedModules);
+				cleanModules(modules, slide, fixedModules);
 			}
 		};
 		img.src = module.images[0].file;
 	} else {
 		fixedModules.push(module);
-		cleanModules(modules, scene, fixedModules);
+		cleanModules(modules, slide, fixedModules);
 	}
 }
 
