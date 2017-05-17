@@ -411,6 +411,9 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHeight, interactive = false) {
 	// Create image, wait for it to load
 	var imageElement = document.createElement("img");
+	var imageObject = new THREE.CSS3DObject(imageElement);
+	cssOverlay.add(imageObject);
+
 	imageElement.onload = function () {
 		// calculate size for image in scene, and center
 		scale = new THREE.Vector3(1, 1, 1);
@@ -426,8 +429,6 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 	};
 	imageElement.src = image;
-	var imageObject = new THREE.CSS3DObject(imageElement);
-	cssOverlay.add(imageObject);
 }
 
 function TextPanel(title, image, caption, credit, description) {
@@ -541,7 +542,8 @@ function SlideshowModule(width, height, module) {
 		var index = styleSheet.length;
 		var keyframes = "@keyframes s" + module.id + " {";
 		for (var i = 0; i <= module.images.length; i++) {
-			keyframes += i*100/module.images.length + "% ";
+			keyframes += i*100/module.images.length + "%, ";
+			keyframes += (i + .66)*100/module.images.length + "% ";
 			keyframes += "{left: -" + i*100 + "%} ";
 		}
 		keyframes += "}";
