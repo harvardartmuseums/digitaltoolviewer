@@ -428,7 +428,7 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		if (start.valueOf() + 10 < now.valueOf()) {
 			setTimeout(function () {
 				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
-			}, 10);
+			}, 10 - (now.valueOf() - start.valueOf()));
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 			scaleList.push(scale);
@@ -1356,7 +1356,7 @@ function reset() {
 		camera.position.z = 0;
 		camera.position.x = 0;
 		camera.position.y = 200;
-		camera.rotation.y = THREE.Math.degToRad(0);
+		camera.lookAt(new THREE.Vector3(0, 200, -1));
 		resetRounds = 0;
 
 		if (ended) {
