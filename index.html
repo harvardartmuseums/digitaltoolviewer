@@ -425,15 +425,17 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		}
 
 		var now = new Date();
-		console.log("image dimensions pre: " + imageElement.width + "x" + imageElement.height);
+		var scaleList = [scale];
 		if (start.valueOf() + 10 < now.valueOf()) {
 			setTimeout(function () {
 				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
-				console.log("image dimensions post wait: " + imageElement.width + "x" + imageElement.height);
+				scaleList.push(scale);
+				console.log(scaleList.join(", "));
 			}, 10 - (now.valueOf() - start.valueOf()));
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
-			console.log("image dimensions same: " + imageElement.width + "x" + imageElement.height);
+			scaleList.push(scale);
+			console.log(scaleList.join(", "));
 		}
 	};
 	imageElement.src = image;
@@ -551,13 +553,12 @@ function SlideshowModule(width, height, module) {
 
 		var index = styleSheet.length;
 		var keyframes = "@keyframes s" + module.id + " {";
-		for (var i = 0; i <= module.images.length; i++) {
+		for (var i = 0; i < module.images.length; i++) {
 			keyframes += i*100/module.images.length + "%, ";
 			keyframes += (i + .66)*100/module.images.length + "% ";
 			keyframes += "{left: " + -i*100 + "%} ";
 		}
-		keyframes += "}";
-		console.log(keyframes);
+		keyframes += "100% {left: -" + module.images.length*100 + "%}}";
 		styleSheet.insertRule(keyframes, index);
 		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.1 - .2*Math.random()) + "s linear infinite";
 
