@@ -430,12 +430,12 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 			setTimeout(function () {
 				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 				scaleList.push(scale);
-				console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[2].y + ", " + scaleList[3].z);
+				console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[1].y + ", " + scaleList[1].z);
 			}, 10);
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive);
 			scaleList.push(scale);
-			console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[2].y + ", " + scaleList[3].z);
+			console.log(scaleList[0].x + ", " + scaleList[0].y + ", " + scaleList[0].z + " - " + scaleList[1].x + ", " + scaleList[1].y + ", " + scaleList[1].z);
 		}
 	};
 	imageElement.src = image;
