@@ -198,11 +198,12 @@ var doorHeight = 350;
 var wallHeight = 600;
 var wallDepth = 25;
 
-var wallMaterial = floorMaterial = ceilingMaterial = speakerMaterial = frameMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
+var wallMaterial = floorMaterial = ceilingMaterial = frameMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
 
 var screenMaterial = new THREE.MeshStandardMaterial({color: 0x000000, metalness: 0, roughness: 0});
 var monitorMaterial = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0, roughness: .6});
 
+speakerMaterial = THREE.MeshStandardMaterial({color: 0xdddddd, metalness: 0, roughness: .8});
 var speakerGrillMaterial = new THREE.MeshStandardMaterial({color: 0x222222, metalness: 0, roughness: .8});
 
 var textMaterial = new THREE.MeshStandardMaterial({metalness: 0, color: 0x000000, roughness: .8});
@@ -239,7 +240,7 @@ var moduleTypes = {
 	2: {label: true, media: "images", cons: ImageModule, frame: GlazedFrame},
 	3: {label: false, cons: SlideshowModule, frame: Screen},
 	4: {label: true, media: "videos", cons: VideoModule, frame: Screen},
-	5: {label: true, media: "audio", cons: AudioModule},
+	5: {label: false, cons: AudioModule},
 	6: {label: true, media: "images", cons: CloseupModule, frame: GlazedFrame},
 	7: {label: true, media: "images", cons: OverlayModule, frame: Screen},
 	8: {label: true, media: "images", cons: ComparisonModule, frame: Screen},
@@ -668,6 +669,11 @@ function VideoModule(width, height, module) {
 
 function AudioModule(width, height, module) {
 	this.mesh = new THREE.Group();
+
+	var label = new ModuleLabel(width/3, module.audio.title, undefined, module.audio.credit);
+	label.position.set(0, -height/6 - .1*height/2 - width/6, 0);
+	this.mesh.add(label);
+	
 
 	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/6);
 	var shelf = new THREE.Mesh(geometry, wallMaterial);
