@@ -679,7 +679,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 
-	geometry = new THREE.CylinderBufferGeometry(width/4, width/4, width/10, 20);
+	geometry = new THREE.CylinderBufferGeometry(width/8, width/8, width/10, 20);
 	speaker = new THREE.Mesh(geometry, speakerMaterial);
 	speaker.rotateX(THREE.Math.degToRad(90));
 	speaker.position.set(0, height/6, width/12);
