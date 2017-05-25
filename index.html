@@ -426,9 +426,9 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		// calculate size for image in scene, and center
 		var scale = new THREE.Vector3(1, 1, 1);
 		if (imageElement.width/imageElement.height > boxWidth/boxHeight) {
-			scale.setScalar(boxWidth/imageElement.width);
+			scale.setScalar(4*boxWidth/imageElement.width);
 		} else {
-			scale.setScalar(boxHeight/imageElement.height);
+			scale.setScalar(4*boxHeight/imageElement.height);
 			if (!interactive) {
 				pos.x += -(boxWidth - imageElement.width*boxHeight/imageElement.height)/2;
 			}
@@ -437,10 +437,10 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 		var now = new Date();
 		if (start.valueOf() + 10 < now.valueOf()) {
 			setTimeout(function () {
-				generateCutout(mesh, imageElement, pos, 4*imageElement.width, 4*imageElement.height, scale, interactive, true, openImage.bind(image));
+				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
 			}, 10 - (now.valueOf() - start.valueOf()));
 		} else {
-			generateCutout(mesh, imageElement, pos, 4*imageElement.width, 4*imageElement.height, scale, interactive, true, openImage.bind(image));
+			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
 		}
 	};
 	imageElement.src = image;
