@@ -198,7 +198,7 @@ var doorHeight = 350;
 var wallHeight = 600;
 var wallDepth = 25;
 
-var wallMaterial = floorMaterial = ceilingMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
+var wallMaterial = floorMaterial = ceilingMaterial = frameMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
 
 var screenMaterial = new THREE.MeshStandardMaterial({color: 0x000000, metalness: 0, roughness: 0});
 var monitorMaterial = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0, roughness: .6});
@@ -667,9 +667,9 @@ function VideoModule(width, height, module) {
 function AudioModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
-	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/3);
+	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/6);
 	var shelf = new THREE.Mesh(geometry, wallMaterial);
-	shelf.position.set(0, -height/2 + .1*height/2, width/6);
+	shelf.position.set(0, -height/3 - .1*height/4, width/12);
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 	
@@ -848,7 +848,7 @@ function GlazedFrame(width, height, constructor, module) {
 	//mirror.position.set(0, 0, wallDepth/20 + .05);
 	//this.mesh.add(mirror);
 
-	var frame = new Frame(width, height, wallDepth/10, wallDepth/40, monitorMaterial);
+	var frame = new Frame(width, height, wallDepth/10, wallDepth/40, frameMaterial);
 	frame.position.set(0, 0, 0);
 	this.mesh.add(frame);
 
@@ -862,26 +862,26 @@ function Screen(width, height, constructor, module) {
 
 	//var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080, color: 0xaaaaaa});
 	//mirrors.push(mirror);
-	//mirror.position.set(0, 0, 2*wallDepth/10 + .05);
+	//mirror.position.set(0, 0, 2*wallDepth/8 + .05);
 	//this.mesh.add(mirror);
 
-	var geometry = new THREE.BoxBufferGeometry(width - wallDepth/5, height - wallDepth/5, wallDepth/10);
+	var geometry = new THREE.BoxBufferGeometry(width - wallDepth/4, height - wallDepth/4, wallDepth/8);
 	var screen = new THREE.Mesh(geometry, screenMaterial);
-	screen.position.set(0, 0, 1.5*wallDepth/10);
+	screen.position.set(0, 0, 1.5*wallDepth/8);
 	screen.layers.enable(1);
 	this.mesh.add(screen);
 
-	var frame = new Frame(width, height, wallDepth/10, wallDepth/40, monitorMaterial);
-	frame.position.set(0, 0, wallDepth/10);
+	var frame = new Frame(width, height, wallDepth/8, wallDepth/20, monitorMaterial);
+	frame.position.set(0, 0, wallDepth/8);
 	this.mesh.add(frame);
 
-	geometry = new THREE.BoxBufferGeometry(width - 3*wallDepth/5, height - 3*wallDepth/5, 1.5*wallDepth/10);
+	geometry = new THREE.BoxBufferGeometry(width - 3*wallDepth/5, height - 3*wallDepth/5, 1.5*wallDepth/8);
 	var mount = new THREE.Mesh(geometry, monitorMaterial);
-	mount.position.set(0, 0, .75*wallDepth/10);
+	mount.position.set(0, 0, .75*wallDepth/8);
 	this.mesh.add(mount);
 
 	var obj = constructor(width - wallDepth/5, height - wallDepth/5, module);
-	obj.position.set(0, 0, 2*wallDepth/10);
+	obj.position.set(0, 0, 2*wallDepth/8);
 	this.mesh.add(obj);
 
 	return this.mesh;
