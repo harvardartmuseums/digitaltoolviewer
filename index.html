@@ -89,7 +89,7 @@ body, html {
 	overflow: hidden;
 }
 
-.slideshowModule.slides div {
+.slideshowModule.slides>div {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -98,7 +98,6 @@ body, html {
 }
 
 .labeledDiv {
-	position: relative;
 	padding: 0px;
 	margin: 0px;
 	float: left;
@@ -117,12 +116,17 @@ body, html {
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
-	padding: 5px;
+	padding: 8px;
 	background-color: rgba(0, 0, 0, 0.3);
 	line-height: 155%;
 	font-family: 'Cabin';
 	color: #FFFFFF;
 	font-size: 16px;
+}
+
+.h1, .h2 {
+	display: inline;
+	margin: 0px;
 }
 
 .slideshowModule.grid img {
@@ -646,7 +650,7 @@ function SlideshowModule(width, height, module) {
 					100/(module.images.length + 1) + "%",
 					"100%",
 					module.images[i].file, 
-					"<h1>" + module.images[i].title + "</h1><h2>" + module.images[i].caption + "</h2><h3>" + module.images[i].credit + "</h3>")
+					"<h1>" + module.images[i].title + "</h1><br /><h2>" + module.images[i].caption + "</h2><br /><br /><h3>" + module.images[i].credit + "</h3>")
 			);
 		}
 
