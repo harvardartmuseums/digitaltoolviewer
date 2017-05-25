@@ -1006,7 +1006,7 @@ function Stop(stop) {
 
 		if (stop.slides.length == 1) {
 			slide = new Slide(stop.slides[0]);
-			slide.position.set(0, wallHeight/2, wallUnitWidth - wallDepth/2);
+			slide.position.set(0, wallHeight/2, wallUnitWidth);
 			slide.rotateY(THREE.Math.degToRad(180));
 			this.mesh.add(slide);
 		} else {
