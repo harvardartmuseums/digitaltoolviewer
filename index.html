@@ -400,7 +400,7 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 		interactionPlane.layers.set(1);
 		mesh.add(interactionPlane);
 
-		interactiveObjects[interactionPlane] = interact;
+		interactiveObjects[mesh] = interact;
 	}
 
 	// adjust css object location, orientation, and scale
@@ -700,8 +700,12 @@ function AudioModule(width, height, module) {
 	speaker.position.set(0, height/12, width/12 + width/20);
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
+
+	var audioElement = document.createElement("audio");
+	audioElement.src = module.audio.file;
+	audioElement.autoplay = true;
 	
-	//openAudio.bind(audioElement)
+	interactiveObjects[this.mesh] = openAudio.bind(audioElement);
 	
 	return this.mesh;
 }
