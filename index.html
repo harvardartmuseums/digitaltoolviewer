@@ -702,7 +702,7 @@ function AudioModule(width, height, module) {
 	this.mesh.add(speaker);
 
 	var audioElement = document.createElement("audio");
-	audioElement.src = module.audio.file;
+	audioElement.src = module.audio.url;
 	audioElement.autoplay = true;
 	
 	interactiveObjects[this.mesh] = openAudio.bind(audioElement);
