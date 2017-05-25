@@ -98,6 +98,9 @@ body, html {
 }
 
 .labeledDiv {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
 	float: left;
 	background-color: #000000;
 }
@@ -114,7 +117,10 @@ body, html {
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
+	padding: 5px;
 	background-color: rgba(0, 0, 0, 0.3);
+	line-height: 155%;
+	font-family: 'Cabin';
 	color: #FFFFFF;
 	font-size: 16px;
 }
@@ -640,7 +646,7 @@ function SlideshowModule(width, height, module) {
 					100/(module.images.length + 1) + "%",
 					"100%",
 					module.images[i].file, 
-					"<h1>" + module.images[i].title + "</h1><br /><h2>" + module.images[i].caption + "</h2><br /><br /><h3>" + module.images[i].credit + "</h3>")
+					"<h1>" + module.images[i].title + "</h1><h2>" + module.images[i].caption + "</h2><h3>" + module.images[i].credit + "</h3>")
 			);
 		}
 
