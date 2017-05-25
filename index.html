@@ -673,16 +673,16 @@ function AudioModule(width, height, module) {
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 
-	geometry = new THREE.BoxBufferGeometry(width/4, height/3, width/10);
+	geometry = new THREE.BoxBufferGeometry(width/5, height/6, width/10);
 	var speaker = new THREE.Mesh(geometry, speakerMaterial);
 	speaker.position.set(0, 0, width/12);
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 
-	geometry = new THREE.CylinderBufferGeometry(width/8, width/8, width/10, 20);
+	geometry = new THREE.CylinderBufferGeometry(width/10, width/10, width/10, 20);
 	speaker = new THREE.Mesh(geometry, speakerMaterial);
 	speaker.rotateX(THREE.Math.degToRad(90));
-	speaker.position.set(0, height/6, width/12);
+	speaker.position.set(0, height/12, width/12);
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	
