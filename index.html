@@ -596,7 +596,7 @@ function labeledImage(width, height, image, label) {
 	div.className = "labeledDiv";
 	div.style.width = width;
 	div.style.height = height;
-	document.appendChild(div);
+	document.body.appendChild(div);
 
 	var img = document.createElement("img");
 	img.src = image;
