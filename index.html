@@ -701,9 +701,26 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 
+	var playButtonMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+	geometry = new THREE.SphereBufferGeometry(width/100);
+	speaker = new THREE.Mesh(geometry, playButtonMaterial);
+	speaker.position.set(0, -width/10, 0);
+	speaker.layers.enable(1);
+	this.mesh.add(speaker);
+	
+
 	var audioElement = document.createElement("audio");
 	audioElement.src = module.audio.url;
-	audioElement.autoplay = true;
+	audioElement.preload = "auto";
+	audioElement.addEventListener("playing", function() {
+		playButtonMaterial.color.set(0xff0000);
+	});
+	audioElement.addEventListener("pause", function() {
+		playButtonMaterial.color.set(0x000000);
+	});
+	audioElement.addEventListener("ended", function() {
+		playButtonMaterial.color.set(0x000000);
+	});
 	
 	interactiveObjects[this.mesh] = openAudio.bind(audioElement);
 	
