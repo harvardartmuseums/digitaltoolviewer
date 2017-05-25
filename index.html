@@ -669,9 +669,9 @@ function AudioModule(width, height, module) {
 
 	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/3);
 	var shelf = new THREE.Mesh(geometry, wallMaterial);
-	frame.position.set(0, -height/4, frameProtrusion + frameWidth/2);
-	frame.layers.enable(1);
-	this.mesh.add(frame);
+	shelf.position.set(0, -height/2 + .1*height/2, width/6);
+	shelf.layers.enable(1);
+	this.mesh.add(shelf);
 	
 	//openAudio.bind(audioElement)
 	
