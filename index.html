@@ -1349,8 +1349,24 @@ function init() {
 	interactionRenderer.domElement.style.position = "absolute";
 	interactionRenderer.domElement.style.bottom = 0;
 	document.body.appendChild(interactionRenderer.domElement);
+	interactionRenderer.domElement.addEventListener("click", handleInteraction);
 
 	getTourNumber();
+}
+
+var interactRay = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+function handleInteraction(e) {
+	mouse.x = 3*e.clientX/canvas.offsetWidth;
+	mouse.y = 3*e.clientY/canvas.offsetHeight;
+
+	interactRay.setFromCamera(mouse, interactionCamera);
+
+	var intersections = interactRay.intersectObjects(Object.keys(interactiveObjects));
+
+	if (intersections.length > 0) {
+		interactiveObjects[intersections[0].object]();
+	}
 }
 
 function getFormData(e) {
