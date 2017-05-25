@@ -441,6 +441,7 @@ function Image3D(mesh, image, pos = new THREE.Vector3(0, 0, 0), boxWidth, boxHei
 			}, 10 - (now.valueOf() - start.valueOf()));
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, openImage.bind(image));
+			scaleList.push(scale);
 		}
 	};
 	imageElement.src = image;
