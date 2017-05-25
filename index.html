@@ -97,11 +97,26 @@ body, html {
 	width: 100%;
 }
 
-.slideshowModule.slides img {
+.labeledDiv {
 	float: left;
+	background-color: #000000;
+}
+
+.labeledDiv img {
+	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	background-color: #000000;
+}
+
+.labeledDiv span {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	color: #FFFFFF;
+	font-size: 16px;
 }
 
 .slideshowModule.grid img {
@@ -198,12 +213,12 @@ var doorHeight = 350;
 var wallHeight = 600;
 var wallDepth = 25;
 
-var wallMaterial = floorMaterial = ceilingMaterial = frameMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
+var wallMaterial = floorMaterial = ceilingMaterial = new THREE.MeshStandardMaterial({metalness: 0, roughness: .8});
 
 var screenMaterial = new THREE.MeshStandardMaterial({color: 0x000000, metalness: 0, roughness: 0});
 var monitorMaterial = new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0, roughness: .6});
 
-var speakerMaterial = new THREE.MeshStandardMaterial({color: 0xdddddd, metalness: 0, roughness: .8});
+var speakerMaterial = frameMaterial = new THREE.MeshStandardMaterial({color: 0xdddddd, metalness: 0, roughness: .8});
 var speakerGrillMaterial = new THREE.MeshStandardMaterial({color: 0x222222, metalness: 0, roughness: .8});
 
 var textMaterial = new THREE.MeshStandardMaterial({metalness: 0, color: 0x000000, roughness: .8});
@@ -576,6 +591,23 @@ function ImageModule(width, height, module) {
 	return this.mesh;
 }
 
+function labeledImage(width, height, image, label) {
+	var div = document.createElement("div");
+	div.className = "labeledDiv";
+	div.style.width = width;
+	div.style.height = height;
+
+	var img = document.createElement("img");
+	img.src = image;
+	div.appendChild(image);
+
+	var text = document.createElement("span");
+	text.innerHTML = label;
+	div.appendChild(text);
+
+	return div;
+}
+
 function SlideshowModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
@@ -602,20 +634,23 @@ function SlideshowModule(width, height, module) {
 		styleSheet.insertRule(keyframes, index);
 		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.1 - .2*Math.random()) + "s infinite";
 
-		var image;
 		for (var i = 0; i < module.images.length; i++) {
-			image = document.createElement("img");
-			image.src = module.images[i].file;
-			image.classList.add(i);
-			image.style.width = 100/(module.images.length + 1) + "%";
-			container.appendChild(image);
+			container.appendChild(
+				labeledImage(
+					100/(module.images.length + 1) + "%",
+					"100%",
+					module.images[i].file, 
+					"<h1>" + module.images[i].title + "</h1><br /><h2>" + module.images[i].caption + "</h2><br /><br /><h3>" + module.images[i].credit + "</h3>")
+			);
 		}
 
-		image = document.createElement("img");
-		image.src = module.images[0].file;
-		image.classList.add(0);
-		image.style.width = 100/(module.images.length + 1) + "%";
-		container.appendChild(image);
+		container.appendChild(
+			labeledImage(
+				100/(module.images.length + 1) + "%",
+				"100%",
+				module.images[i].file, 
+				"<h1>" + module.images[0].title + "</h1><br /><h2>" + module.images[0].caption + "</h2><br /><br /><h3>" + module.images[0].credit + "</h3>")
+		);
 
 		setTimeout(function() {
 			generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openSlideshow.bind(element));
@@ -704,7 +739,7 @@ function AudioModule(width, height, module) {
 	var playButtonMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
 	geometry = new THREE.SphereBufferGeometry(width/100);
 	speaker = new THREE.Mesh(geometry, playButtonMaterial);
-	speaker.position.set(0, -width/10, 0);
+	speaker.position.set(0, -width/10, width/12 + width/20);
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	
