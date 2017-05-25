@@ -673,9 +673,9 @@ function AudioModule(width, height, module) {
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 
-	geometry = new THREE.BoxBufferGeometry(width/5, height/6, width/10);
+	geometry = new THREE.BoxBufferGeometry(width/5, 3*height/12, width/10);
 	var speaker = new THREE.Mesh(geometry, speakerMaterial);
-	speaker.position.set(0, 0, width/12);
+	speaker.position.set(0, -height/12, width/12);
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 
