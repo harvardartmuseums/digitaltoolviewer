@@ -206,7 +206,8 @@ var cssRenderer;
 
 var interactionCamera;
 var interactionRenderer;
-var interactiveObjects = {};
+var interactiveObjects = [];
+var interactionMethod = [];
 
 var moveSphere;
 var moveRay = new THREE.Raycaster();
@@ -426,7 +427,7 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 		interactionPlane.layers.set(1);
 		mesh.add(interactionPlane);
 
-		interactiveObjects[mesh] = interact;
+		interactiveObjects.push(mesh);
 	}
 
 	// adjust css object location, orientation, and scale
@@ -771,7 +772,7 @@ function AudioModule(width, height, module) {
 		playButtonMaterial.color.set(0x000000);
 	});
 	
-	interactiveObjects[this.mesh] = openAudio.bind(audioElement);
+	interactiveObjects.push(this.mesh);
 	
 	return this.mesh;
 }
@@ -1362,10 +1363,11 @@ function handleInteraction(e) {
 
 	interactRay.setFromCamera(mouse, interactionCamera);
 
-	var intersections = interactRay.intersectObjects(Object.keys(interactiveObjects));
+	var intersections = interactRay.intersectObjects(interactiveObjects);
 
 	if (intersections.length > 0) {
-		interactiveObjects[intersections[0].object]();
+		console.log(intersections.length);
+		//interactiveObjects[intersections[0].object]();
 	}
 }
 
