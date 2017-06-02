@@ -427,7 +427,7 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 		interactionPlane.layers.set(1);
 		mesh.add(interactionPlane);
 
-		interactiveObjects.push(mesh);
+		interactiveObjects.push(interactionPlane);
 	}
 
 	// adjust css object location, orientation, and scale
