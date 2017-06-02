@@ -1365,6 +1365,9 @@ function handleInteraction(e) {
 
 	var intersections = interactRay.intersectObjects(interactiveObjects);
 
+	console.log(mouse.x, mouse.y);
+	console.log(interactiveObjects.length);
+
 	if (intersections.length > 0) {
 		console.log(intersections.length);
 		//interactiveObjects[intersections[0].object]();
