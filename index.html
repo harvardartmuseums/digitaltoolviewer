@@ -428,6 +428,7 @@ function generateCutout(mesh, cssElement, pos = new THREE.Vector3(0, 0, 0), widt
 		mesh.add(interactionPlane);
 
 		interactiveObjects.push(interactionPlane);
+		interactionMethods.push(interact);
 	}
 
 	// adjust css object location, orientation, and scale
@@ -731,6 +732,7 @@ function AudioModule(width, height, module) {
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 	interactiveObjects.push(shelf);
+	interactionMethods.push(openAudio);
 
 	geometry = new THREE.BoxBufferGeometry(width/5, 3*height/12, width/10);
 	var speaker = new THREE.Mesh(geometry, speakerMaterial);
@@ -738,6 +740,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
+	interactionMethods.push(openAudio);
 
 	geometry = new THREE.CylinderBufferGeometry(width/10, width/10, width/10, 20);
 	speaker = new THREE.Mesh(geometry, speakerMaterial);
@@ -746,6 +749,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
+	interactionMethods.push(openAudio);
 
 	geometry = new THREE.SphereBufferGeometry(.75*width/10, 20, 20);
 	speaker = new THREE.Mesh(geometry, speakerGrillMaterial);
@@ -754,6 +758,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
+	interactionMethods.push(openAudio);
 
 	var playButtonMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
 	geometry = new THREE.SphereBufferGeometry(width/100);
@@ -762,6 +767,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
+	interactionMethods.push(openAudio);
 	
 
 	var audioElement = document.createElement("audio");
@@ -1368,11 +1374,8 @@ function handleInteraction(e) {
 
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
-	console.log(mouse.x + " " + mouse.y);
-
 	if (intersections.length > 0) {
-		console.log(intersections.length);
-		//interactiveObjects[intersections[0].object]();
+		interactionMethods[interactiveObjects.indexOf(intersections[0].object)]();
 	}
 }
 
