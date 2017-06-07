@@ -29,6 +29,8 @@ function buildTour() {
 
 		building = new TourRoom(tour);
 		scene.add(building);
+
+		finishSetup();
 	});
 
 	if (!getTourFromURL()) {

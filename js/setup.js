@@ -14,7 +14,7 @@ function setup() {
 	buildTour();
 }
 
-function finishInit() {
+function finishSetup() {
 	setupResize();
 
 	setupReset();
