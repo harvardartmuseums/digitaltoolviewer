@@ -85,8 +85,10 @@ function checkMirrors() {
 	camera.matrixWorldInverse.getInverse(camera.matrixWorld);
 	cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
 	frustum.setFromMatrix(cameraViewProjectionMatrix);
+
 	camera.layers.set(0);
 	camera.layers.enable(2);
+
 	for (var i = 0; i < mirrors.length; i++) {
 		if (frustum.intersectsObject(mirrors[i])) {
 			camera.layers.enable(mirrors[i].layer);
