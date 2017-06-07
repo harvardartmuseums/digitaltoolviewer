@@ -18,7 +18,7 @@ function getTourFromURL() {
 	if (match != null) {
 		tourNumber = match[1];
 		if (match[2]) {
-			camera.setViewOffset(5760, 3240, 1920*((match[2])%3), 1080*Math.floor((match[2])/3));
+			camera.setViewOffset(5760, 3240, 1920*((match[2])%3), 1080*Math.floor(match[2]/3), 1920, 1080);
 		}
 		socket.emit("getTour", tourNumber);
 		return true;
@@ -40,7 +40,7 @@ function buildTour() {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
 		element.id = "tourPrompt";
-		element.innerHTML = "<span>Tour number:<br /><form action=\"\" method=\"get\"><input type=\"number\" min=\"0\" size=\"4\" name=\"tour\" id=\"tourNumber\" /><br /><br />Lightbox screen:<br /><input type=\"number\" min=\"0\" max=\"8\" size=\"1\" name=\"screen\" id=\"screenNumber\" /><input type=\"submit\" /></form></span>";
+		element.innerHTML = "<span>Tour number:<br /><form action=\"\" method=\"get\"><input type=\"number\" min=\"0\" size=\"4\" name=\"tour\" id=\"tourNumber\" /><br /><br />Lightbox screen:<br /><input type=\"number\" min=\"0\" max=\"8\" size=\"1\" name=\"screen\" id=\"screenNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
 }
 
