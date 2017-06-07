@@ -27,7 +27,7 @@ app.get('/js/CSS3DRenderer.js', function(req, res){
 });
 
 app.get('/js/digitaltoolviewer.min.js', function(req, res){
-	res.sendFile(path.join(__dirname, '/js/CSS3DRenderer.js'));
+	res.sendFile(path.join(__dirname, '/js/digitaltoolviewer.min.js'));
 });
 
 app.get('/css/mediaStyles.css', function(req, res){
