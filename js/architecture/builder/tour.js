@@ -24,6 +24,13 @@ function getTourFromURL() {
 }
 
 function buildTour() {
+	socket.on("tourData", function(data) {
+		tour = data;
+
+		building = new TourRoom(tour);
+		scene.add(building);
+	});
+
 	if (!getTourFromURL()) {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
@@ -31,13 +38,6 @@ function buildTour() {
 		element.innerHTML = "<span>Tour number:<br /><form action=\"\" method=\"get\"><input type=\"number\" min=\"0\" size=\"4\" name=\"tour\" id=\"tourNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
 }
-
-socket.on("tourData", function(data) {
-	tour = data;
-
-	building = new TourRoom(tour);
-	scene.add(building);
-});
 
 function TourRoom(tourData) {
 	this.mesh = new THREE.Group();
