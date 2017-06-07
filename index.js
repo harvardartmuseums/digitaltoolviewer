@@ -26,6 +26,10 @@ app.get('/js/CSS3DRenderer.js', function(req, res){
 	res.sendFile(path.join(__dirname, '/js/CSS3DRenderer.js'));
 });
 
+app.get('/js/digitaltoolviewer.min.js', function(req, res){
+	res.sendFile(path.join(__dirname, '/js/CSS3DRenderer.js'));
+});
+
 io.on('connection', function(socket) {
 	socket.on("getTour", function(number) {
 		http.get('http://www.harvardartmuseums.org/tour/' + number + '/getInfo', (res) => {

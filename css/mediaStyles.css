@@ -1,0 +1,117 @@
+.embedModule {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #000000;
+}
+
+.videoModule {
+	background-color: #000000;
+}
+
+.videoModule .error {
+	box-sizing: border-box;
+	background-color: #000000;
+	color: #FFFFFF;
+	padding: 1%;
+	font-size: 10px;
+	font-family: 'Cabin';
+	width: 100%;
+	height: 100%;
+}
+
+.textModule {
+	box-sizing: border-box;
+	padding: 16px 48px;
+	font-size: 16px;
+	line-height: 155%;
+	font-family: 'Cabin';
+	background-color: #FFFFFF;
+	color: #000000;
+	overflow: hidden;
+}
+
+.textModule h3 {
+	text-align: center;
+	font-weight: normal;
+	font-size: 155%;
+	line-height: 125%;
+}
+
+.textModule a {
+	color: #000000;
+}
+
+.textModule a:hover {
+	color: #AAAAAA;
+}
+
+.textModule a:visited {
+	color: #000000;
+}
+
+.overlayModule {
+	background-color: #000000;
+}
+
+.overlayModule img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.slideshowModule.slides {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+}
+
+.slideshowModule.slides>div {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.labeledDiv {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	background-color: #000000;
+}
+
+.labeledDiv img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.labeledDiv span {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	padding: 8px;
+	background-color: rgba(0, 0, 0, 0.3);
+	line-height: 155%;
+	font-family: 'Cabin';
+	color: #FFFFFF;
+	font-size: 10px;
+}
+
+.labeledDiv h1, .labeledDiv h2 {
+	display: inline;
+	margin: 0px;
+}
+
+.slideshowModule.grid img {
+	float: left;
+	object-fit: contain;
+}
