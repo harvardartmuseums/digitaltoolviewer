@@ -46,12 +46,12 @@ function SlideshowModule(width, height, module) {
 		var keyframes = "@keyframes s" + module.id + " {";
 		for (var i = 0; i < module.images.length; i++) {
 			keyframes += i*100/module.images.length + "%, ";
-			keyframes += (i + .66)*100/module.images.length + "% ";
+			keyframes += (i + .9)*100/module.images.length + "% ";
 			keyframes += "{left: " + -i*100 + "%} ";
 		}
 		keyframes += "100% {left: -" + module.images.length*100 + "%}}";
 		styleSheet.insertRule(keyframes, index);
-		container.style.animation = "s" + module.id + " " + module.images.length*5*(1.1 - .2*Math.random()) + "s infinite";
+		container.style.animation = "s" + module.id + " " + module.images.length*15*(1.1 - .2*Math.random()) + "s infinite";
 
 		var text;
 		for (var i = 0; i < module.images.length; i++) {
