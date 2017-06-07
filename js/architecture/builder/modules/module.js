@@ -169,7 +169,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	if (interactive) {
 		var interactionPlane = cutoutPlane.clone();
 		interactionPlane.material = brightMaterial;
-		interactionPlane.position.set(pos.x, pos.y, pos.z);
+		interactionPlane.position.set(pos.x, pos.y, 1);
 		interactionPlane.layers.set(1);
 		mesh.add(interactionPlane);
 
