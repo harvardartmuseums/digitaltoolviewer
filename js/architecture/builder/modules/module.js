@@ -183,10 +183,11 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.position.setFromMatrixPosition(cutoutPlane.matrixWorld);
 	cssObject.setRotationFromQuaternion(cutoutPlane.getWorldQuaternion());
 	cssObject.scale.setFromMatrixScale(cutoutPlane.matrixWorld);
+	cssObject.scale.z = 0;
 
 	if (highres) {
-		//cssObject.scale.x *= .25;
-		//cssObject.scale.y *= .25;
+		cssObject.scale.x *= .25;
+		cssObject.scale.y *= .25;
 	}
 
 	// if not currently updating renderer, update renderer
