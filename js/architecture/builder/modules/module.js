@@ -200,7 +200,6 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.position.setFromMatrixPosition(cutoutPlane.matrixWorld);
 	cssObject.setRotationFromQuaternion(cutoutPlane.getWorldQuaternion());
 	cssObject.scale.setFromMatrixScale(cutoutPlane.matrixWorld);
-	cssObject.update();
 
 	console.log(cssObject.matrixWorld, cutoutPlane.matrixWorld);
 
