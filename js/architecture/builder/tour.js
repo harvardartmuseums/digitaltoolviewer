@@ -30,7 +30,7 @@ function buildTour() {
 	socket.on("tourData", function(data) {
 		tour = data;
 
-		Object3D.DefaultMatrixAutoUpdate = false;
+		THREE.Object3D.DefaultMatrixAutoUpdate = false;
 
 		building = new TourRoom(tour);
 		scene.add(building);
