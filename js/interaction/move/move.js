@@ -16,22 +16,22 @@ function move() {
 function keyHandler() {
 	if (keysDown[37]) {
 		camera.rotateY(THREE.Math.degToRad(1));
-		checkMirrors();
+		//checkMirrors();
 	} 
 	if (keysDown[39]) {
 		camera.rotateY(THREE.Math.degToRad(-1));
-		checkMirrors();
+		//checkMirrors();
 	} 
 	if (keysDown[38]) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(5));
-			checkMirrors();
+			//checkMirrors();
 		}
 	} 
 	if (keysDown[40]) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(-5));
-			checkMirrors();
+			//checkMirrors();
 		}
 	}
 }
