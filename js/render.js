@@ -47,7 +47,7 @@ function setupRendering() {
 	setupWebGL();
 	setupiPadPreview();
 
-	//setupMirrors();
+	setupMirrors();
 }
 
 function setupCSS() {
