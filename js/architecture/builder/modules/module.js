@@ -148,8 +148,6 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	(height == undefined)? height = cssElement.offsetHeight : height = height;
 	(scale == undefined)? scale = new THREE.Vector3(1, 1, 1) : scale = scale;
 
-	console.log(width, height, scale.x, scale.y, scale.z);
-
 	// set a hair forward of position to avoid collisions
 	pos.z += .01;
 
@@ -184,6 +182,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	mesh.updateMatrixWorld();
 	cssObject.position.setFromMatrixPosition(cutoutPlane.matrixWorld);
 	cssObject.setRotationFromQuaternion(cutoutPlane.getWorldQuaternion());
+	console.log(cssObject.position.x, cssObject.position.y, cssObject.position.z);
 	cssObject.scale.setFromMatrixScale(cutoutPlane.matrixWorld);
 
 	if (highres) {
