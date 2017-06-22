@@ -27,6 +27,8 @@ function getTourFromURL() {
 }
 
 function buildTour() {
+	Object3D.DefaultMatrixAutoUpdate = false;
+
 	socket.on("tourData", function(data) {
 		tour = data;
 
@@ -58,6 +60,7 @@ function TourRoom(tourData) {
 
 	var tstand = new TStand(tourData.title, tourData.image_file, tourData.image_caption, tourData.image_credit, tourData.description);
 	tstand.position.set(0, 0, -wallDepth*3.01);
+	tstand.updateMatrix();
 	this.mesh.add(tstand);
 
 	for (var i = 0; i < walls; i++) {
@@ -79,6 +82,7 @@ function TourRoom(tourData) {
 				wall.rotateY(THREE.Math.degToRad(-90));
 				break;
 		}
+		wall.updateMatrix();
 		this.mesh.add(wall);
 	}
 	
