@@ -148,6 +148,8 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	(height == undefined)? height = cssElement.offsetHeight : height = height;
 	(scale == undefined)? scale = new THREE.Vector3(1, 1, 1) : scale = scale;
 
+	console.log(width, height, scale.x, scale.y, scale.z);
+
 	// set a hair forward of position to avoid collisions
 	pos.z += .01;
 
