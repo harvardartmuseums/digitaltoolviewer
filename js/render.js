@@ -39,6 +39,7 @@ function setupRendering() {
 	
 	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, 10000);
 	camera.layers.enable(2);
+	camera.mirrorsEnabled = true;
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
@@ -76,24 +77,24 @@ function setupiPadPreview() {
 }
 
 function setupMirrors() {
-	frustum = new THREE.Frustum();
-	cameraViewProjectionMatrix = new THREE.Matrix4();
+	//frustum = new THREE.Frustum();
+	//cameraViewProjectionMatrix = new THREE.Matrix4();
 }
 
 function checkMirrors() {
-	camera.updateMatrixWorld();
-	camera.matrixWorldInverse.getInverse(camera.matrixWorld);
-	cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-	frustum.setFromMatrix(cameraViewProjectionMatrix);
+	//camera.updateMatrixWorld();
+	//camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+	//cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+	//frustum.setFromMatrix(cameraViewProjectionMatrix);
 
-	camera.layers.set(0);
-	camera.layers.enable(2);
+	//camera.layers.set(0);
+	//camera.layers.enable(2);
 
-	for (var i = 0; i < mirrors.length; i++) {
-		if (frustum.intersectsObject(mirrors[i])) {
-			camera.layers.enable(mirrors[i].layer);
-		}
-	}
+	//for (var i = 0; i < mirrors.length; i++) {
+	//	if (frustum.intersectsObject(mirrors[i])) {
+	//		camera.layers.enable(mirrors[i].layer);
+	//	}
+	//}
 }
 
 // Animate both the WebGL and the CSS transforms scenes
