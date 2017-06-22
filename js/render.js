@@ -17,6 +17,7 @@ var interactionMethod = [];
 var mirrors = [];
 var frustum;
 var cameraViewMatrix;
+var mirrorFrameCount = 0;
 
 var lastUpdated;
 var ended = true;
@@ -117,4 +118,6 @@ function animate() {
 	interactionRenderer.render(scene, interactionCamera);
 	interactionCamera.layers.set(1);
 	interactionRenderer.render(scene, interactionCamera);
+
+	mirrorFrameCount++;
 }
