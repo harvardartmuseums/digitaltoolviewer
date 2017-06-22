@@ -18,6 +18,7 @@ function Slide(slide) {
 	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
 	var label = new THREE.Mesh(geometry, material);
 	label.position.set(0, -(wallUnitWidth - wallDepth*3)/8, 0);
+	label.updateMatrix();
 	this.mesh.add(label);
 
 	cleanModules(slide.modules, this.mesh, []);

@@ -27,10 +27,10 @@ function getTourFromURL() {
 }
 
 function buildTour() {
-	Object3D.DefaultMatrixAutoUpdate = false;
-
 	socket.on("tourData", function(data) {
 		tour = data;
+
+		Object3D.DefaultMatrixAutoUpdate = false;
 
 		building = new TourRoom(tour);
 		scene.add(building);

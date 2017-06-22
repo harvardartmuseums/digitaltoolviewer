@@ -7,12 +7,14 @@ function AudioModule(width, height, module) {
 
 	var label = new ModuleLabel(width/3, module.audio.title, undefined, module.audio.credit);
 	label.position.set(0, -height/6 - .1*height/2 - width/6, 0);
+	label.updateMatrix();
 	this.mesh.add(label);
 	
 
 	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/6);
 	var shelf = new THREE.Mesh(geometry, wallMaterial);
 	shelf.position.set(0, -height/6 - .1*height/4, width/12);
+	shelf.updateMatrix();
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 	interactiveObjects.push(shelf);
@@ -21,6 +23,7 @@ function AudioModule(width, height, module) {
 	geometry = new THREE.BoxBufferGeometry(width/5, 3*height/12, width/10);
 	var speaker = new THREE.Mesh(geometry, speakerMaterial);
 	speaker.position.set(0, -height/24, width/12);
+	speaker.updateMatrix();
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
@@ -30,6 +33,7 @@ function AudioModule(width, height, module) {
 	speaker = new THREE.Mesh(geometry, speakerMaterial);
 	speaker.rotateX(THREE.Math.degToRad(90));
 	speaker.position.set(0, height/12, width/12);
+	speaker.updateMatrix();
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
@@ -39,6 +43,7 @@ function AudioModule(width, height, module) {
 	speaker = new THREE.Mesh(geometry, speakerGrillMaterial);
 	speaker.scale.set(1, 1, .25);
 	speaker.position.set(0, height/12, width/12 + width/20);
+	speaker.updateMatrix();
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
@@ -48,6 +53,7 @@ function AudioModule(width, height, module) {
 	geometry = new THREE.SphereBufferGeometry(width/100);
 	speaker = new THREE.Mesh(geometry, playButtonMaterial);
 	speaker.position.set(0, -width/10, width/12 + width/20);
+	speaker.updateMatrix();
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);

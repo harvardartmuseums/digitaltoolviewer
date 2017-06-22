@@ -44,6 +44,7 @@ function setupRendering() {
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
+	camera.updateMatrix();
 
 	setupCSS();
 	setupWebGL();

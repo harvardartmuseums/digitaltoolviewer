@@ -31,10 +31,12 @@ function TextPanel(title, image, caption, credit, description) {
 	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
 	var label = new THREE.Mesh(geometry, material);
 	label.position.set(0, wallUnitWidth/6 - wallUnitWidth/4, 0);
+	label.updateMatrix();
 	this.mesh.add(label);
 
 	this.mesh.position.set(0, wallHeight/2, 0);
 	this.mesh.rotateY(THREE.Math.degToRad(180));
+	this.mesh.updateMatrix();
 	
 
 	return this.mesh;

@@ -10,10 +10,12 @@ function Floor(width, breadth) {
 
 	var light = new THREE.PointLight(0xffffff, .2);
 	light.position.set(0, wallHeight/3 + wallDepth/2, 0);
+	light.updateMatrix();
 	light.layers.enable(1);
 	this.mesh.add(light);
 
 	this.mesh.position.set(0, -wallDepth/2, 0);
+	this.mesh.updateMatrix();
 
 	return this.mesh;
 }
@@ -29,6 +31,7 @@ function Ceiling(width, breadth) {
 	this.mesh.add(ceiling);
 	
 	this.mesh.position.set(0, wallHeight + wallDepth/2, 0);
+	this.mesh.updateMatrix();
 
 	return this.mesh;
 }
@@ -45,11 +48,13 @@ function Wall(door) {
 
 		box = new THREE.Mesh(geometry, wallMaterial);
 		box.position.set((wallUnitWidth - doorWidth)/2, wallHeight/2, 0);
+		box.updateMatrix();
 		this.mesh.add(box);
 		obstacles.push(box);
 	
 		box = new THREE.Mesh(geometry, wallMaterial);
 		box.position.set(-(wallUnitWidth - doorWidth)/2, wallHeight/2, 0);
+		box.updateMatrix();
 		this.mesh.add(box);
 		obstacles.push(box);
 
@@ -58,6 +63,7 @@ function Wall(door) {
 
 		box = new THREE.Mesh(geometry, wallMaterial);
 		box.position.set(0, (wallHeight + doorHeight)/2, 0);
+		box.updateMatrix();
 		this.mesh.add(box);
 
 		// Door bottom
@@ -65,6 +71,7 @@ function Wall(door) {
 
 		box = new THREE.Mesh(geometry, floorMaterial);
 		box.position.set(0, -wallDepth/2, 0);
+		box.updateMatrix();
 		this.mesh.add(box);
 	} else {
 		// Plain wall
@@ -72,6 +79,7 @@ function Wall(door) {
 
 		box = new THREE.Mesh(geometry, wallMaterial);
 		box.position.set(0, wallHeight/2, 0);
+		box.updateMatrix();
 		this.mesh.add(box);
 		obstacles.push(box);
 	}

@@ -55,14 +55,17 @@ function addModulesToSlide(modules, slide) {
 	if (modules.length == 1) {
 		module = new Module(modules[0]);
 		module.position.set(0, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		module.updateMatrix();
 		slide.add(module);
 	} else if (modules.length == 2) {
 		module = new Module(modules[0]);
 		module.position.set((wallUnitWidth - wallDepth*3)/8, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		module.updateMatrix();
 		slide.add(module);
 
 		module = new Module(modules[1]);
 		module.position.set(-(wallUnitWidth - wallDepth*3)/8, -1.5*(wallUnitWidth - wallDepth*3)/4, .01);
+		module.updateMatrix();
 		slide.add(module);
 	} else {
 		var locations = moduleLocations.slice(0, 2*Math.ceil(modules.length/2));
@@ -75,6 +78,7 @@ function addModulesToSlide(modules, slide) {
 			module = new Module(modules[i]);
 			location = Math.floor(locations.length*Math.random());
 			module.position.copy(locations[location]);
+			module.updateMatrix();
 			locations.splice(location, 1);
 			slide.add(module);
 		}
