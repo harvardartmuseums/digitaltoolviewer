@@ -201,8 +201,8 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
 
 	if (highres) {
-		//cssObject.scale.x *= .25;
-		//cssObject.scale.y *= .25;
+		cssObject.scale.x = .25;
+		cssObject.scale.y = .25;
 	}
 
 	cssObject.updateMatrix();
