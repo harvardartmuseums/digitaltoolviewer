@@ -198,14 +198,18 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	// to match its WebGL plane
 	mesh.updateMatrixWorld();
 	cutoutPlane.updateMatrixWorld();
+	var p, q, s;
+	cutoutPlane.matrixWorld.decompose(p, q, s);
+	console.log(p, q, s);
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
+	cssObject.matrixWorld.decompose(p, q, s);
+	console.log(p, q, s);
+	console.log("\n");
 
 	if (highres) {
-		cssObject.scale.x = .25;
-		cssObject.scale.y = .25;
+		cssObject.scale.x *= .25;
+		cssObject.scale.y *= .25;
 	}
-
-	cssObject.updateMatrix();
 
 	// if not currently updating renderer, update renderer
 	if (ended) {
