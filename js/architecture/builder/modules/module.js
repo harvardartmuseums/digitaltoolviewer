@@ -197,12 +197,14 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	// adjust css object location, orientation, and scale
 	// to match its WebGL plane
 	mesh.updateMatrixWorld();
+	cutoutPlane.updateMatrix();
 	//cssObject.position.setFromMatrixPosition(cutoutPlane.matrixWorld);
 	//cssObject.setRotationFromQuaternion(cutoutPlane.getWorldQuaternion());
 	//cssObject.scale.setFromMatrixScale(cutoutPlane.matrixWorld);
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
+	cssObject.updateMatrix();
 
-	//console.log(cssObject.matrixWorld, cutoutPlane.matrixWorld);
+	console.log(cssObject.matrixWorld, cutoutPlane.matrixWorld);
 
 	if (highres) {
 		cssObject.scale.x *= .25;
