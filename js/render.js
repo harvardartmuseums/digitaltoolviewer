@@ -15,17 +15,19 @@ var interactiveObjects = [];
 var interactionMethod = [];
 
 var mirrors = [];
-var frustum;
-var cameraViewMatrix;
 var mirrorFrameCount = 0;
 
 var lastUpdated;
 var ended = true;
 
+function resize() {	
+	renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	cssRenderer.setSize(cssCanvas.offsetWidth, cssCanvas.offsetHeight);
+}
+
 function setupResize() {
 	window.addEventListener("resize", function() {
-		renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-		cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+		resize();
 
 		if (ended) {
 			animate();
@@ -49,15 +51,13 @@ function setupRendering() {
 	setupCSS();
 	setupWebGL();
 	setupiPadPreview();
-
-	setupMirrors();
 }
 
 function setupCSS() {
 	cssOverlay = new THREE.Scene();
 
 	cssRenderer = new THREE.CSS3DRenderer();
-	cssRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	cssRenderer.setSize(cssCanvas.offsetWidth, cssCanvas.offsetHeight);
 	document.body.appendChild(cssRenderer.domElement);
 	cssRenderer.domElement.classList.add("threeJS");
 }
@@ -76,27 +76,6 @@ function setupiPadPreview() {
 	interactionRenderer = new THREE.WebGLRenderer({antialias: true});
 	interactionRenderer.autoClearDepth = false;
 	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-}
-
-function setupMirrors() {
-	//frustum = new THREE.Frustum();
-	//cameraViewProjectionMatrix = new THREE.Matrix4();
-}
-
-function checkMirrors() {
-	//camera.updateMatrixWorld();
-	//camera.matrixWorldInverse.getInverse(camera.matrixWorld);
-	//cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-	//frustum.setFromMatrix(cameraViewProjectionMatrix);
-
-	//camera.layers.set(0);
-	//camera.layers.enable(2);
-
-	//for (var i = 0; i < mirrors.length; i++) {
-	//	if (frustum.intersectsObject(mirrors[i])) {
-	//		camera.layers.enable(mirrors[i].layer);
-	//	}
-	//}
 }
 
 // Animate both the WebGL and the CSS transforms scenes

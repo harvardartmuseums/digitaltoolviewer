@@ -18,7 +18,13 @@ function getTourFromURL() {
 	if (match != null) {
 		tourNumber = match[1];
 		if (match[2]) {
-			camera.setViewOffset(5760, 3240, 1920*((match[2])%3), 1080*Math.floor(match[2]/3), 1920, 1080);
+			var offsetHorizontal = ((match[2])%3);
+			var offsetVertical = Math.floor(match[2]/3);
+			camera.setViewOffset(5760, 3240, 1920*offsetHorizontal, 1080*offsetVertical, 1920, 1080);
+			document.getElementById("cssCanvas").style.width = "300vw";
+			document.getElementById("cssCanvas").style.height = "300vh";
+			document.getElementById("cssCanvas").style.top = (-100*offsetVertical) + "vh";
+			document.getElementById("cssCanvas").style.left = (-100*offsetHorizontal) + "vw";
 		}
 		socket.emit("getTour", tourNumber);
 		return true;

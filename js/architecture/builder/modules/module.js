@@ -210,10 +210,6 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 		cssObject.scale.multiplyScalar(.25);
 	}
 
-	if (camera.view) {
-		cssObject.scale.multiplyScalar(3);
-	}
-
 	cssObject.updateMatrix();
 
 	// if not currently updating renderer, update renderer
