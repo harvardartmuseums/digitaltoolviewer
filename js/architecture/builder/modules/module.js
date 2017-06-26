@@ -207,9 +207,14 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.scale.set(s.x, s.y, s.z);
 
 	if (highres) {
-		cssObject.scale.x *= .25;
-		cssObject.scale.y *= .25;
+		cssObject.scale.multiplyScalar(.25);
 	}
+
+	if (camera.view) {
+		cssObject.position.multiplyScalar(3);
+		cssObject.scale.multiplyScalar(3);
+	}
+
 	cssObject.updateMatrix();
 
 	// if not currently updating renderer, update renderer
