@@ -19,6 +19,7 @@ function getTourFromURL() {
 		tourNumber = match[1];
 		if (match[2]) {
 			camera.setViewOffset(5760, 3240, 1920*((match[2])%3), 1080*Math.floor(match[2]/3), 1920, 1080);
+			camera.updateProjectionMatrix();
 		}
 		socket.emit("getTour", tourNumber);
 		return true;
