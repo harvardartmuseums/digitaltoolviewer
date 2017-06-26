@@ -204,7 +204,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cutoutPlane.matrixWorld.decompose(p, r, s);
 	cssObject.position.set(p.x, p.y, p.z);
 	cssObject.setRotationFromQuaternion(r);
-	cssObject.scale.set(s);
+	cssObject.scale.set(s.x, s.y, s.z);
 
 	if (highres) {
 		cssObject.scale.x *= .25;
