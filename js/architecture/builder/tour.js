@@ -23,8 +23,8 @@ function getTourFromURL() {
 			camera.setViewOffset(5760, 3240, 1920*offsetHorizontal, 1080*offsetVertical, 1920, 1080);
 			cssCanvas.style.width = "300vw";
 			cssCanvas.style.height = "300vh";
-			cssCanvas.style.top = (-100*offsetVertical) + "vh";
-			cssCanvas.style.left = (-100*offsetHorizontal) + "vw";
+			cssRenderer.domElement.style.top = (-100*offsetVertical) + "vh";
+			cssRenderer.domElement.style.left = (-100*offsetHorizontal) + "vw";
 			resize();
 		}
 		socket.emit("getTour", tourNumber);
