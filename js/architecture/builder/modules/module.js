@@ -198,13 +198,14 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	// to match its WebGL plane
 	mesh.updateMatrixWorld();
 	cutoutPlane.updateMatrixWorld();
-	var p, q, s;
-	cutoutPlane.matrixWorld.decompose(p, q, s);
-	console.log(p, q, s);
+	var p = new THREE.Vector3();
+	var r = new THREE.Quaternion();
+	var s = new THREE.Vector3();
+	cutoutPlane.matrixWorld.decompose(p, r, s);
+	console.log(p, r, s);
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
-	cssObject.matrixWorld.decompose(p, q, s);
-	console.log(p, q, s);
-	console.log("\n");
+	cssObject.matrixWorld.decompose(p, r, s);
+	console.log(p, r, s);
 
 	if (highres) {
 		cssObject.scale.x *= .25;
