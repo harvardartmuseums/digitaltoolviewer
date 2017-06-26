@@ -206,8 +206,9 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	var s2 = new THREE.Vector3();
 	cutoutPlane.matrixWorld.decompose(p, r, s);
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
-	cssObject.matrixWorld.decompose(p, r, s);
+	cssObject.matrix.decompose(p2, r2, s2);
 	console.log("position", p.x - p2.x, p.y - p2.y, p.z, p2.z, "rotation", r.x - r2.x, r.y - r2.y, r.z - r2.z, r.w - r2.w, "scale", s.x, s2.x);
+	console.log(cssObject.position.x);
 
 	if (highres) {
 		cssObject.scale.x *= .25;
