@@ -26,7 +26,7 @@ function getTourFromURL() {
 			cssRenderer.domElement.style.top = (-100*offsetVertical) + "vh";
 			cssRenderer.domElement.style.left = (-100*offsetHorizontal) + "vw";
 			renderer.domElement.style.top = 100*offsetVertical + "vh";
-			renderer.domElement.style.left = (-100*offsetHorizontal) + "vw";
+			renderer.domElement.style.left = 100*offsetHorizontal + "vw";
 			resize();
 		}
 		socket.emit("getTour", tourNumber);
