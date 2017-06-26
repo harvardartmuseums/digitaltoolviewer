@@ -211,7 +211,6 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	}
 
 	if (camera.view) {
-		cssObject.position.multiplyScalar(3);
 		cssObject.scale.multiplyScalar(3);
 	}
 
