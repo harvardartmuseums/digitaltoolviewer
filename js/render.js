@@ -1,4 +1,5 @@
 var canvas;
+var cssCanvas;
 
 var scene;
 
@@ -37,6 +38,7 @@ function setupResize() {
 
 function setupRendering() {
 	canvas = document.getElementById("canvas");
+	cssCanvas = document.getElementById("cssCanvas");
 
 	scene = new THREE.Scene();
 	

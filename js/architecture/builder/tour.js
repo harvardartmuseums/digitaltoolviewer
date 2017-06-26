@@ -21,10 +21,11 @@ function getTourFromURL() {
 			var offsetHorizontal = ((match[2])%3);
 			var offsetVertical = Math.floor(match[2]/3);
 			camera.setViewOffset(5760, 3240, 1920*offsetHorizontal, 1080*offsetVertical, 1920, 1080);
-			document.getElementById("cssCanvas").style.width = "300vw";
-			document.getElementById("cssCanvas").style.height = "300vh";
-			document.getElementById("cssCanvas").style.top = (-100*offsetVertical) + "vh";
-			document.getElementById("cssCanvas").style.left = (-100*offsetHorizontal) + "vw";
+			cssCanvas.style.width = "300vw";
+			cssCanvas.style.height = "300vh";
+			cssCanvas.style.top = (-100*offsetVertical) + "vh";
+			cssCanvas.style.left = (-100*offsetHorizontal) + "vw";
+			resize();
 		}
 		socket.emit("getTour", tourNumber);
 		return true;
