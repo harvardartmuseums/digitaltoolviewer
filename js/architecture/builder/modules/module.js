@@ -177,7 +177,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	var geometry = new THREE.PlaneBufferGeometry(width - 3, height - 3);
 	var cutoutPlane = new THREE.Mesh(geometry, cutoutMaterial);
 	cutoutPlane.position.set(pos.x, pos.y, pos.z);
-	cutoutPlane.scale.set(scale.x, scale.y, scale.z);
+	cutoutPlane.scale.set(scale.x, scale.y, 1);
 	cutoutPlane.updateMatrix();
 	cutoutPlane.layers.set(2);
 	mesh.add(cutoutPlane);
@@ -211,6 +211,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 		cssObject.scale.x *= .25;
 		cssObject.scale.y *= .25;
 	}
+	cssObject.updateMatrix();
 
 	// if not currently updating renderer, update renderer
 	if (ended) {
