@@ -202,10 +202,10 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	var r = new THREE.Quaternion();
 	var s = new THREE.Vector3();
 	cutoutPlane.matrixWorld.decompose(p, r, s);
-	console.log(p, r, s);
+	console.log(p.x, p.y, p.z, r.x, r.y, r.z, r.w, s.x, s.y, s.z);
 	cssObject.applyMatrix(cutoutPlane.matrixWorld);
 	cssObject.matrixWorld.decompose(p, r, s);
-	console.log(p, r, s);
+	console.log(p.x, p.y, p.z, r.x, r.y, r.z, r.w, s.x, s.y, s.z);
 
 	if (highres) {
 		cssObject.scale.x *= .25;
