@@ -36,11 +36,11 @@ function CloseupModule(width, height, module) {
 	for (var i = 0; i < module.images[0].hotspots.length; i++) {
 		keyframes += i*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + (module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + (module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -(module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + -(module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: 0%; top: 0%; transform: scale(.05, .05)} ";
+		keyframes += "{left: -950%; top: -950%; transform: scale(.05, .05)} ";
 
 		zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x - 2.5, module.images[0].hotspots[i].coord_y - 2.5, module.images[0].hotspots[i].caption));
 	}

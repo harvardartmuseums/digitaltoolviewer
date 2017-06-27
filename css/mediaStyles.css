@@ -60,8 +60,8 @@
 	position: absolute;
 	width: 2000%;
 	height: 2000%;
-	top: 0px;
-	left: 0px;
+	top: -950%;
+	left: -950%;
 	transform: scale(.05, .05);
 	transform-origin: 50% 50%;
 }
