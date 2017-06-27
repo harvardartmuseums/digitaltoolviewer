@@ -50,6 +50,47 @@
 	color: #000000;
 }
 
+.closeupModule {
+	position: absolute;
+	background-color: #000000;
+}
+
+.zoom {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	transform: scale(1, 1);
+}
+
+.zoom>img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.zoom .closeup {
+	border: .5% solid #ffffff;
+	width: 5%;
+	height: 5%;
+}
+
+.zoom .closeup span {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	padding: 6px;
+	background-color: rgba(0, 0, 0, 0.3);
+	line-height: 155%;
+	font-family: 'Cabin';
+	color: #FFFFFF;
+	font-size: 8px;
+}
+
 .overlayModule {
 	background-color: #000000;
 }

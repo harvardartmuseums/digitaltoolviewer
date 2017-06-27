@@ -4,7 +4,7 @@ var moduleTypes = {
 	3: {label: false, cons: SlideshowModule, frame: Screen},
 	4: {label: true, media: "videos", cons: VideoModule, frame: Screen},
 	5: {label: false, cons: AudioModule},
-	6: {label: true, media: "images", cons: CloseupModule, frame: GlazedFrame},
+	6: {label: true, media: "images", cons: CloseupModule, frame: Screen},
 	7: {label: true, media: "images", cons: OverlayModule, frame: Screen},
 	8: {label: true, media: "images", cons: ComparisonModule, frame: Screen},
 	11: {label: false, cons: EmbedModule, frame: Screen},
