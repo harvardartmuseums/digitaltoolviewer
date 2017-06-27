@@ -58,11 +58,12 @@
 
 .zoom {
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	width: 2000%;
+	height: 2000%;
 	top: 0px;
 	left: 0px;
 	transform: scale(.05, .05);
+	transform-origin: 50% 50%;
 }
 
 .zoom>img {
