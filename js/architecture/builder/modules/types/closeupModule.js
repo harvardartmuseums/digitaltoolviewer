@@ -27,9 +27,12 @@ function CloseupModule(width, height, module) {
 	element.appendChild(zoom);
 	zoom.className = "zoom";
 
+	var div = document.createElement("div");
+	zoom.appendChild(div);
+
 	var img = document.createElement("img");
 	img.src = module.images[0].file;
-	zoom.appendChild(img);
+	div.appendChild(img);
 	
 	var index = styleSheet.length;
 	var keyframes = "@keyframes z" + module.id + " {";
@@ -39,13 +42,13 @@ function CloseupModule(width, height, module) {
 			keyframes += "100%, ";
 		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -20*(module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + -20*(module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -20*module.images[0].hotspots[i].coord_x + "%; top: " + -20*module.images[0].hotspots[i].coord_y + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
 		keyframes += "{left: -950%; top: -950%; transform: scale(.05, .05)} ";
 
-		zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x - 2.5, module.images[0].hotspots[i].coord_y - 2.5, module.images[0].hotspots[i].caption));
+		div.appendChild(closeup(module.images[0].hotspots[i].coord_x - 2.5, module.images[0].hotspots[i].coord_y - 2.5, module.images[0].hotspots[i].caption));
 	}
 	styleSheet.insertRule(keyframes, index);
 	zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
