@@ -35,6 +35,9 @@ function CloseupModule(width, height, module) {
 	var keyframes = "@keyframes z" + module.id + " {";
 	for (var i = 0; i < module.images[0].hotspots.length; i++) {
 		keyframes += i*100/module.images[0].hotspots.length + "%, ";
+		if (i == 0) {
+			keyframes += "100%, ";
+		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
 		keyframes += "{left: " + -20*(module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + -20*(module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
 
