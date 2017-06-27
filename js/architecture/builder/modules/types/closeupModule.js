@@ -36,7 +36,7 @@ function CloseupModule(width, height, module) {
 	for (var i = 0; i < module.images[0].hotspots.length; i++) {
 		keyframes += i*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + 2000*(module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + 2000*(module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -2000*(module.images[0].hotspots[i].coord_x - 2.5) + "%; top: " + -2000*(module.images[0].hotspots[i].coord_y - 2.5) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
