@@ -34,10 +34,10 @@ function CloseupModule(width, height, module) {
 	img.onload = function() {
 		if (img.naturalWidth/img.naturalHeight < width/height) {
 			div.style.margin = "0 " + (100 - 100*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
-			div.style.height = 100*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
+			div.style.width = 100*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
 		} else {
 			div.style.margin = (100 - 100*(width/height)*(img.naturalWidth/img.naturalHeight))/2 + "% 0";
-			div.style.width = 100*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
+			div.style.height = 100*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
 		}
 	};
 	img.src = module.images[0].file;
