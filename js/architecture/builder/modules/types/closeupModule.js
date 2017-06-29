@@ -31,6 +31,13 @@ function CloseupModule(width, height, module) {
 	zoom.appendChild(div);
 
 	var img = document.createElement("img");
+	img.onload = function() {
+		if (img.width > img.height) {
+			div.style.height = 100*img.height/img.width + "%";
+		} else {
+			div.style.width = 100*img.width/img.height + "%";
+		}
+	};
 	img.src = module.images[0].file;
 	div.appendChild(img);
 	
