@@ -33,9 +33,9 @@ function CloseupModule(width, height, module) {
 	var img = document.createElement("img");
 	img.onload = function() {
 		if (img.width > img.height) {
-			div.style.height = 100*img.height/img.width + "%";
+			div.style.height = 100*img.naturalHeight/img.naturalWidth + "%";
 		} else {
-			div.style.width = 100*img.width/img.height + "%";
+			div.style.width = 100*img.naturalWidth/img.naturalHeight + "%";
 		}
 	};
 	img.src = module.images[0].file;
@@ -49,7 +49,7 @@ function CloseupModule(width, height, module) {
 			keyframes += "100%, ";
 		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -20*module.images[0].hotspots[i].coord_x + "%; top: " + -20*module.images[0].hotspots[i].coord_y + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -20*(module.images[0].hotspots[i].coord_x + 5) + "%; top: " + -20*(module.images[0].hotspots[i].coord_y + 5) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
