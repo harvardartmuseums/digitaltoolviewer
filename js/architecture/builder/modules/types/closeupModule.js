@@ -27,21 +27,18 @@ function CloseupModule(width, height, module) {
 	element.appendChild(zoom);
 	zoom.className = "zoom";
 
-	var div = document.createElement("div");
-	zoom.appendChild(div);
-
 	var img = document.createElement("img");
 	img.onload = function() {
 		if (img.naturalWidth/img.naturalHeight < width/height) {
-			div.style.margin = "0 " + (1000 - 1000*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
-			div.style.width = 1000*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
+			zoom.style.margin = "0 " + (1000 - 1000*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
+			zoom.style.width = 1000*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
 		} else {
-			div.style.margin = (1000 - 1000*(width/height)*(img.naturalWidth/img.naturalHeight))/2 + "% 0";
-			div.style.height = 1000*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
+			zoom.style.margin = (1000 - 1000*(width/height)*(img.naturalWidth/img.naturalHeight))/2 + "% 0";
+			zoom.style.height = 1000*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
 		}
 	};
 	img.src = module.images[0].file;
-	div.appendChild(img);
+	zoom.appendChild(img);
 	
 	var index = styleSheet.length;
 	var keyframes = "@keyframes z" + module.id + " {";
@@ -57,7 +54,7 @@ function CloseupModule(width, height, module) {
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
 		keyframes += "{left: -450%; top: -450%; transform: scale(.1, .1)} ";
 
-		div.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
+		zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
 	}
 	styleSheet.insertRule(keyframes, index);
 	zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
