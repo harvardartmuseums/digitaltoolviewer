@@ -32,7 +32,7 @@ function CloseupModule(width, height, module) {
 
 	var img = document.createElement("img");
 	img.onload = function() {
-		if (img.naturalWidth/img.naturalHeight > width/height) {
+		if (img.naturalWidth/img.naturalHeight < width/height) {
 			div.style.margin = "0 " + (100 - 100*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
 			div.style.height = 100*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
 		} else {
