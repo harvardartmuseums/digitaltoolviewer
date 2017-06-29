@@ -58,11 +58,11 @@
 
 .zoom {
 	position: absolute;
-	width: 2000%;
-	height: 2000%;
-	top: -950%;
-	left: -950%;
-	transform: scale(.05, .05);
+	width: 1000%;
+	height: 1000%;
+	top: -450%;
+	left: -450%;
+	transform: scale(.1, .1);
 	transform-origin: 50% 50%;
 }
 
