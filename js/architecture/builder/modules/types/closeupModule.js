@@ -33,11 +33,11 @@ function CloseupModule(width, height, module) {
 	var img = document.createElement("img");
 	img.onload = function() {
 		if (img.naturalWidth/img.naturalHeight > width/height) {
-			div.style.margin = "0 " + (4*height - 4*width*img.naturalHeight/img.naturalWidth)/2 + "px";
-			div.style.height = 4*width*(img.naturalHeight/img.naturalWidth) + "px";
+			div.style.margin = "0 " + (100 - 100*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
+			div.style.height = 100*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
 		} else {
-			div.style.margin = (4*width - 4*height*img.naturalWidth/img.naturalHeight)/2 + "px 0";
-			div.style.width = 4*height*(img.naturalWidth/img.naturalHeight) + "px";
+			div.style.margin = (100 - 100*(width/height)*(img.naturalWidth/img.naturalHeight))/2 + "% 0";
+			div.style.width = 100*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
 		}
 	};
 	img.src = module.images[0].file;
