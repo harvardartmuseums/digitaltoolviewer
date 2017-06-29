@@ -32,10 +32,12 @@ function CloseupModule(width, height, module) {
 
 	var img = document.createElement("img");
 	img.onload = function() {
-		if (img.width > img.height) {
-			div.style.height = 100*img.naturalHeight/img.naturalWidth + "%";
+		if (img.naturalWidth/img.naturalHeight > div.width/div.height) {
+			div.style.margin = "0 0 0 " + (div.height - div.width*img.naturalHeight/img.naturalWidth)/2 + "px";
+			div.style.height = div.width*img.naturalHeight/img.naturalWidth + "px";
 		} else {
-			div.style.width = 100*img.naturalWidth/img.naturalHeight + "%";
+			div.style.margin = "0 " + (div.width - div.height*img.naturalWidth/img.naturalHeight)/2 + "px 0 0";
+			div.style.width = div.height*img.naturalWidth/img.naturalHeight + "px";
 		}
 	};
 	img.src = module.images[0].file;
