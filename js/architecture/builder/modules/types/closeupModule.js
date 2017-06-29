@@ -49,13 +49,13 @@ function CloseupModule(width, height, module) {
 			keyframes += "100%, ";
 		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -20*module.images[0].hotspots[i].coord_x + "%; top: " + -20*module.images[0].hotspots[i].coord_y + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -20*(module.images[0].hotspots[i].coord_x + 5) + "%; top: " + -20*(module.images[0].hotspots[i].coord_y + 5) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
 		keyframes += "{left: -950%; top: -950%; transform: scale(.05, .05)} ";
 
-		div.appendChild(closeup(module.images[0].hotspots[i].coord_x - 2.5, module.images[0].hotspots[i].coord_y - 2.5, module.images[0].hotspots[i].caption));
+		div.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
 	}
 	styleSheet.insertRule(keyframes, index);
 	zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
