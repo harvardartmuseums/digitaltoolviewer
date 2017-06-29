@@ -68,7 +68,7 @@
 }
 
 .zoom img {
-	position: relative;
+	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
@@ -76,7 +76,7 @@
 }
 
 .zoom .closeup {
-	position: relative;
+	position: absolute;
 	border: 5px solid #ffffff;
 	width: 10%;
 	height: 10%;

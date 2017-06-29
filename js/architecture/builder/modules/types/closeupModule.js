@@ -28,16 +28,16 @@ function CloseupModule(width, height, module) {
 	zoom.className = "zoom";
 
 	var img = document.createElement("img");
-	var paddingX = 0;
-	var paddingY = 0;
+	var scaleX = 1;
+	var scaleY = 1;
 	img.onload = function() {
 		if (img.naturalWidth/img.naturalHeight < width/height) {
-			paddingX = (1 - (height/width)*(img.naturalHeight/img.naturalWidth))/2;
-			zoom.style.padding = "0 " + 1000*paddingX + "%";
+			scaleX = (height/width)*(img.naturalHeight/img.naturalWidth);
+			zoom.style.padding = "0 " + (1000 - 1000*scaleX)/2 + "%";
 			//zoom.style.width = 1000*scaleX + "%";
 		} else {
-			paddingY = (1 - (width/height)*(img.naturalWidth/img.naturalHeight))/2;
-			zoom.style.padding = 1000*paddingY + "% 0";
+			scaleY = (width/height)*(img.naturalWidth/img.naturalHeight);
+			zoom.style.padding = (1000 - 1000*scaleY)/2 + "% 0";
 			//zoom.style.height = 1000*scaleY + "%";
 		}
 	};
@@ -52,7 +52,7 @@ function CloseupModule(width, height, module) {
 			keyframes += "100%, ";
 		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x) + 1000*paddingX + "%; top: " + -10*(module.images[0].hotspots[i].coord_y) + 1000*paddingY + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x) + "%; top: " + -10*(module.images[0].hotspots[i].coord_y) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
