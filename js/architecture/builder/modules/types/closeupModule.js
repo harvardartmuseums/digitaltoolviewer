@@ -28,13 +28,17 @@ function CloseupModule(width, height, module) {
 	zoom.className = "zoom";
 
 	var img = document.createElement("img");
+	var scaleX = 1;
+	var scaleY = 1;
 	img.onload = function() {
 		if (img.naturalWidth/img.naturalHeight < width/height) {
-			zoom.style.margin = "0 " + (1000 - 1000*(height/width)*(img.naturalHeight/img.naturalWidth))/2 + "%";
-			zoom.style.width = 1000*(height/width)*(img.naturalHeight/img.naturalWidth) + "%";
+			scaleX = (height/width)*(img.naturalHeight/img.naturalWidth);
+			zoom.style.margin = "0 " + (1000 - 1000*scaleX)/2 + "%";
+			zoom.style.width = 1000*scaleX + "%";
 		} else {
-			zoom.style.margin = (1000 - 1000*(width/height)*(img.naturalWidth/img.naturalHeight))/2 + "% 0";
-			zoom.style.height = 1000*(width/height)*(img.naturalWidth/img.naturalHeight) + "%";
+			scaleY = (width/height)*(img.naturalWidth/img.naturalHeight);
+			zoom.style.margin = (1000 - 1000*scaleY)/2 + "% 0";
+			zoom.style.height = 1000*scaleY + "%";
 		}
 	};
 	img.src = module.images[0].file;
@@ -48,7 +52,7 @@ function CloseupModule(width, height, module) {
 			keyframes += "100%, ";
 		}
 		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x + 5) + "%; top: " + -10*(module.images[0].hotspots[i].coord_y + 5) + "%; transform: scale(1, 1)} ";
+		keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x + 5)*(.5 + scaleX/2) + "%; top: " + -10*(module.images[0].hotspots[i].coord_y + 5)*(.5 + scaleY/2) + "%; transform: scale(1, 1)} ";
 
 		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
