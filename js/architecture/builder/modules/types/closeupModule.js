@@ -49,7 +49,7 @@ function CloseupModule(width, height, module) {
 				keyframes += "100%, ";
 			}
 			keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-			keyframes += "{left: " + (-10*(module.images[0].hotspots[i].coord_x)*scaleX - 1000*(1 - scaleX)) + "%; top: " + (-10*(module.images[0].hotspots[i].coord_y)*scaleY - 1000*(1 - scaleY)) + "%; transform: scale(1, 1)} ";
+			keyframes += "{left: " + (-10*(module.images[0].hotspots[i].coord_x)*scaleX - 1000*(1 - scaleX)/2) + "%; top: " + (-10*(module.images[0].hotspots[i].coord_y)*scaleY - 1000*(1 - scaleY)/2) + "%; transform: scale(1, 1)} ";
 
 			keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
 			keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
