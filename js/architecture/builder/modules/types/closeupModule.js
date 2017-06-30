@@ -40,30 +40,29 @@ function CloseupModule(width, height, module) {
 			zoom.style.margin = (1000 - 1000*scaleY)/2 + "% 0";
 			zoom.style.height = 1000*scaleY + "%";
 		}
+
+		var index = styleSheet.length;
+		var keyframes = "@keyframes z" + module.id + " {";
+		for (var i = 0; i < module.images[0].hotspots.length; i++) {
+			keyframes += i*100/module.images[0].hotspots.length + "%, ";
+			if (i == 0) {
+				keyframes += "100%, ";
+			}
+			keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
+			keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x)*scaleX + "%; top: " + -10*(module.images[0].hotspots[i].coord_y)*scaleY + "%; transform: scale(1, 1)} ";
+
+			keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
+			keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
+			keyframes += "{left: -450%; top: -450%; transform: scale(.1, .1)} ";
+
+			zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
+		}
+		styleSheet.insertRule(keyframes, index);
+		zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
+		zoom.style.animationDelay = -10*Math.random() + "s";
 	};
 	img.src = module.images[0].file;
 	zoom.appendChild(img);
-	
-	var index = styleSheet.length;
-	var keyframes = "@keyframes z" + module.id + " {";
-	for (var i = 0; i < module.images[0].hotspots.length; i++) {
-		keyframes += i*100/module.images[0].hotspots.length + "%, ";
-		if (i == 0) {
-			keyframes += "100%, ";
-		}
-		keyframes += (i + .4)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: " + -10*(module.images[0].hotspots[i].coord_x) + "%; top: " + -10*(module.images[0].hotspots[i].coord_y) + "%; transform: scale(1, 1)} ";
-		console.log(-10*(module.images[0].hotspots[i].coord_x), scaleX, -10*(module.images[0].hotspots[i].coord_y), scaleY);
-
-		keyframes += (i + .5)*100/module.images[0].hotspots.length + "%, ";
-		keyframes += (i + .9)*100/module.images[0].hotspots.length + "% ";
-		keyframes += "{left: -450%; top: -450%; transform: scale(.1, .1)} ";
-
-		zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
-	}
-	styleSheet.insertRule(keyframes, index);
-	zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
-	zoom.style.animationDelay = -10*Math.random() + "s";
 
 	setTimeout(function() {
 		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openCloseup.bind(element));
