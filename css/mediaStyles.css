@@ -77,12 +77,12 @@
 
 .zoom .closeup {
 	position: absolute;
-	border: 5px solid #ffffff;
 	width: 10%;
 	height: 10%;
 }
 
 .zoom .closeup span {
+	box-sizing: border-box;
 	display: block;
 	position: absolute;
 	bottom: 0px;
