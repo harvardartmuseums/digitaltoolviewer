@@ -56,7 +56,6 @@ screensIO.on('connection', function(socket) {
 	var id = getId();
 	screens.push(id);
 	socket.join(id);
-	socket.emit('id', id);
 
 	socket.on("getTour", function(number) {
 		http.get('http://www.harvardartmuseums.org/tour/' + number + '/getInfo', (res) => {
@@ -69,6 +68,7 @@ screensIO.on('connection', function(socket) {
 				});
 			} 
 		});
+		socket.emit('id', this);
 	}).bind(id);
 
 	socket.on("update", function(data) {
