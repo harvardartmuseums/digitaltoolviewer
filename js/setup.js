@@ -1,4 +1,5 @@
 var socket = io('/screens-namespace');
+
 socket.on("id", function(id) {
 	alert(id);
 });

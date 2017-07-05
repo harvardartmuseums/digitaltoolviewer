@@ -115,6 +115,7 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("update", function(data) {
+	console.log("update");
 	if (!canvas) {
 		canvas = document.createElement("canvas");
 		canvas.width = ImageData.width;
@@ -124,11 +125,12 @@ socket.on("update", function(data) {
 	canvas.putImageData(data, 0, 0);
 });
 
-socket.on("open", function(div, objectID) {
-	
+socket.on("open", function(div) {
+	console.log("open");
 });
 
 function move(direction) {
+	console.log("move");
 	socket.emit("move", direction);
 }
 </script>
