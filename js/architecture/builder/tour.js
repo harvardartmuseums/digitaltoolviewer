@@ -1,6 +1,8 @@
 var tour;
 var building;
 
+var thisScreen;
+
 function getFormData(e) {
 	e.preventDefault();
 	
@@ -18,6 +20,8 @@ function getTourFromURL() {
 	if (match != null) {
 		tourNumber = match[1];
 		if (match[2]) {
+			thisScreen = match[2];
+
 			var offsetHorizontal = ((match[2])%3);
 			var offsetVertical = Math.floor(match[2]/3);
 			camera.setViewOffset(5760, 3240, 1920*offsetHorizontal, 1080*offsetVertical, 1920, 1080);

@@ -1,4 +1,7 @@
-var socket = io();
+var socket = io('/screens-namespace');
+socket.on("id", function(id) {
+	alert(id);
+});
 
 var font = "Helvetica";
 

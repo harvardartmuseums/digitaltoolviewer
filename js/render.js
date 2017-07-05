@@ -14,6 +14,7 @@ var interactionCamera;
 var interactionRenderer;
 var interactiveObjects = [];
 var interactionMethod = [];
+var interactionContext;
 
 var mirrors = [];
 var mirrorFrameCount = 0;
@@ -78,6 +79,8 @@ function setupiPadPreview() {
 	interactionRenderer = new THREE.WebGLRenderer({antialias: true});
 	interactionRenderer.autoClearDepth = false;
 	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+
+	interactionContext = interactionRenderer.domElement.getContext();
 }
 
 // Animate both the WebGL and the CSS transforms scenes
@@ -102,4 +105,6 @@ function animate() {
 	interactionRenderer.render(scene, interactionCamera);
 
 	mirrorFrameCount++;
+
+	socket.emit("update", interactionContext.getImageData());
 }

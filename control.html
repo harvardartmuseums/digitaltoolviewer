@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>Digital Tool Lightbox Viewer</title>
+
+<style>
+body, html {
+	background-color: #000000;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font-family: 'Cabin', Helvetica, sans-serif;
+	color: #AAAAAA;
+}
+
+#controls {
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	font-size: 300%;
+	width: 100%;
+	height: 33.3%;
+}
+
+#controls span {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	width: 33.3%;
+	height: 50%;
+}
+
+#controls .left {
+	top: 25%;
+	left: 0%;
+}
+
+#controls .right {
+	top: 25%;
+	right: 0%;
+}
+
+#controls .up {
+	top: 0%;
+	left: 33.3%;
+}
+
+#controls .down {
+	bottom: 0%;
+	left: 33.3%;
+}
+
+#viewport, #mediaViewer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 33.3%;
+	left: 0%;
+	width: 100%;
+	height: 66.6%;
+	background-color: #000000;
+}
+
+#viewport {
+	z-index: 1;
+}
+
+#mediaViewer {
+	z-index: 10;
+	display: none;
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="controls">
+<span class="left" onclick="move(left)">&lArr;</span>
+<span class="up" onclick="move(up)">&uArr;</span>
+<span class="right" onclick="move(right)">&rArr;</span>
+<span class="down" onclick="move(down)">&dArr;</span>
+</div>
+
+<div id="viewport">
+</div>
+
+<div id="mediaViewer">
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io('/control-namespace');
+var canvas;
+
+socket.on("invalid id", function() {
+	socket.emit('id', prompt("Invalid id. Please enter the id of the screen(s) you'd like to link this control to."));
+});
+
+socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
+
+socket.on("update", function(data) {
+	if (!canvas) {
+		canvas = document.createElement("canvas");
+		canvas.width = ImageData.width;
+		canvas.height = ImageData.height;
+		document.getElementById("viewport").appendChild(canvas);
+	}
+	canvas.putImageData(data, 0, 0);
+});
+
+socket.on("open", function(div, objectID) {
+	
+});
+
+function move(direction) {
+	socket.emit("move", direction);
+}
+</script>
+
+</body>
+</html>
