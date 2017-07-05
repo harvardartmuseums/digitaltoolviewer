@@ -108,5 +108,7 @@ function animate() {
 
 	mirrorFrameCount++;
 
-	socket.emit("update", interactionContext.getImageData());
+	if (interactionContext) {
+		socket.emit("update", interactionContext.getImageData());
+	}
 }

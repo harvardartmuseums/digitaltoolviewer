@@ -71,7 +71,7 @@ screensIO.on('connection', function(socket) {
 		} 
 		screens.push(id);
 		socket.join(id);
-
+		/*
 		socket.on("update", function(data) {
 			controlIO.to(this).emit("update", data);
 		}).bind(id);
@@ -79,6 +79,7 @@ screensIO.on('connection', function(socket) {
 		socket.on("open", function(div) {
 			controlIO.to(this).emit("open", div);
 		}).bind(id);
+		*/
 	});
 });
 
