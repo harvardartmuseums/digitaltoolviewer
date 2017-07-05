@@ -79,6 +79,8 @@ function setupiPadPreview() {
 	interactionRenderer = new THREE.WebGLRenderer({antialias: true});
 	interactionRenderer.autoClearDepth = false;
 	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+	document.body.appendChild(interactionRenderer.domElement);
+	interactionRenderer.domElement.style.display = "none";
 
 	interactionContext = interactionRenderer.domElement.getContext("2d");
 }
