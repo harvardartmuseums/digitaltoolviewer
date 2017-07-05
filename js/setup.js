@@ -1,7 +1,7 @@
 var socket = io('/screens-namespace');
 
 socket.on("id", function(id) {
-	alert(id);
+	alert("Enter the following id to sync controls or other screens with this screen: " + id);
 });
 
 var font = "Helvetica";
