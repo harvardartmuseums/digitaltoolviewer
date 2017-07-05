@@ -3,19 +3,9 @@ var building;
 
 var thisScreen;
 
-function getFormData(e) {
-	e.preventDefault();
-	
-	socket.emit("getTour", document.getElementById("tourNumber").value);
-
-	document.getElementById("tourPrompt").remove();
-
-	return false;
-}
-
 function getTourFromURL() {
 	var tourNumber;
-	var regex = new RegExp("\\?tour=([0-9]*)(?:&screen=([0-8]?))?");
+	var regex = new RegExp("\\?tour=([0-9]*)(?:&screen=([0-8]?))?(?:&id=([0-9]{4}?))?");
 	var match = regex.exec(window.location.search);
 	if (match != null) {
 		tourNumber = match[1];
@@ -33,6 +23,7 @@ function getTourFromURL() {
 			renderer.domElement.style.left = 100*offsetHorizontal + "vw";
 			resize();
 		}
+		socket.emit("id", match[3]);
 		socket.emit("getTour", tourNumber);
 		return true;
 	}
@@ -55,7 +46,7 @@ function buildTour() {
 		var element = document.createElement("div");
 		document.body.appendChild(element);
 		element.id = "tourPrompt";
-		element.innerHTML = "<span>Tour number:<br /><form action=\"\" method=\"get\"><input type=\"number\" min=\"0\" size=\"4\" name=\"tour\" id=\"tourNumber\" /><br /><br />Lightbox screen:<br /><input type=\"number\" min=\"0\" max=\"8\" size=\"1\" name=\"screen\" id=\"screenNumber\" /><br /><br /><input type=\"submit\" /></form></span>";
+		element.innerHTML = "<span>Tour number:<br /><form action=\"\" method=\"get\"><input type=\"number\" min=\"0\" size=\"4\" name=\"tour\" id=\"tourNumber\" /><br /><br />Lightbox screen:<br /><input type=\"number\" min=\"0\" max=\"8\" size=\"1\" name=\"screen\" id=\"screenNumber\" /><br /><br />Syncing ID:<br /><input type=\"number\" min=\"1000\" max=\"9999\" size=\"4\" name=\"id\" /><br /><br /><input type=\"submit\" /></form></span>";
 	}
 }
 
