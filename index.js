@@ -8,8 +8,6 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
-var tour = "<!DOCTYPE html><html><head><title>Digital Tool Lightbox Viewer</title></head><body>";
-
 app.get('/index.html', function(req, res){
 	res.sendFile(path.join(__dirname, '/index.html'));
 });
