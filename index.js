@@ -49,7 +49,7 @@ function getId() {
 		return id + "";
 	}
 }
-
+/*
 screensIO.on('connection', function(socket) {
 	var id = getId();
 	screens.push(id);
@@ -95,5 +95,5 @@ controlIO.on('connection', function(socket) {
 		}
 	});
 });
-
+*/
 server.listen(PORT);
