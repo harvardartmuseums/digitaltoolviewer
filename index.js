@@ -49,12 +49,8 @@ function getId() {
 		return id + "";
 	}
 }
-/*
-screensIO.on('connection', function(socket) {
-	var id = getId();
-	screens.push(id);
-	socket.join(id);
 
+screensIO.on('connection', function(socket) {
 	socket.on("getTour", function(number) {
 		http.get('http://www.harvardartmuseums.org/tour/' + number + '/getInfo', (res) => {
 			if (res.statusCode == 200) {
@@ -62,22 +58,30 @@ screensIO.on('connection', function(socket) {
 				res.setEncoding('utf8');
 				res.on('data', (data) => {rawData += data;});
 				res.on('end', () => {
-					screensIO.to(this).emit("tourData", JSON.parse(rawData));
+					socket.emit("tourData", JSON.parse(rawData));
 				});
 			} 
 		});
-		socket.emit('id', this);
-	}).bind(id);
+	});
 
-	socket.on("update", function(data) {
-		controlIO.to(this).emit("update", data);
-	}).bind(id);
+	socket.on("id", function(id) {
+		if (!id) {
+			id = getId();
+			socket.emit('id', id);
+		} 
+		screens.push(id);
+		socket.join(id);
 
-	socket.on("open", function(div, objectID) {
-		controlIO.to(this).emit("open", div, objectID);
-	}).bind(id);
+		socket.on("update", function(data) {
+			controlIO.to(this).emit("update", data);
+		}).bind(id);
+
+		socket.on("open", function(div, objectID) {
+			controlIO.to(this).emit("open", div, objectID);
+		}).bind(id);
+	});
 });
-*/
+
 controlIO.on('connection', function(socket) {
 	socket.on('id', function(id) {
 		if (screens.indexOf(id) != -1) {
