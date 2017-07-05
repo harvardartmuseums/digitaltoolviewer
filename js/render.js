@@ -80,7 +80,7 @@ function setupiPadPreview() {
 	interactionRenderer.autoClearDepth = false;
 	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
 
-	interactionContext = interactionRenderer.domElement.getContext();
+	interactionContext = interactionRenderer.domElement.getContext("2d");
 }
 
 // Animate both the WebGL and the CSS transforms scenes
