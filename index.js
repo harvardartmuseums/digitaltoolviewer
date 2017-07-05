@@ -77,7 +77,7 @@ screensIO.on('connection', function(socket) {
 		controlIO.to(this).emit("open", div, objectID);
 	}).bind(id);
 });
-
+*/
 controlIO.on('connection', function(socket) {
 	socket.on('id', function(id) {
 		if (screens.indexOf(id) != -1) {
@@ -95,5 +95,5 @@ controlIO.on('connection', function(socket) {
 		}
 	});
 });
-*/
+
 server.listen(PORT);
