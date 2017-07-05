@@ -76,8 +76,8 @@ screensIO.on('connection', function(socket) {
 			controlIO.to(this).emit("update", data);
 		}).bind(id);
 
-		socket.on("open", function(div, objectID) {
-			controlIO.to(this).emit("open", div, objectID);
+		socket.on("open", function(div) {
+			controlIO.to(this).emit("open", div);
 		}).bind(id);
 	});
 });
