@@ -3,7 +3,8 @@ var moveBox;
 var moveRay = new THREE.Raycaster();
 
 var animationID;
-var directions = [];
+var directions = {"left": false, "up": false, "right": false, "down": false};
+var directionList = Object.keys(directions);
 
 var obstacles = [];
 
@@ -36,8 +37,8 @@ function setupMove() {
 function move(direction) {
 	resetRounds = 0;
 
-	if (direction && directions.indexOf(direction) == -1) {
-		directions.push(direction);
+	if (directionList.indexOf(direction) != -1) {
+		directions[direction] = true;
 	}
 
 	if (directions.indexOf("left") != -1) {
@@ -61,11 +62,7 @@ function move(direction) {
 
 	animate();
 
-	if (!animationID) {
-		animationID = requestAnimationFrame(move);
-	}
-
-	console.log("move", direction);
+	animationID = requestAnimationFrame(move);
 }
 
 function stop(direction) {
@@ -77,6 +74,4 @@ function stop(direction) {
 		cancelAnimationFrame(animationID);
 		animationID = undefined;
 	}
-
-	console.log("stop", direction);
 }
