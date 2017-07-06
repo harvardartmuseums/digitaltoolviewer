@@ -66,8 +66,8 @@ function move(direction) {
 }
 
 function stop(direction) {
-	if (directions.indexOf(direction) != -1) {
-		directions.splice(directions.indexOf(direction), 1);
+	if (directions[direction]) {
+		directions[direction] = false;
 	}
 
 	if (!direction || directions.length == 0) {
