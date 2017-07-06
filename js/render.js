@@ -101,5 +101,7 @@ function animate() {
 
 	if (interactionContext) {
 		socket.emit("update", interactionContext.getImageData());
+	} else {
+		console.log(interactionRenderer.domElement.getContext("2d"));
 	}
 }
