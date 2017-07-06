@@ -17,6 +17,8 @@ function reset() {
 		camera.lookAt(new THREE.Vector3(0, 200, -1));
 		resetRounds = 0;
 
+		stop();
+
 		animate();
 	}
 }

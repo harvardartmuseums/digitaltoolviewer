@@ -129,52 +129,30 @@ socket.on("open", function(div) {
 	console.log("open");
 });
 
-var arrows = {"left": false, "up": false, "right": false, "down": false};
-var arrowList = Object.keys(arrows);
+var arrows = ["left", "up", "right", "down"];
 var arrow;
-var arrowTimer;
 
 for (var i = 0; i < arrowList.length; i++) {
-	arrow = document.getElementById(arrowList[i]);
-	arrow.addEventListener("touchstart", setMove.bind(arrowList[i]), false);
-	arrow.addEventListener("touchend", unsetMove.bind(arrowList[i]), false);
-	arrow.addEventListener("touchcancel", unsetMove.bind(arrowList[i]), false);
+	arrow = document.getElementById(arrows[i]);
+	arrow.addEventListener("touchstart", move.bind(arrows[i]), false);
+	arrow.addEventListener("touchend", stop.bind(arrows[i]), false);
+	arrow.addEventListener("touchcancel", stop.bind(arrows[i]), false);
 }
 
-function setMove(e) {
+function move(e) {
 	e.preventDefault();
 
-	arrows[this] = true;
-
-	if (!arrowTimer) {
-		arrowTimer = setInterval(move, 40);
-	}
+	socket.emit("move", this);
 
 	return false;
 }
 
-function unsetMove(e) {
+function stop(e) {
 	e.preventDefault();
 
-	arrows[this] = false;
+	socket.emit("stop", this);
 
 	return false;
-}
-
-function move() {
-	var directions = [];
-
-	for (var i = 0; i < arrowList.length; i++) {
-		if (arrows[arrowList[i]]) {
-			directions.push(arrowList[i]);
-		}
-	}
-
-	if (directions.length > 0) {
-		socket.emit("move", directions);
-	} else {
-		clearInterval(arrowTimer);
-	}
 }
 
 </script>
