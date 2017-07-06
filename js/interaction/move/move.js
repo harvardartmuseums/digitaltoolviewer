@@ -35,6 +35,8 @@ function setupMove() {
 }
 
 function move(direction) {
+	animationID = requestAnimationFrame(move);
+
 	resetRounds = 0;
 
 	if (directionList.indexOf(direction) != -1) {
@@ -61,8 +63,6 @@ function move(direction) {
 	moveInteractionCamera();
 
 	animate();
-
-	animationID = requestAnimationFrame(move);
 }
 
 function stop(direction) {
