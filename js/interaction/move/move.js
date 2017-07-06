@@ -37,7 +37,7 @@ function move(direction) {
 	resetRounds = 0;
 
 	if (direction && directions.indexOf(direction) == -1) {
-		push(direction);
+		directions.push(direction);
 	}
 
 	if (directions.indexOf("left") != -1) {
