@@ -35,6 +35,7 @@ function setupMove() {
 }
 
 function move(direction) {
+	animate();
 	animationID = requestAnimationFrame(move);
 
 	resetRounds = 0;
@@ -61,8 +62,6 @@ function move(direction) {
 	}
 
 	moveInteractionCamera();
-
-	animate();
 }
 
 function stop(direction) {
