@@ -58,8 +58,8 @@ function CloseupModule(width, height, module) {
 			zoom.appendChild(closeup(module.images[0].hotspots[i].coord_x, module.images[0].hotspots[i].coord_y, module.images[0].hotspots[i].caption));
 		}
 		styleSheet.insertRule(keyframes, index);
-		//zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
-		//zoom.style.animationDelay = -10*Math.random() + "s";
+		zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
+		zoom.style.animationDelay = -10*Math.random() + "s";
 	};
 	img.src = module.images[0].file;
 	zoom.appendChild(img);

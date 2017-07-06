@@ -6,6 +6,12 @@ var animationID;
 var directions = {"left": false, "up": false, "right": false, "down": false};
 var directionList = Object.keys(directions);
 
+var now;
+var prev;
+
+var velocity = 1000;
+var distanceTraveled = 0;
+
 var obstacles = [];
 
 function moveInteractionCamera() {
@@ -35,6 +41,15 @@ function setupMove() {
 }
 
 function move(direction) {
+	if (animationID) {
+		prev = now;
+		now = new Date();
+		distanceTraveled = (now.valueOf() - prev.valueOf())*velocity;
+	} else {
+		now = new Date();
+		distanceTraveled = 1;
+	}
+
 	animate();
 	animationID = requestAnimationFrame(move);
 
@@ -51,13 +66,13 @@ function move(direction) {
 		camera.rotateY(THREE.Math.degToRad(-1));
 	}
 	if (directions["up"]) {
-		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(5)))) {
-			camera.position.add(camera.getWorldDirection().multiplyScalar(5));
+		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
+			camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
 		}
 	}
 	if (directions["down"]) {
-		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-5)))) {
-			camera.position.add(camera.getWorldDirection().multiplyScalar(-5));
+		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
+			camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
 		}
 	}
 
