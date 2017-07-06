@@ -41,18 +41,18 @@ function move(direction) {
 		directions[direction] = true;
 	}
 
-	if (directions.indexOf("left") != -1) {
+	if (directions["left"]) {
 		camera.rotateY(THREE.Math.degToRad(1));
 	}
-	if (directions.indexOf("right") != -1) {
+	if (directions["right"]) {
 		camera.rotateY(THREE.Math.degToRad(-1));
 	}
-	if (directions.indexOf("up") != -1) {
+	if (directions["up"]) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(5));
 		}
 	}
-	if (directions.indexOf("down") != -1) {
+	if (directions["down"]) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(-5));
 		}
