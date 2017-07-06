@@ -71,15 +71,14 @@ screensIO.on('connection', function(socket) {
 		} 
 		screens.push(id);
 		socket.join(id);
-		/*
+
 		socket.on("update", function(data) {
 			controlIO.to(this).emit("update", data);
-		}).bind(id);
+		}.bind(id));
 
 		socket.on("open", function(div) {
 			controlIO.to(this).emit("open", div);
-		}).bind(id);
-		*/
+		}.bind(id));
 	});
 });
 
@@ -90,11 +89,11 @@ controlIO.on('connection', function(socket) {
 
 			socket.on("move", function(directions) {
 				screensIO.to(this).emit("move", directions);
-			}).bind(id);
+			}.bind(id));
 
 			socket.on("click", function(e) {
 				screensIO.to(this).emit("click", e);
-			}).bind(id);
+			}.bind(id));
 		} else {
 			socket.emit("invalid id");
 		}
