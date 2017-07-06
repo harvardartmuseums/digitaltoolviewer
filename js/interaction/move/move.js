@@ -1,36 +1,33 @@
 var moveSphere;
+var moveBox;
 var moveRay = new THREE.Raycaster();
 
 var obstacles = [];
 
-var keysDown = {};
+socket.on('move', function(directions) {
+	resetRounds = 0;
 
-function move() {
-	keyHandler();
-	moveInteractionCamera();
-}
-
-
-// Moves the camera, if the arrow keys are down
-// (Timed to smooth out motion)
-function keyHandler() {
-	if (keysDown[37]) {
+	if (directions.indexOf("left") != -1) {
 		camera.rotateY(THREE.Math.degToRad(1));
-	} 
-	if (keysDown[39]) {
+	}
+	if (directions.indexOf("right") != -1) {
 		camera.rotateY(THREE.Math.degToRad(-1));
-	} 
-	if (keysDown[38]) {
+	}
+	if (directions.indexOf("up") != -1) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(5));
 		}
-	} 
-	if (keysDown[40]) {
+	}
+	if (directions.indexOf("down") != -1) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-5)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(-5));
 		}
 	}
-}
+
+	moveInteractionCamera();
+
+	animate();
+});
 
 function moveInteractionCamera() {
 	interactionCamera.position.set(camera.position.x, camera.position.y, camera.position.z);
@@ -40,11 +37,9 @@ function moveInteractionCamera() {
 function checkMove(newPos) {
 	moveSphere.set(newPos, wallDepth*2);	
 
-	var box = new THREE.Box3();
-
 	for (var i = 0; i < obstacles.length; i++) {
-		box.setFromObject(obstacles[i]);
-		if (box.intersectsSphere(moveSphere)) {
+		moveBox.setFromObject(obstacles[i]);
+		if (moveBox.intersectsSphere(moveSphere)) {
 			return false;
 		}
 	}
@@ -53,30 +48,6 @@ function checkMove(newPos) {
 }
 
 function setupMove() {
+	moveBox = new THREE.Box3();
 	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
-
-	keysDown = {37: false, 39: false, 38: false, 40: false};
-
-	document.addEventListener("keydown", function(e) {
-		resetRounds = 0;
-		if ([37, 38, 39, 40].indexOf(e.which) != -1) {
-			keysDown[e.which] = true;
-		}
-		lastUpdated = new Date();
-		if (ended) {
-			ended = false;
-			animate();
-		}
-	});
-	document.addEventListener("keyup", function(e) {
-		resetRounds = 0;
-		if ([37, 38, 39, 40].indexOf(e.which) != -1) {
-			keysDown[e.which] = false;
-		}
-		lastUpdated = new Date();
-		if (ended) {
-			ended = false;
-			animate();
-		}
-	});
 }

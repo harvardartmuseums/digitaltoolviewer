@@ -42,22 +42,22 @@ body, html {
 	height: 50%;
 }
 
-#controls .left {
+#left {
 	top: 25%;
 	left: 0%;
 }
 
-#controls .right {
+#right {
 	top: 25%;
 	right: 0%;
 }
 
-#controls .up {
+#up {
 	top: 0%;
 	left: 33.3%;
 }
 
-#controls .down {
+#down {
 	bottom: 0%;
 	left: 33.3%;
 }
@@ -91,10 +91,10 @@ body, html {
 <body>
 
 <div id="controls">
-<span class="left" onclick="move('left')">&lArr;</span>
-<span class="up" onclick="move('up')">&uArr;</span>
-<span class="right" onclick="move('right')">&rArr;</span>
-<span class="down" onclick="move('down')">&dArr;</span>
+<span id="left">&lArr;</span>
+<span id="up">&uArr;</span>
+<span id="right">&rArr;</span>
+<span id="down">&dArr;</span>
 </div>
 
 <div id="viewport">
@@ -129,10 +129,54 @@ socket.on("open", function(div) {
 	console.log("open");
 });
 
-function move(direction) {
-	console.log("move");
-	socket.emit("move", direction);
+var arrows = {"left": false, "up": false, "right": false, "down": false};
+var arrowList = Object.keys(arrows);
+var arrow;
+var arrowTimer;
+
+for (var i = 0; i < arrowList.length; i++) {
+	arrow = document.getElementById(arrowList[i]);
+	arrow.addEventListener("touchstart", setMove.bind(arrowList[i]), false);
+	arrow.addEventListener("touchend", unsetMove.bind(arrowList[i]), false);
+	arrow.addEventListener("touchcancel", unsetMove.bind(arrowList[i]), false);
 }
+
+function setMove(e) {
+	e.preventDefault();
+
+	arrows[this] = true;
+
+	if (!arrowTimer) {
+		arrowTimer = setInterval(move, 40);
+	}
+
+	return false;
+}
+
+function unsetMove(e) {
+	e.preventDefault();
+
+	arrows[this] = false;
+
+	return false;
+}
+
+function move() {
+	var directions = [];
+
+	for (var i = 0; i < arrowList.length; i++) {
+		if (arrows[arrowList[i]]) {
+			directions.push(arrowList[i]);
+		}
+	}
+
+	if (directions.length > 0) {
+		socket.emit("move", directions);
+	} else {
+		clearInterval(arrowTimer);
+	}
+}
+
 </script>
 
 </body>

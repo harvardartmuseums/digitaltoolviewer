@@ -88,8 +88,8 @@ controlIO.on('connection', function(socket) {
 		if (screens.indexOf(id) != -1) {
 			socket.join(id);
 
-			socket.on("move", function(direction) {
-				screensIO.to(this).emit("move", direction);
+			socket.on("move", function(directions) {
+				screensIO.to(this).emit("move", directions);
 			}).bind(id);
 
 			socket.on("click", function(e) {

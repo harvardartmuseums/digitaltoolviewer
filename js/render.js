@@ -87,15 +87,6 @@ function setupiPadPreview() {
 
 // Animate both the WebGL and the CSS transforms scenes
 function animate() {
-	var now = new Date();
-	if ((now - lastUpdated.valueOf()) < 5000) {
-		requestAnimationFrame(animate);
-	} else {
-		ended = true;
-	}
-
-	move();
-
 	renderer.render(scene, camera);
 
 	cssRenderer.render(cssOverlay, camera);

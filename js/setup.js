@@ -23,9 +23,5 @@ function finishSetup() {
 
 	setupReset();
 
-	lastUpdated = new Date();
-	if (ended) {
-		ended = false;
-		animate();
-	}
+	animate();
 }

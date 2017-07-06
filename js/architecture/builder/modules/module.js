@@ -212,10 +212,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 
 	cssObject.updateMatrix();
 
-	// if not currently updating renderer, update renderer
-	if (ended) {
-		animate();
-	}
+	animate();
 }
 
 function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {
