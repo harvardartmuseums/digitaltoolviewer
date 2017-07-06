@@ -132,7 +132,7 @@ socket.on("open", function(div) {
 var arrows = ["left", "up", "right", "down"];
 var arrow;
 
-for (var i = 0; i < arrowList.length; i++) {
+for (var i = 0; i < arrows.length; i++) {
 	arrow = document.getElementById(arrows[i]);
 	arrow.addEventListener("touchstart", move.bind(arrows[i]), false);
 	arrow.addEventListener("touchend", stop.bind(arrows[i]), false);
