@@ -64,6 +64,8 @@ function move(direction) {
 	if (!animationID) {
 		animationID = requestAnimationFrame(move);
 	}
+
+	console.log("move", direction);
 }
 
 function stop(direction) {
@@ -75,4 +77,6 @@ function stop(direction) {
 		cancelAnimationFrame(animationID);
 		animationID = undefined;
 	}
+
+	console.log("stop", direction);
 }
