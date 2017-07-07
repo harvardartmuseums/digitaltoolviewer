@@ -9,7 +9,7 @@ var directionList = Object.keys(directions);
 var now;
 var prev;
 
-var velocity = .01;
+var velocity = .02;
 var distanceTraveled = 0;
 
 var obstacles = [];
