@@ -189,7 +189,12 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("setupControl", function(data) {
-	scene = data.scene;
+	scene = new THREE.Scene();
+	scene.background = "0x000000";
+
+	for (var i = 0; i < data.scene.length; i++) {
+		scene.add(loader.parse(data.scene[i]));
+	}
 
 	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
 

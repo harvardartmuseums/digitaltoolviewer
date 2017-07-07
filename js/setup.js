@@ -18,7 +18,17 @@ function loaded() {
 	loading.loaded++;
 	console.log(loading.loaded + " loaded of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
-		socket.emit("setupControl", {scene: scene.toJSON(), minClip: wallDepth, maxClip: wallUnitWidth});
+		var interactionScene = [];
+		for (var i = 0; i < interactiveObjects.length; i++) {
+			interactionScene.push(interactiveObjects[i].toJSON());
+		}
+		for (var i = 0; i < obstacles.length; i++) {
+			interactionScene.push(obstacles[i].toJSON());
+		}
+
+		socket.emit("setupControl", {scene: interactionScene, minClip: wallDepth, maxClip: wallUnitWidth});
+
+		interactionScene = null;
 	}
 }
 
