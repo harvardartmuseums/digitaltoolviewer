@@ -125,6 +125,7 @@ socket.on("update", function(data) {
 		canvas.width = data.width;
 		canvas.height = data.height;
 		document.getElementById("viewport").appendChild(canvas);
+		canvas = canvas.getContext("2d");
 	}
 	var img = new Image;
 	img.onload = function() {
