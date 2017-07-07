@@ -31,6 +31,7 @@ function SlideshowModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
 	if (module.view_type == 1) {
+		load();
 
 		var element = document.createElement("div");
 		element.classList.add("slideshowModule"); 

@@ -81,6 +81,10 @@ screensIO.on('connection', function(socket) {
 		socket.on("open", function(div) {
 			controlIO.to(this).emit("open", div);
 		}.bind(id));
+
+		socket.on("setupControl", function(data) {
+			controlIO.to(this).emit("open", data);
+		}.bind(id));
 	});
 });
 
@@ -91,10 +95,12 @@ controlIO.on('connection', function(socket) {
 
 			socket.on("move", function(direction) {
 				screensIO.to(this).emit("move", direction);
+				controlIO.to(this).emit("move", direction);
 			}.bind(id));
 
 			socket.on("stop", function(direction) {
 				screensIO.to(this).emit("stop", direction);
+				controlIO.to(this).emit("stop", direction);
 			}.bind(id));
 
 			socket.on("click", function(e) {

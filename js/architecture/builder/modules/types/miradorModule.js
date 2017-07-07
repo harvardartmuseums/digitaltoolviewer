@@ -3,6 +3,8 @@ function openMirador() {
 }
 
 function MiradorModule(width, height, module) {
+	load();
+
 	this.mesh = new THREE.Group();
 
 	var miradorElement = document.createElement("div");

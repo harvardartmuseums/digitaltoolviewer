@@ -213,9 +213,12 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.updateMatrix();
 
 	animate();
+	loaded();
 }
 
 function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {
+	load();
+
 	(pos == undefined)? pos = new THREE.Vector3(0, 0, 0) : pos = pos;
 
 	// Create image, wait for it to load

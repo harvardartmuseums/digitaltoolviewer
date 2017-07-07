@@ -14,11 +14,6 @@ var distanceTraveled = 0;
 
 var obstacles = [];
 
-function moveInteractionCamera() {
-	interactionCamera.position.set(camera.position.x, camera.position.y, camera.position.z);
-	interactionCamera.setRotationFromQuaternion(camera.getWorldQuaternion());
-}
-
 function checkMove(newPos) {
 	moveSphere.set(newPos, wallDepth*2);	
 
@@ -75,8 +70,6 @@ function move(direction) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
 		}
 	}
-
-	moveInteractionCamera();
 }
 
 function stop(direction) {

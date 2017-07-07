@@ -3,6 +3,7 @@ function openEmbed() {
 }
 
 function EmbedModule(width, height, module) {
+	load();
 	this.mesh = new THREE.Group();
 
 	var embedElement = document.createElement("div");

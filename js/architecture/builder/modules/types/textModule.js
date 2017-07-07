@@ -3,6 +3,8 @@ function openText() {
 }
 
 function TextModule(width, height, module) {
+	load();
+
 	this.mesh = new THREE.Group();
 	
 	var element = document.createElement("div");

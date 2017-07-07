@@ -102,16 +102,85 @@ body, html {
 </div>
 
 <div id="viewport">
-<canvas id="canvas" width="100" height="100"></canvas>
 </div>
 
 <div id="mediaViewer">
 </div>
 
+<script src="js/three.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+var moveSphere;
+var moveBox;
+var moveRay = new THREE.Raycaster();
+
+var animationID;
+var directions = {"left": false, "up": false, "right": false, "down": false};
+var directionList = Object.keys(directions);
+
+var now;
+var prev;
+
+var velocity = .02;
+var distanceTraveled = 0;
+
+function setupMove() {
+	moveBox = new THREE.Box3();
+	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
+
+	socket.on('move', move);
+	socket.on('stop', stop);
+}
+
+function move(direction) {
+	if (animationID) {
+		prev = now;
+		now = new Date();
+		distanceTraveled = (now.valueOf() - prev.valueOf())*velocity;
+	} else {
+		now = new Date();
+		distanceTraveled = 1;
+	}
+
+	animate();
+	animationID = requestAnimationFrame(move);
+
+	resetRounds = 0;
+
+	if (directionList.indexOf(direction) != -1) {
+		directions[direction] = true;
+	}
+
+	if (directions["left"]) {
+		camera.rotateY(THREE.Math.degToRad(distanceTraveled/5));
+	}
+	if (directions["right"]) {
+		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/5));
+	}
+	if (directions["up"]) {
+		camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
+	}
+	if (directions["down"]) {
+		camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
+	}
+}
+
+function stop(direction) {
+	if (directions[direction]) {
+		directions[direction] = false;
+	}
+
+	if (!direction || directions.length == 0) {
+		cancelAnimationFrame(animationID);
+		animationID = undefined;
+	}
+}
+
+
 var socket = io('/control-namespace');
+var renderer;
 var canvas;
+var scene;
 
 socket.on("invalid id", function() {
 	socket.emit('id', prompt("Invalid id. Please enter the id of the screen(s) you'd like to link this control to."));
@@ -119,18 +188,27 @@ socket.on("invalid id", function() {
 
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
-socket.on("update", function(data) {
-	if (!canvas) {
-		canvas = document.getElementById("canvas");
-		document.getElementById("viewport").appendChild(canvas);
-		canvas = canvas.getContext("2d");
-	}
-	var img = new Image;
-	img.onload = function() {
-		canvas.drawImage(img, 0, 0);
-	};
-	img.src = data;
+socket.on("setupControl", function(data) {
+	scene = data.scene;
+
+	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
+
+	renderer = new THREE.WebGLRenderer({anitalias: true});
+	renderer.autoClearDepth = false;
+	renderer.setSize(window.innerWidth, 9*window.innerWidth/16);
+	document.getElementById("viewport").appendChild(renderer.domElement);
+
+	setupMove();
+	animate();
 });
+
+function animate() {
+	renderer.clearDepth();
+	camera.layers.set(0);
+	rederer.render(scene, camera);
+	camera.layers.set(1);
+	renderer.render(scene, camera);
+}
 
 socket.on("open", function(div) {
 	console.log("open");
@@ -141,12 +219,12 @@ var arrow;
 
 for (var i = 0; i < arrows.length; i++) {
 	arrow = document.getElementById(arrows[i]);
-	arrow.addEventListener("touchstart", move.bind(arrows[i]), false);
-	arrow.addEventListener("touchend", stop.bind(arrows[i]), false);
-	arrow.addEventListener("touchcancel", stop.bind(arrows[i]), false);
+	arrow.addEventListener("touchstart", moveEmit.bind(arrows[i]), false);
+	arrow.addEventListener("touchend", stopEmit.bind(arrows[i]), false);
+	arrow.addEventListener("touchcancel", stopEmit.bind(arrows[i]), false);
 }
 
-function move(e) {
+function moveEmit(e) {
 	e.preventDefault();
 
 	socket.emit("move", this);
@@ -154,7 +232,7 @@ function move(e) {
 	return false;
 }
 
-function stop(e) {
+function stopEmit(e) {
 	e.preventDefault();
 
 	socket.emit("stop", this);

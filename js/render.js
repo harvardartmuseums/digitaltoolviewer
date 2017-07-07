@@ -30,9 +30,7 @@ function setupResize() {
 	window.addEventListener("resize", function() {
 		resize();
 
-		if (ended) {
-			animate();
-		}
+		animate();
 	});
 }
 
@@ -95,6 +93,4 @@ function animate() {
 	interactionRenderer.render(scene, interactionCamera);
 
 	mirrorFrameCount++;
-
-	//socket.emit("update", interactionRenderer.domElement.toDataURL("image/png"));
 }

@@ -6,21 +6,34 @@ socket.on("id", function(id) {
 
 var font = "Helvetica";
 
+var loading = {toLoad: 0, loaded: 0};
+
 setup();
+
+function load() {
+	loading.toLoad++;
+}
+
+function loaded() {
+	loading.loaded++;
+	console.log(loading.loaded + " loaded of " + loading.toLoad);
+	if (loading.toLoad <= loading.loaded) {
+		socket.emit("setupControl", {scene: scene, minClip: wallDepth, maxClip: wallUnitWidth});
+	}
+}
 
 function setup() {
 
 	setupAnimations();
 	setupModuleLayout();
 	setupRendering();
-	setupMove();
 
 	buildTour();
 }
 
 function finishSetup() {
 	setupResize();
-
+	setupMove();
 	setupReset();
 
 	animate();
