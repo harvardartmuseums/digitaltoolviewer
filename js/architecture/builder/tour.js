@@ -53,7 +53,15 @@ function buildTour() {
 function TourRoom(tourData) {
 	this.mesh = new THREE.Group();
 
-	var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+	var directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+	scene.add(directionalLight);
+
+	var directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+	directionalLight.position.set(wallDepth, 1, -wallDepth);
+	scene.add(directionalLight);
+
+	var directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+	directionalLight.position.set(-wallDepth, 1, wallDepth);
 	scene.add(directionalLight);
 
 	var wall;
