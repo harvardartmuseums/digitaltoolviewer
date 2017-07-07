@@ -125,9 +125,6 @@ var velocity = .02;
 var distanceTraveled = 0;
 
 function setupMove() {
-	moveBox = new THREE.Box3();
-	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
-
 	socket.on('move', move);
 	socket.on('stop', stop);
 }
