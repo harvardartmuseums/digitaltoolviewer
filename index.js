@@ -83,7 +83,7 @@ screensIO.on('connection', function(socket) {
 		}.bind(id));
 
 		socket.on("setupControl", function(data) {
-			controlIO.to(this).emit("open", data);
+			controlIO.to(this).emit("setupControl", data);
 		}.bind(id));
 	});
 });
