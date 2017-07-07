@@ -18,7 +18,7 @@ function loaded() {
 	loading.loaded++;
 	console.log(loading.loaded + " loaded of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
-		socket.emit("setupControl", {scene: scene, minClip: wallDepth, maxClip: wallUnitWidth});
+		socket.emit("setupControl", {scene: scene.toJSON(), minClip: wallDepth, maxClip: wallUnitWidth});
 	}
 }
 
