@@ -9,7 +9,7 @@ var directionList = Object.keys(directions);
 var now;
 var prev;
 
-var velocity = .005;
+var velocity = .01;
 var distanceTraveled = 0;
 
 var obstacles = [];
@@ -60,10 +60,10 @@ function move(direction) {
 	}
 
 	if (directions["left"]) {
-		camera.rotateY(THREE.Math.degToRad(distanceTraveled/10));
+		camera.rotateY(THREE.Math.degToRad(distanceTraveled/5));
 	}
 	if (directions["right"]) {
-		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/10));
+		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/5));
 	}
 	if (directions["up"]) {
 		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {

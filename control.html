@@ -95,10 +95,10 @@ body, html {
 <body>
 
 <div id="controls">
-<span id="left">&lArr;</span>
-<span id="up">&uArr;</span>
-<span id="right">&rArr;</span>
-<span id="down">&dArr;</span>
+<span id="left">&larr;</span>
+<span id="up">&uarr;</span>
+<span id="right">&rarr;</span>
+<span id="down">&darr;</span>
 </div>
 
 <div id="viewport">
@@ -122,11 +122,15 @@ socket.on("update", function(data) {
 	console.log("update");
 	if (!canvas) {
 		canvas = document.createElement("canvas");
-		canvas.width = ImageData.width;
-		canvas.height = ImageData.height;
+		canvas.width = data.width;
+		canvas.height = data.height;
 		document.getElementById("viewport").appendChild(canvas);
 	}
-	canvas.putImageData(data, 0, 0);
+	var img = new Image;
+	img.onload = function() {
+		canvas.drawImage(img, 0, 0);
+	};
+	img.src = data;
 });
 
 socket.on("open", function(div) {

@@ -14,7 +14,6 @@ var interactionCamera;
 var interactionRenderer;
 var interactiveObjects = [];
 var interactionMethod = [];
-var interactionContext;
 
 var mirrors = [];
 var mirrorFrameCount = 0;
@@ -81,8 +80,6 @@ function setupiPadPreview() {
 	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
 	document.body.appendChild(interactionRenderer.domElement);
 	interactionRenderer.domElement.style.display = "none";
-
-	interactionContext = interactionRenderer.domElement.getContext("2d");
 }
 
 // Animate both the WebGL and the CSS transforms scenes
@@ -99,9 +96,5 @@ function animate() {
 
 	mirrorFrameCount++;
 
-	if (interactionContext) {
-		socket.emit("update", interactionContext.getImageData());
-	} else {
-		console.log(interactionRenderer.domElement.getContext("2d"));
-	}
+	socket.emit("update", interactionRenderer.domElement.toDataURL("image/png"));
 }
