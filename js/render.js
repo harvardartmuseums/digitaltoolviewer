@@ -96,5 +96,5 @@ function animate() {
 
 	mirrorFrameCount++;
 
-	socket.emit("update", interactionRenderer.domElement.toDataURL("image/png"));
+	//socket.emit("update", interactionRenderer.domElement.toDataURL("image/png"));
 }

@@ -122,8 +122,6 @@ socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to lin
 socket.on("update", function(data) {
 	if (!canvas) {
 		canvas = document.getElementById("canvas");
-		canvas.width = data.width;
-		canvas.height = data.height;
 		document.getElementById("viewport").appendChild(canvas);
 		canvas = canvas.getContext("2d");
 	}
