@@ -58,11 +58,13 @@ function TourRoom(tourData) {
 
 	directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
 	directionalLight.target.position.set(-.75, 1, .5);
+	scene.add(directionalLight.target);
 	directionalLight.target.updateMatrixWorld();
 	scene.add(directionalLight);
 
 	directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);	
 	directionalLight.target.position.set(1, 1, -1);
+	scene.add(directionalLight.target);
 	directionalLight.target.updateMatrixWorld();
 	scene.add(directionalLight);
 
