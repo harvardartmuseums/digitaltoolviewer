@@ -192,6 +192,8 @@ socket.on("setupControl", function(data) {
 	scene = new THREE.Scene();
 	scene.background = "0x000000";
 
+	var loader = new THREE.ObjectLoader();
+
 	for (var i = 0; i < data.scene.length; i++) {
 		scene.add(loader.parse(data.scene[i]));
 	}
