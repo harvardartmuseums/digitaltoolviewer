@@ -15,7 +15,7 @@ function Slide(slide) {
 	geometry = new THREE.BoxBufferGeometry((wallUnitWidth - wallDepth*3)/6, (wallUnitWidth - wallDepth*3)/6, .02);
 	var texture = new THREE.CanvasTexture(panel);
 
-	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var material = new THREE.MeshLambertMaterial({map: texture});
 	var label = new THREE.Mesh(geometry, material);
 	label.position.set(0, -(wallUnitWidth - wallDepth*3)/8, 0);
 	label.updateMatrix();

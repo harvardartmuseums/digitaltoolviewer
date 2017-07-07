@@ -28,7 +28,7 @@ function TextPanel(title, image, caption, credit, description) {
 	// create label from HTML5 canvas
 	geometry = new THREE.BoxBufferGeometry(wallUnitWidth/4, wallUnitWidth/2, wallDepth);
 	var texture = new THREE.CanvasTexture(panel);
-	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var material = new THREE.MeshLambertMaterial({map: texture});
 	var label = new THREE.Mesh(geometry, material);
 	label.position.set(0, wallUnitWidth/6 - wallUnitWidth/4, 0);
 	label.updateMatrix();

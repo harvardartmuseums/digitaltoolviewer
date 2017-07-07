@@ -16,7 +16,7 @@ function ModuleLabel(width, title, caption, credit) {
 
 	var geometry = new THREE.BoxBufferGeometry(width, width/2, .02);
 	var texture = new THREE.CanvasTexture(panel);
-	var material = new THREE.MeshStandardMaterial({map: texture, metalness: 0, roughness: .8});
+	var material = new THREE.MeshLambertMaterial({map: texture});
 	var label = new THREE.Mesh(geometry, material);
 
 	this.mesh = label;
