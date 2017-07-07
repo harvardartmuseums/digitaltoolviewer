@@ -39,7 +39,7 @@ app.get('/css/mediaStyles.css', function(req, res){
 var screensIO = io.of('/screens-namespace');
 var controlIO = io.of('/control-namespace');
 
-const three = require('/js/three.min.js');
+//const three = require('/js/three.min.js');
 
 var screens = [];
 
