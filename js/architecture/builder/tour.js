@@ -53,6 +53,9 @@ function buildTour() {
 function TourRoom(tourData) {
 	this.mesh = new THREE.Group();
 
+	var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+	scene.add(directionalLight);
+
 	var wall;
 	var walls = (tourData.stops.length == 0)? 4 : Math.ceil(tourData.stops.length/4)*4;
 
