@@ -198,6 +198,7 @@ socket.on("setupControl", function(data) {
 	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
 
 	renderer = new THREE.WebGLRenderer({anitalias: true});
+	console.log(renderer);
 	renderer.autoClearDepth = false;
 	renderer.setSize(window.innerWidth, 9*window.innerWidth/16);
 	document.getElementById("viewport").appendChild(renderer.domElement);
