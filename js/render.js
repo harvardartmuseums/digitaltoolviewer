@@ -10,8 +10,6 @@ var renderer;
 var cssOverlay;
 var cssRenderer;
 
-var interactionCamera;
-var interactionRenderer;
 var interactiveObjects = [];
 var interactionMethod = [];
 
@@ -50,7 +48,6 @@ function setupRendering() {
 
 	setupCSS();
 	setupWebGL();
-	setupiPadPreview();
 }
 
 function setupCSS() {
@@ -70,27 +67,11 @@ function setupWebGL() {
 	renderer.domElement.classList.add("clickThrough");
 }
 
-function setupiPadPreview() {
-	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
-
-	interactionRenderer = new THREE.WebGLRenderer({antialias: true});
-	interactionRenderer.autoClearDepth = false;
-	interactionRenderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-	document.body.appendChild(interactionRenderer.domElement);
-	interactionRenderer.domElement.style.display = "none";
-}
-
 // Animate both the WebGL and the CSS transforms scenes
 function animate() {
 	renderer.render(scene, camera);
 
 	cssRenderer.render(cssOverlay, camera);
-
-	interactionRenderer.clearDepth();
-	interactionCamera.layers.set(0);
-	interactionRenderer.render(scene, interactionCamera);
-	interactionCamera.layers.set(1);
-	interactionRenderer.render(scene, interactionCamera);
 
 	mirrorFrameCount++;
 }
