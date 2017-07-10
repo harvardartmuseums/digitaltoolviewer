@@ -1,3 +1,5 @@
+var lights = [];
+
 function Floor(width, breadth) {
 	(width == undefined)? width = 1 : width = width;
 	(breadth == undefined)? breadth = 1 : breadth = breadth;
@@ -13,6 +15,8 @@ function Floor(width, breadth) {
 	light.updateMatrix();
 	light.layers.enable(1);
 	this.mesh.add(light);
+
+	lights.push(light);
 
 	this.mesh.position.set(0, -wallDepth/2, 0);
 	this.mesh.updateMatrix();

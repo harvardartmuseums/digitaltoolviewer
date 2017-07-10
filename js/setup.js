@@ -16,7 +16,6 @@ function load() {
 
 function loaded() {
 	loading.loaded++;
-	console.log(loading.loaded + " loaded of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
 		var interactionScene = [];
 		for (var i = 0; i < interactiveObjects.length; i++) {
@@ -24,6 +23,9 @@ function loaded() {
 		}
 		for (var i = 0; i < obstacles.length; i++) {
 			interactionScene.push(obstacles[i].toJSON());
+		}
+		for (var i = 0; i < lights.length; i++) {
+			interactionScene.push(lights[i].toJSON());
 		}
 
 		socket.emit("setupControl", {scene: interactionScene, minClip: wallDepth, maxClip: wallUnitWidth});
