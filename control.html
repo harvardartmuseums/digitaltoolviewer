@@ -195,9 +195,12 @@ socket.on("setupControl", function(data) {
 		scene.add(loader.parse(data.scene[i]));
 	}
 
-	console.log(scene);
-
 	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
+	camera.layers.enable(2);
+	camera.position.z = 0;
+	camera.position.y = 200;
+	camera.rotateY(THREE.Math.degToRad(0));
+	camera.updateMatrix();
 
 	renderer = new THREE.WebGLRenderer({anitalias: true});
 	renderer.autoClearDepth = false;
@@ -211,8 +214,8 @@ socket.on("setupControl", function(data) {
 function animate() {
 	renderer.clearDepth();
 	camera.layers.set(0);
-	//renderer.render(scene, camera);
-	//camera.layers.set(1);
+	renderer.render(scene, camera);
+	camera.layers.set(1);
 	renderer.render(scene, camera);
 }
 
