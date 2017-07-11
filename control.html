@@ -195,7 +195,7 @@ socket.on("setupControl", function(data) {
 		scene.add(loader.parse(data.scene[i]));
 	}
 
-	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
+	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, 10000);
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));

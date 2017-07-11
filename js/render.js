@@ -73,5 +73,5 @@ function animate() {
 
 	cssRenderer.render(cssOverlay, camera);
 
-	mirrorFrameCount++;
+	//mirrorFrameCount++;
 }

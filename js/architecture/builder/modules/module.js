@@ -71,11 +71,11 @@ function Module(module) {
 function Screen(width, height, constructor, module) {
 	this.mesh = new THREE.Group();
 
-	var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080, color: 0xaaaaaa});
-	mirrors.push(mirror);
-	mirror.position.set(0, 0, 2*wallDepth/8 + .05);
-	mirror.updateMatrix();
-	this.mesh.add(mirror);
+	//var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080, color: 0xaaaaaa});
+	//mirrors.push(mirror);
+	//mirror.position.set(0, 0, 2*wallDepth/8 + .05);
+	//mirror.updateMatrix();
+	//this.mesh.add(mirror);
 
 	var geometry = new THREE.BoxBufferGeometry(width - wallDepth/4, height - wallDepth/4, wallDepth/8);
 	var screen = new THREE.Mesh(geometry, screenMaterial);
@@ -109,11 +109,11 @@ function GlazedFrame(width, height, constructor, module) {
 	var obj = constructor(width - wallDepth/5, height - wallDepth/5, module);
 	this.mesh.add(obj);
 
-	var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080});
-	mirrors.push(mirror);
-	mirror.position.set(0, 0, wallDepth/20 + .05);
-	mirror.updateMatrix();
-	this.mesh.add(mirror);
+	//var mirror = new THREE.Mirror(width - wallDepth/5, height - wallDepth/5, {clipBias: .003, textureWidth: 1920, textureHeight: 1080});
+	//mirrors.push(mirror);
+	//mirror.position.set(0, 0, wallDepth/20 + .05);
+	//mirror.updateMatrix();
+	//this.mesh.add(mirror);
 
 	var frame = new Frame(width, height, wallDepth/12, wallDepth/40, frameMaterial);
 	frame.position.set(0, 0, 0);
