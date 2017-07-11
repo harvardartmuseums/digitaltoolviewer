@@ -39,8 +39,6 @@ app.get('/css/mediaStyles.css', function(req, res){
 var screensIO = io.of('/screens-namespace');
 var controlIO = io.of('/control-namespace');
 
-//const three = require('/js/three.min.js');
-
 var screens = [];
 
 function getId() {
@@ -82,8 +80,8 @@ screensIO.on('connection', function(socket) {
 			controlIO.to(this).emit("open", div);
 		}.bind(id));
 
-		socket.on("setupControl", function(data) {
-			controlIO.to(this).emit("setupControl", data);
+		socket.on("scene", function(data) {
+			controlIO.to(this).emit("setup", data);
 		}.bind(id));
 	});
 });

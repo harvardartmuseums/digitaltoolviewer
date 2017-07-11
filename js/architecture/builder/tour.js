@@ -68,12 +68,6 @@ function TourRoom(tourData) {
 	this.mesh.add(tstand);
 
 
-	//var light = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.3);
-	//light.position.set(0, 400, 0);
-	//scene.add(light);
-
-	//lights.push(light);
-
 	var light = new THREE.DirectionalLight(0xffffff, .5);
 	light.position.set(-2000, 0, 1750);
 	scene.add(light);

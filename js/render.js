@@ -39,8 +39,8 @@ function setupRendering() {
 	scene = new THREE.Scene();
 	
 	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, 10000);
-	camera.layers.enable(2);
-	camera.mirrorsEnabled = true;
+	//camera.layers.enable(2);
+	//camera.mirrorsEnabled = true;
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
