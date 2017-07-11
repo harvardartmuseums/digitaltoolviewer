@@ -42,7 +42,7 @@ function move(direction) {
 		distanceTraveled = (now.valueOf() - prev.valueOf())*velocity;
 	} else {
 		now = new Date();
-		distanceTraveled = 1;
+		distanceTraveled = 5;
 	}
 
 	animate();

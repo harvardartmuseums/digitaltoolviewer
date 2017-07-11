@@ -121,7 +121,7 @@ var directionList = Object.keys(directions);
 var now;
 var prev;
 
-var velocity = .02;
+var velocity = .05;
 var distanceTraveled = 0;
 
 function setupMove() {
@@ -136,7 +136,7 @@ function move(direction) {
 		distanceTraveled = (now.valueOf() - prev.valueOf())*velocity;
 	} else {
 		now = new Date();
-		distanceTraveled = 1;
+		distanceTraveled = 5;
 	}
 
 	animate();
@@ -191,8 +191,11 @@ socket.on("setupControl", function(data) {
 
 	var loader = new THREE.ObjectLoader();
 
+	var obj;
 	for (var i = 0; i < data.scene.length; i++) {
-		scene.add(loader.parse(data.scene[i]));
+		obj = loader.parse(data.scene[i]);
+		scene.add(obj);
+		obj.updateMatrix();
 	}
 
 	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, 10000);
