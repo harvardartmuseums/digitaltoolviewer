@@ -31,8 +31,6 @@ function SlideshowModule(width, height, module) {
 	this.mesh = new THREE.Group();
 
 	if (module.view_type == 1) {
-		load();
-
 		var element = document.createElement("div");
 		element.classList.add("slideshowModule"); 
 		element.classList.add("slides");
@@ -81,6 +79,7 @@ function SlideshowModule(width, height, module) {
 		}.bind(this.mesh), 10);
 
 	} else {
+		load(module.images.length - 1);
 		var max = Math.ceil(Math.sqrt(module.images.length));
 		var i = 0;
 		for (var j = 0; j < max; j++) {

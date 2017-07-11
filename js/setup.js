@@ -10,8 +10,8 @@ var loading = {toLoad: 0, loaded: 0};
 
 setup();
 
-function load() {
-	loading.toLoad++;
+function load(n) {
+	loading.toLoad += n || 1;
 }
 
 function loaded() {

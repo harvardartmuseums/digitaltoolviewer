@@ -73,5 +73,7 @@ function AudioModule(width, height, module) {
 		playButtonMaterial.color.set(0x000000);
 	});
 	
+	loaded();
+
 	return this.mesh;
 }

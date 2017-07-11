@@ -29,13 +29,16 @@ function cleanModules(modules, slide, fixedModules) {
 
 	var module = modules.shift();
 	if (validTypes.indexOf(module.type.toString()) == -1) {
+		loaded();
 		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 1 && (textToRemove.exec(module.text) != null)) {
+		loaded();
 		cleanModules(modules, slide, fixedModules);
 	} else if (module.type == 2) {
 		var img = new Image();
 		img.onload = function () {
 			if (img.width == 409 && img.height == 15) {
+				loaded();
 				cleanModules(modules, slide, fixedModules);
 			} else {
 				fixedModules.push(module);

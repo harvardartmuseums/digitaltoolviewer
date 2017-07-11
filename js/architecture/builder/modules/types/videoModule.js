@@ -8,8 +8,6 @@ function openVideo() {
 }
 
 function VideoModule(width, height, module) {
-	load();
-
 	this.mesh = new THREE.Group();
 
 	// Create image, wait for it to load

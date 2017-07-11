@@ -21,6 +21,7 @@ function Slide(slide) {
 	label.updateMatrix();
 	this.mesh.add(label);
 
+	load(slide.modules.length);
 	cleanModules(slide.modules, this.mesh, []);
 
 	return this.mesh;

@@ -16,7 +16,6 @@ function closeup(left, top, label) {
 }
 
 function CloseupModule(width, height, module) {
-	load();
 	this.mesh = new THREE.Group();
 
 	var element = document.createElement("div");
