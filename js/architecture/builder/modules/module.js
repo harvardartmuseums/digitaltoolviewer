@@ -213,7 +213,10 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	cssObject.updateMatrix();
 
 	animate();
-	loaded();
+
+	if (interactive) {
+		loaded();
+	}
 }
 
 function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {

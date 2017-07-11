@@ -20,6 +20,7 @@ function load(n) {
 
 function loaded() {
 	loading.loaded++;
+	console.log(loading.loaded + " of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
 		var interactionScene = [];
 		for (var i = 0; i < interactiveObjects.length; i++) {
