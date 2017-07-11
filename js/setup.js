@@ -22,18 +22,18 @@ function loaded() {
 	loading.loaded++;
 	console.log(loading.loaded + " of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
-		var interactionScene = {interactiveObjects: [], obstacles: [], lights: []};
+		var interactionScene = [];
 		for (var i = 0; i < interactiveObjects.length; i++) {
-			interactionScene.interactiveObjects.push(interactiveObjects[i].toJSON());
+			interactionScene.push(interactiveObjects[i].toJSON());
 		}
 		for (var i = 0; i < obstacles.length; i++) {
-			interactionScene.obstacles.push(obstacles[i].toJSON());
+			interactionScene.push(obstacles[i].toJSON());
 		}
 		for (var i = 0; i < lights.length; i++) {
-			interactionScene.lights.push(lights[i].toJSON());
+			interactionScene.push(lights[i].toJSON());
 		}
 
-		socket.emit("scene", {scene: interactionScene, wallDepth: wallDepth, wallUnitWidth: wallUnitWidth});
+		socket.emit("setupControl", {scene: interactionScene, minClip: wallDepth, maxClip: wallUnitWidth});
 
 		interactionScene = null;
 	}

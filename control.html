@@ -114,9 +114,6 @@ var moveSphere;
 var moveBox;
 var moveRay = new THREE.Raycaster();
 
-var wallDepth;
-var wallUnitWidth;
-
 var animationID;
 var directions = {"left": false, "up": false, "right": false, "down": false};
 var directionList = Object.keys(directions);
@@ -127,23 +124,7 @@ var prev;
 var velocity = .02;
 var distanceTraveled = 0;
 
-function checkMove(newPos) {
-	moveSphere.set(newPos, wallDepth*2);	
-
-	for (var i = 0; i < obstacles.length; i++) {
-		moveBox.setFromObject(obstacles[i]);
-		if (moveBox.intersectsSphere(moveSphere)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 function setupMove() {
-	moveBox = new THREE.Box3();
-	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
-
 	socket.on('move', move);
 	socket.on('stop', stop);
 }
@@ -168,22 +149,16 @@ function move(direction) {
 	}
 
 	if (directions["left"]) {
-		camera.rotateY(THREE.Math.degToRad(distanceTraveled/10));
+		camera.rotateY(THREE.Math.degToRad(distanceTraveled/5));
 	}
 	if (directions["right"]) {
-		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/10));
+		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/5));
 	}
 	if (directions["up"]) {
 		camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
-		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
-			stopEmit();
-		}
 	}
 	if (directions["down"]) {
 		camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
-		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
-			stopEmit();
-		}
 	}
 }
 
@@ -204,47 +179,27 @@ var renderer;
 var canvas;
 var scene;
 
-var obstacles = [];
-
 socket.on("invalid id", function() {
 	socket.emit('id', prompt("Invalid id. Please enter the id of the screen(s) you'd like to link this control to."));
 });
 
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
-socket.on("setup", function(data) {
+socket.on("setupControl", function(data) {
 	scene = new THREE.Scene();
 	scene.background = "0x000000";
 
 	var loader = new THREE.ObjectLoader();
 
-	var obj;
-	for (var i = 0; i < data.scene.interactiveObjects.length; i++) {
-		obj = loader.parse(data.scene.interactiveObjects[i]);
-		obj.updateMatrix();
-		scene.add(obj);
+	for (var i = 0; i < data.scene.length; i++) {
+		scene.add(loader.parse(data.scene[i]));
 	}
 
-	for (var i = 0; i < data.scene.lights.length; i++) {
-		obj = loader.parse(data.scene.lights[i]);
-		obj.updateMatrix();
-		scene.add(obj);
-	}
-
-	for (var i = 0; i < data.scene.obstacles.length; i++) {
-		obj = loader.parse(data.scene.obstacles[i]);
-		obj.updateMatrix();
-		obstacles.push(obj);
-		scene.add(obj);
-	}
-
-	wallDepth = data.wallDepth;
-	wallUnitWidth = data.wallUnitWidth;
-
-	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth*3);
+	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, 10000);
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
+	camera.updateMatrix();
 
 	renderer = new THREE.WebGLRenderer({anitalias: true});
 	renderer.autoClearDepth = false;
@@ -278,9 +233,7 @@ for (var i = 0; i < arrows.length; i++) {
 }
 
 function moveEmit(e) {
-	if (e) {
-		e.preventDefault();
-	}
+	e.preventDefault();
 
 	socket.emit("move", this);
 
@@ -288,9 +241,7 @@ function moveEmit(e) {
 }
 
 function stopEmit(e) {
-	if (e) {
-		e.preventDefault();
-	}
+	e.preventDefault();
 
 	socket.emit("stop", this);
 
