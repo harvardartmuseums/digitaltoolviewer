@@ -70,14 +70,14 @@ function TourRoom(tourData) {
 	lights.push(light);
 
 	var light = new THREE.DirectionalLight(0xffffff, .4);
-	light.position.set(1, .5, -1);
+	light.position.set(1, 0, -1);
 	light.position.multiplyScalar(50);
 	scene.add(light);
 
 	lights.push(light);
 
 	var light = new THREE.DirectionalLight(0xffffff, .7);
-	light.position.set(-1, 1, .5);
+	light.position.set(-1, 0, .5);
 	light.position.multiplyScalar(50);
 	scene.add(light);
 
