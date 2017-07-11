@@ -11,7 +11,11 @@ var loading = {toLoad: 0, loaded: 0};
 setup();
 
 function load(n) {
-	loading.toLoad += n || 1;
+	if (n) {
+		loading.toLoad += n;
+	} else {
+		loading.toLoad++;
+	}
 }
 
 function loaded() {
