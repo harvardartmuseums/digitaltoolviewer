@@ -176,13 +176,13 @@ function move(direction) {
 	if (directions["up"]) {
 		camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
 		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
-			stopEmit().bind("up");
+			stopEmit();
 		}
 	}
 	if (directions["down"]) {
 		camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
 		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
-			stopEmit().bind("down");
+			stopEmit();
 		}
 	}
 }
