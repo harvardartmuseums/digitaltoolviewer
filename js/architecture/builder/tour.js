@@ -56,28 +56,14 @@ function TourRoom(tourData) {
 	var wall;
 	var walls = (tourData.stops.length == 0)? 4 : Math.ceil(tourData.stops.length/4)*4;
 
-	//var light = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.6);
-	//light.position.set(0, 400, 0);
-	//scene.add(light);
-
-	//lights.push(light);
-
-	var light = new THREE.DirectionalLight(0xffffff, .6);
-	light.position.set(-1, 1.75, 1);
-	light.position.multiplyScalar(50);
+	var light = new THREE.HemisphereLight(0xffffff, 0x333333, 0.3);
+	light.position.set(0, 400, 0);
 	scene.add(light);
 
 	lights.push(light);
 
-	var light = new THREE.DirectionalLight(0xffffff, .4);
-	light.position.set(1, 0, -1);
-	light.position.multiplyScalar(50);
-	scene.add(light);
-
-	lights.push(light);
-
-	var light = new THREE.DirectionalLight(0xffffff, .7);
-	light.position.set(-1, 0, .5);
+	light = new THREE.DirectionalLight(0xffffff, .4);
+	light.position.set(-1.5, .2, 1.25);
 	light.position.multiplyScalar(50);
 	scene.add(light);
 
