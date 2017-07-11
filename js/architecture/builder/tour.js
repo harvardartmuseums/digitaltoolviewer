@@ -56,19 +56,6 @@ function TourRoom(tourData) {
 	var wall;
 	var walls = (tourData.stops.length == 0)? 4 : Math.ceil(tourData.stops.length/4)*4;
 
-	var light = new THREE.HemisphereLight(0xffffff, 0x333333, 0.3);
-	light.position.set(0, 400, 0);
-	scene.add(light);
-
-	lights.push(light);
-
-	light = new THREE.DirectionalLight(0xffffff, .4);
-	light.position.set(-1.5, .2, 1.25);
-	light.position.multiplyScalar(50);
-	scene.add(light);
-
-	lights.push(light);
-
 	var offsetCenter = (wallUnitWidth*walls/4 + wallDepth)/2;
 	var offsetWall = walls/4/2 - .5;
 
@@ -79,6 +66,34 @@ function TourRoom(tourData) {
 	tstand.position.set(0, 0, -wallDepth*3.01);
 	tstand.updateMatrix();
 	this.mesh.add(tstand);
+
+
+	//var light = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.3);
+	//light.position.set(0, 400, 0);
+	//scene.add(light);
+
+	//lights.push(light);
+
+	var light = new THREE.DirectionalLight(0xffffff, .5);
+	light.position.set(-2000, 0, 1750);
+	scene.add(light);
+
+	lights.push(light);
+
+
+	light = new THREE.DirectionalLight(0xffffff, .6);
+	light.position.set(1000, 0, -1000);
+	scene.add(light);
+
+	lights.push(light);
+
+
+	light = new THREE.DirectionalLight(0xffffff, .3);
+	light.position.set(500, 2000, 250);
+	scene.add(light);
+
+	lights.push(light);
+
 
 	for (var i = 0; i < walls; i++) {
 		wall = new Stop(tourData.stops[i]);
