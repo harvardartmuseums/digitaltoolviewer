@@ -10,13 +10,13 @@ function Floor(width, breadth) {
 	var box = new THREE.Mesh(geometry, floorMaterial);
 	this.mesh.add(box);
 
-	var light = new THREE.PointLight(0xffffff, .2);
-	light.position.set(0, wallHeight/3 + wallDepth/2, 0);
-	light.updateMatrix();
-	light.layers.enable(1);
-	this.mesh.add(light);
+	//var light = new THREE.PointLight(0xffffff, .2);
+	//light.position.set(0, wallHeight/3 + wallDepth/2, 0);
+	//light.updateMatrix();
+	//light.layers.enable(1);
+	//this.mesh.add(light);
 
-	lights.push(light);
+	//lights.push(light);
 
 	this.mesh.position.set(0, -wallDepth/2, 0);
 	this.mesh.updateMatrix();
