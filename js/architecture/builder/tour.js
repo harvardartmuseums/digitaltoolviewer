@@ -77,6 +77,7 @@ function TourRoom(tourData) {
 	var light = new THREE.DirectionalLight(0xffffff, .5);
 	light.position.set(-2000, 0, 1750);
 	scene.add(light);
+	light.updateMatrix();
 
 	lights.push(light);
 
@@ -84,6 +85,7 @@ function TourRoom(tourData) {
 	light = new THREE.DirectionalLight(0xffffff, .6);
 	light.position.set(1000, 0, -1000);
 	scene.add(light);
+	light.updateMatrix();
 
 	lights.push(light);
 
@@ -91,6 +93,7 @@ function TourRoom(tourData) {
 	light = new THREE.DirectionalLight(0xffffff, .3);
 	light.position.set(500, 2000, 250);
 	scene.add(light);
+	light.updateMatrix();
 
 	lights.push(light);
 
