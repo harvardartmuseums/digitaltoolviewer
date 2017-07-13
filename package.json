@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A 3D gallery generated from Digital Tool JSON objects.",
   "main": "index.js",
- "engines": {    "node": "7.2.0"
+ "engines": {    "node": "7.10.1"
   },  "scripts": {
     "start": "node index.js"
   },
