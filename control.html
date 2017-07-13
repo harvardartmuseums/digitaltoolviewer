@@ -193,6 +193,7 @@ socket.on("setupControl", function(data) {
 
 	var obj;
 	for (var i = 0; i < data.scene.length; i++) {
+		console.log(data.scene[i]);
 		obj = loader.parse(data.scene[i]);
 		scene.add(obj);
 		obj.updateMatrix();
