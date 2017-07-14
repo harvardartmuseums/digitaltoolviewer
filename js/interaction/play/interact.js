@@ -10,7 +10,7 @@ function handleInteraction(e) {
 	mouse.x = e.x;
 	mouse.y = e.y;
 
-	interactRay.setFromCamera(mouse, interactionCamera);
+	interactRay.setFromCamera(mouse, camera);
 
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
