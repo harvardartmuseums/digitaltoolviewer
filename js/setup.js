@@ -20,7 +20,6 @@ function load(n) {
 
 function loaded() {
 	loading.loaded++;
-	console.log(loading.loaded + " of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
 		var interactionScene = {obstacles: [], interactiveObjects: [], lights: []};
 		for (var i = 0; i < interactiveObjects.length; i++) {
@@ -39,7 +38,7 @@ function loaded() {
 			interactionScene.lights.push(lights[i].toJSON());
 		}
 
-		socket.emit("setupControl", {scene: interactionScene, wallDepth: wallDepth, wallUnitWidth: wallUnitWidth});
+		socket.emit("scene", {scene: interactionScene, wallDepth: wallDepth, wallUnitWidth: wallUnitWidth});
 
 		interactionScene = null;
 	}
