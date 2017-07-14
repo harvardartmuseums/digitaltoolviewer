@@ -1,6 +1,9 @@
+var interactRay;
+var mouse;
+
 function setupInteraction() {
-	var interactRay = new THREE.Raycaster(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), wallDepth, wallUnitWidth);
-	var mouse = new THREE.Vector2();
+	interactRay = new THREE.Raycaster(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), wallDepth, wallUnitWidth);
+	mouse = new THREE.Vector2();
 
 	socket.on("click", handleInteraction);
 }
