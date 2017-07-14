@@ -164,7 +164,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	(scale == undefined)? scale = new THREE.Vector3(1, 1, 1) : scale = scale;
 
 	// set a hair forward of position to avoid collisions
-	pos.z += .01;
+	pos.z += .02;
 
 	var cssObject = new THREE.CSS3DObject(cssElement);
 	cssOverlay.add(cssObject);

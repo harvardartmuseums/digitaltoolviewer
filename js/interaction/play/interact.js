@@ -16,7 +16,12 @@ function handleInteraction(e) {
 
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
-	if (intersections.length > 0) {
-		interactionMethod[interactiveObjects.indexOf(intersections[0].object)]();
+	var index;
+	for (var i = 0; i < intersections.length; i++) {
+		index = interactiveObjects.indexOf(intersections[i].object);
+		if (index != -1) {
+			interactionMethod[index]();
+			break;
+		}
 	}
 }
