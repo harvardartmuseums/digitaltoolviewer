@@ -94,7 +94,7 @@ controlIO.on('connection', function(socket) {
 			socket.join(id);
 	
 			if (scenes[id]) {
-				controlIO.to(id).emit("setupControl", scenes[id]);
+				socket.emit("setupControl", scenes[id]);
 			}
 
 			socket.on("move", function(direction) {

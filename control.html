@@ -223,7 +223,7 @@ socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to lin
 
 socket.on("setupControl", function(data) {
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		document.getElementById("viewport").remove(document.getElementById("viewport").getElementsByTagName("canvas")[0]);
+		document.getElementById("viewport").getElementsByTagName("canvas")[0].remove();
 	}
 
 	scene = new THREE.Scene();
