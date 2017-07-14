@@ -221,6 +221,10 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("setupControl", function(data) {
+	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
+		document.getElementById("viewport").remove(document.getElementById("viewport").getElementsByTagName("canvas")[0]);
+	}
+
 	scene = new THREE.Scene();
 	scene.background = "0x000000";
 
@@ -258,6 +262,8 @@ socket.on("setupControl", function(data) {
 	renderer = new THREE.WebGLRenderer({anitalias: true});
 	renderer.autoClearDepth = false;
 	renderer.setSize(window.innerWidth, 9*window.innerWidth/16);
+
+	document.getElementById("viewport").innerHTML = "If you're close enough, objects you can interact with will appear below:";
 	document.getElementById("viewport").appendChild(renderer.domElement);
 
 	setupMove();
