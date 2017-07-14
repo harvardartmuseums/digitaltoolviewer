@@ -70,6 +70,7 @@ body, html {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 	position: absolute;
 	top: 33.3%;
 	left: 0%;
@@ -263,7 +264,7 @@ socket.on("setupControl", function(data) {
 	renderer.autoClearDepth = false;
 	renderer.setSize(window.innerWidth, 9*window.innerWidth/16);
 
-	document.getElementById("viewport").innerHTML = "If you're close enough, objects you can interact with will appear below:";
+	document.getElementById("viewport").innerHTML = "<span>If you're close enough, objects you can interact with will appear below:</span>";
 	document.getElementById("viewport").appendChild(renderer.domElement);
 
 	setupMove();
