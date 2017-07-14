@@ -182,13 +182,13 @@ function move(direction) {
 	}
 	if (directions["up"]) {
 		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
-			stopEmit();
+			stopEmit.call("up");
 		}
 		camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
 	}
 	if (directions["down"]) {
 		if (!checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
-			stopEmit();
+			stopEmit.call("down");
 		}
 		camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
 	}
