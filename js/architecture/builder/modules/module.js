@@ -238,10 +238,10 @@ function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {
 		}
 
 		var now = new Date();
-		if (start.valueOf() + 10 < now.valueOf()) {
+		if (start.valueOf() + 100 < now.valueOf()) {
 			setTimeout(function () {
 				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
-			}, 10 - (now.valueOf() - start.valueOf()));
+			}, 100 - (now.valueOf() - start.valueOf()));
 		} else {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
 		}

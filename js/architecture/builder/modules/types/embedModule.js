@@ -19,7 +19,7 @@ function EmbedModule(width, height, module) {
 
 	setTimeout(function() {
 		generateCutout(this, embedElement, undefined, undefined, undefined, undefined, true, true, openEmbed.bind(embedElement)); 
-	}.bind(this.mesh), 10);
+	}.bind(this.mesh), 100);
 	
 	return this.mesh;
 }

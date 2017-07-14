@@ -78,6 +78,7 @@ function TourRoom(tourData) {
 	light.position.set(-2000, 0, 1750);
 	scene.add(light);
 	light.updateMatrix();
+	light.layers.enable(1);
 
 	lights.push(light);
 
@@ -86,6 +87,7 @@ function TourRoom(tourData) {
 	light.position.set(1000, -500, -1000);
 	scene.add(light);
 	light.updateMatrix();
+	light.layers.enable(1);
 
 	lights.push(light);
 
@@ -94,6 +96,7 @@ function TourRoom(tourData) {
 	light.position.set(500, 2000, 250);
 	scene.add(light);
 	light.updateMatrix();
+	light.layers.enable(1);
 
 	lights.push(light);
 

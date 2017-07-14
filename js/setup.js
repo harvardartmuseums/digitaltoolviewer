@@ -22,24 +22,24 @@ function loaded() {
 	loading.loaded++;
 	console.log(loading.loaded + " of " + loading.toLoad);
 	if (loading.toLoad <= loading.loaded) {
-		var interactionScene = [];
+		var interactionScene = {obstacles: [], interactiveObjects: [], lights: []};
 		for (var i = 0; i < interactiveObjects.length; i++) {
 			interactiveObjects[i].parent.updateMatrixWorld();
 			THREE.SceneUtils.detach(interactiveObjects[i], interactiveObjects[i].parent, scene);
-			interactionScene.push(interactiveObjects[i].toJSON());
+			interactionScene.interactiveObjects.push(interactiveObjects[i].toJSON());
 		}
 		for (var i = 0; i < obstacles.length; i++) {
 			obstacles[i].parent.updateMatrixWorld();
 			THREE.SceneUtils.detach(obstacles[i], obstacles[i].parent, scene);
-			interactionScene.push(obstacles[i].toJSON());
+			interactionScene.obstacles.push(obstacles[i].toJSON());
 		}
 		for (var i = 0; i < lights.length; i++) {
 			lights[i].parent.updateMatrixWorld();
 			THREE.SceneUtils.detach(lights[i], lights[i].parent, scene);
-			interactionScene.push(lights[i].toJSON());
+			interactionScene.lights.push(lights[i].toJSON());
 		}
 
-		socket.emit("setupControl", {scene: interactionScene, minClip: wallDepth, maxClip: wallUnitWidth});
+		socket.emit("setupControl", {scene: interactionScene, wallDepth: wallDepth, wallUnitWidth: wallUnitWidth});
 
 		interactionScene = null;
 	}

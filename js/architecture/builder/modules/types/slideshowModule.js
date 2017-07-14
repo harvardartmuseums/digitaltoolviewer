@@ -76,7 +76,7 @@ function SlideshowModule(width, height, module) {
 
 		setTimeout(function() {
 			generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openSlideshow.bind(element));
-		}.bind(this.mesh), 10);
+		}.bind(this.mesh), 100);
 
 	} else {
 		load(module.images.length - 1);

@@ -39,9 +39,8 @@ app.get('/css/mediaStyles.css', function(req, res){
 var screensIO = io.of('/screens-namespace');
 var controlIO = io.of('/control-namespace');
 
-//const three = require('/js/three.min.js');
-
 var screens = [];
+var scenes = {};
 
 function getId() {
 	var id = Math.floor(9000*Math.random()) + 1000;
@@ -82,7 +81,8 @@ screensIO.on('connection', function(socket) {
 			controlIO.to(this).emit("open", div);
 		}.bind(id));
 
-		socket.on("setupControl", function(data) {
+		socket.on("scene", function(data) {
+			scenes[this] = data;
 			controlIO.to(this).emit("setupControl", data);
 		}.bind(id));
 	});
@@ -92,6 +92,10 @@ controlIO.on('connection', function(socket) {
 	socket.on('id', function(id) {
 		if (screens.indexOf(id) != -1) {
 			socket.join(id);
+	
+			if (scenes[id]) {
+				controlIO.to(this).emit("setupControl", scenes[id]);
+			}
 
 			socket.on("move", function(direction) {
 				screensIO.to(this).emit("move", direction);

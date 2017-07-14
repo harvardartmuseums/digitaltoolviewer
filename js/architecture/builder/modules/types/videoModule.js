@@ -29,7 +29,7 @@ function VideoModule(width, height, module) {
 
 	setTimeout(function() {
 		generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, openVideo.bind(videoElement)); 
-	}.bind(this.mesh), 10);
+	}.bind(this.mesh), 100);
 
 	return this.mesh;
 }

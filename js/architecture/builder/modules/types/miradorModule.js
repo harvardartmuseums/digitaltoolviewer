@@ -15,7 +15,7 @@ function MiradorModule(width, height, module) {
 
 	setTimeout(function() {
 		generateCutout(this, miradorElement, undefined, undefined, undefined, undefined, true, true, openMirador.bind(module.mirador.id)); 
-	}.bind(this.mesh), 10);
+	}.bind(this.mesh), 100);
 	
 	return this.mesh;
 }

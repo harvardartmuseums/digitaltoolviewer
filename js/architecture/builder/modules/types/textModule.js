@@ -14,7 +14,7 @@ function TextModule(width, height, module) {
 
 	setTimeout(function() {
 		generateCutout(this, element, undefined, undefined, undefined, undefined, true, true, openText.bind(module.text));
-	}.bind(this.mesh), 20);
+	}.bind(this.mesh), 100);
 	
 	return this.mesh;
 }

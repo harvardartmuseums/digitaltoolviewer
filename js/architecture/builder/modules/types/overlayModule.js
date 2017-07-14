@@ -15,7 +15,7 @@ function OverlayModule(width, height, module) {
 
 	setTimeout(function() {
 		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openOverlay.bind(element));
-	}.bind(this.mesh), 10);
+	}.bind(this.mesh), 100);
 	
 	return this.mesh;
 }

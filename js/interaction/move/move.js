@@ -61,14 +61,14 @@ function move(direction) {
 		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/10));
 	}
 	if (directions["up"]) {
-		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
+		//if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
-		}
+		//}
 	}
 	if (directions["down"]) {
-		if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
+		//if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
 			camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
-		}
+		//}
 	}
 }
 
