@@ -227,7 +227,7 @@ socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to lin
 
 socket.on("setupControl", function(data) {
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		document.getElementById("viewport").getElementsByTagName("canvas")[0].remove();
+		document.getElementById("viewport").empty();
 	}
 
 	scene = new THREE.Scene();
@@ -258,7 +258,7 @@ socket.on("setupControl", function(data) {
 	wallDepth = data.wallDepth;
 	wallUnitWidth = data.wallUnitWidth;
 
-	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
+	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth*2, wallUnitWidth);
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
