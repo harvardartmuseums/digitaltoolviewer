@@ -1,5 +1,5 @@
 function openText() {
-	console.log(this);
+	socket.emit("open", this);
 }
 
 function TextModule(width, height, module) {

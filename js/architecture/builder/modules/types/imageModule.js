@@ -1,7 +1,3 @@
-function openImage() {
-	console.log(this);
-}
-
 function ImageModule(width, height, module) {
 	this.mesh = new THREE.Group();
 

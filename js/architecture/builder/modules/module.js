@@ -164,7 +164,7 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	(scale == undefined)? scale = new THREE.Vector3(1, 1, 1) : scale = scale;
 
 	// set a hair forward of position to avoid collisions
-	pos.z += .02;
+	pos.z += .05;
 
 	var cssObject = new THREE.CSS3DObject(cssElement);
 	cssOverlay.add(cssObject);
@@ -217,6 +217,10 @@ function generateCutout(mesh, cssElement, pos, width, height, scale, interactive
 	if (interactive) {
 		loaded();
 	}
+}
+
+function openImage() {
+	socket.emit("open", "<img src=\"" + this + "\" />");
 }
 
 function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {

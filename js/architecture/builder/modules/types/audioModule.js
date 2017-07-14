@@ -1,5 +1,10 @@
-function openAudio() {
-	console.log("audio");
+function toggleAudio() {
+	if (this.paused || this.ended) {
+		this.play();
+	} else {
+		this.pause();
+		this.currentTime = 0;
+	}
 }
 
 function AudioModule(width, height, module) {
@@ -9,7 +14,11 @@ function AudioModule(width, height, module) {
 	label.position.set(0, -height/6 - .1*height/2 - width/6, 0);
 	label.updateMatrix();
 	this.mesh.add(label);
-	
+
+	var audioElement = document.createElement("audio");
+	audioElement.src = module.audio.url;
+	audioElement.preload = "auto";
+	var toggleThisAudio = toggleAudio.bind(audioElement);
 
 	var geometry = new THREE.BoxBufferGeometry(width/3, .1*height/2, width/6);
 	var shelf = new THREE.Mesh(geometry, wallMaterial);
@@ -18,7 +27,7 @@ function AudioModule(width, height, module) {
 	shelf.layers.enable(1);
 	this.mesh.add(shelf);
 	interactiveObjects.push(shelf);
-	interactionMethod.push(openAudio);
+	interactionMethod.push(toggleThisAudio);
 
 	geometry = new THREE.BoxBufferGeometry(width/5, 3*height/12, width/10);
 	var speaker = new THREE.Mesh(geometry, speakerMaterial);
@@ -27,7 +36,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
-	interactionMethod.push(openAudio);
+	interactionMethod.push(toggleThisAudio);
 
 	geometry = new THREE.CylinderBufferGeometry(width/10, width/10, width/10, 20);
 	speaker = new THREE.Mesh(geometry, speakerMaterial);
@@ -37,7 +46,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
-	interactionMethod.push(openAudio);
+	interactionMethod.push(toggleThisAudio);
 
 	geometry = new THREE.SphereBufferGeometry(.75*width/10, 20, 20);
 	speaker = new THREE.Mesh(geometry, speakerGrillMaterial);
@@ -47,7 +56,7 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
-	interactionMethod.push(openAudio);
+	interactionMethod.push(toggleThisAudio);
 
 	var playButtonMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
 	geometry = new THREE.SphereBufferGeometry(width/100);
@@ -57,12 +66,8 @@ function AudioModule(width, height, module) {
 	speaker.layers.enable(1);
 	this.mesh.add(speaker);
 	interactiveObjects.push(speaker);
-	interactionMethod.push(openAudio);
+	interactionMethod.push(toggleThisAudio);
 	
-
-	var audioElement = document.createElement("audio");
-	audioElement.src = module.audio.url;
-	audioElement.preload = "auto";
 	audioElement.addEventListener("playing", function() {
 		playButtonMaterial.color.set(0xff0000);
 	});

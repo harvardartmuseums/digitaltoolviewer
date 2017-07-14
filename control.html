@@ -152,6 +152,19 @@ function checkMove(newPos) {
 	return true;
 }
 
+function setupReset() {
+	socket.on("reset", function() {
+		camera.position.z = 0;
+		camera.position.x = 0;
+		camera.position.y = 200;
+		camera.lookAt(new THREE.Vector3(0, 200, -1));
+
+		stop();
+
+		animate();
+	});
+}
+
 function setupMove() {
 	moveBox = new THREE.Box3();
 	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
@@ -282,6 +295,7 @@ socket.on("setupControl", function(data) {
 	document.getElementById("viewport").appendChild(span);
 
 	setupMove();
+	setupReset();
 	animate();
 });
 
@@ -293,8 +307,9 @@ function animate() {
 	renderer.render(scene, camera);
 }
 
-socket.on("open", function(div) {
-	console.log("open");
+socket.on("open", function(html) {
+	document.getElementById("mediaViewer").innerHTML = html;
+	document.getElementById("mediaViewer").display = "block";
 });
 
 var arrows = ["left", "up", "right", "down"];
