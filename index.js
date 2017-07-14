@@ -74,7 +74,7 @@ screensIO.on('connection', function(socket) {
 		socket.join(id);
 
 		socket.on("reset", function() {
-			io.in(this).emit("reset");
+			io.to(this).emit("reset");
 		}.bind(id));
 
 		socket.on("open", function(div) {
@@ -99,11 +99,11 @@ controlIO.on('connection', function(socket) {
 			}
 
 			socket.on("move", function(direction) {
-				io.in(this).emit("move", direction);
+				io.to(this).emit("move", direction);
 			}.bind(id));
 
 			socket.on("stop", function(direction) {
-				io.in(this).emit("stop", direction);
+				io.to(this).emit("stop", direction);
 			}.bind(id));
 
 			socket.on("click", function(e) {
