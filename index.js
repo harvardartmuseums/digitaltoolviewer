@@ -73,8 +73,8 @@ screensIO.on('connection', function(socket) {
 		screens.push(id);
 		socket.join(id);
 
-		socket.on("update", function(data) {
-			controlIO.to(this).emit("update", data);
+		socket.on("reset", function() {
+			io.in(this).emit("reset");
 		}.bind(id));
 
 		socket.on("open", function(div) {
@@ -95,16 +95,15 @@ controlIO.on('connection', function(socket) {
 	
 			if (scenes[id]) {
 				socket.emit("setupControl", scenes[id]);
+				io.in(id).emit("reset");
 			}
 
 			socket.on("move", function(direction) {
-				screensIO.to(this).emit("move", direction);
-				controlIO.to(this).emit("move", direction);
+				io.in(this).emit("move", direction);
 			}.bind(id));
 
 			socket.on("stop", function(direction) {
-				screensIO.to(this).emit("stop", direction);
-				controlIO.to(this).emit("stop", direction);
+				io.in(this).emit("stop", direction);
 			}.bind(id));
 
 			socket.on("click", function(e) {

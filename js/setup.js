@@ -57,6 +57,7 @@ function finishSetup() {
 	setupResize();
 	setupMove();
 	setupReset();
+	setupInteraction();
 
 	animate();
 }

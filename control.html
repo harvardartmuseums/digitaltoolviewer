@@ -273,6 +273,9 @@ socket.on("setupControl", function(data) {
 	document.getElementById("viewport").appendChild(span);
 
 	document.getElementById("viewport").appendChild(renderer.domElement);
+	renderer.domElement.onclick = function(e) {
+		socket.emit("click", {x: 2*(e.clientX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: 2*(e.clientY - this.offsetTop - this.clientTop)/(this.clientHeight) - 1});
+	};
 
 	span = document.createElement("span");
 	span.innerHTML = "Tap the silhouettes to interact";
