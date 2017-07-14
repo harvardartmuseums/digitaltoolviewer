@@ -82,6 +82,11 @@ body, html {
 	z-index: 1;
 }
 
+#viewport canvas {
+	box-sizing: border-box;
+	border: 3px solid #aaaaaa;
+}
+
 #mediaViewer {
 	z-index: 10;
 	display: none;
@@ -199,7 +204,7 @@ socket.on("setupControl", function(data) {
 		obj.updateMatrix();
 	}
 
-	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, 10000);
+	camera = new THREE.PerspectiveCamera(75, 16/9, data.minClip, data.maxClip);
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
@@ -217,8 +222,8 @@ socket.on("setupControl", function(data) {
 function animate() {
 	renderer.clearDepth();
 	camera.layers.set(0);
-	//renderer.render(scene, camera);
-	camera.layers.enable(1);
+	renderer.render(scene, camera);
+	camera.layers.set(1);
 	renderer.render(scene, camera);
 }
 
