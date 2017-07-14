@@ -227,11 +227,13 @@ socket.on("setupControl", function(data) {
 	for (var i = 0; i < data.scene.lights.length; i++) {
 		obj = loader.parse(data.scene.lights[i]);
 		scene.add(obj);
+		obj.layers.enable(1);
 		obj.updateMatrix();
 	}
 	for (var i = 0; i < data.scene.interactiveObjects.length; i++) {
 		obj = loader.parse(data.scene.interactiveObjects[i]);
 		scene.add(obj);
+		obj.layers.set(1);
 		obj.updateMatrix();
 	}
 	for (var i = 0; i < data.scene.obstacles.length; i++) {
