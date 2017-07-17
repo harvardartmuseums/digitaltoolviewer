@@ -21,7 +21,6 @@ function handleInteraction(e) {
 	var index;
 	for (var i = 0; i < intersections.length; i++) {
 		index = interactiveObjects.indexOf(intersections[i].object);
-		console.log(index);
 		if (index != -1) {
 			console.log(interactionMethod[index]);
 			interactionMethod[index]();
