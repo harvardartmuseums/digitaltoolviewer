@@ -33,6 +33,9 @@ function VideoModule(width, height, module) {
 	videoElement.style.width = 4*width  + "px";
 	videoElement.style.height = 4*height  + "px";
 
+	var element = document.createElement("div");
+	videoElement.appendChild(element);
+
 	var vimeo = vimeoURL.exec(module.videos.url);
 	var youTube = youTubeURL.exec(module.videos.url);
 
@@ -40,11 +43,10 @@ function VideoModule(width, height, module) {
 	var play;
 	var pause;
 	if (vimeo != null) {
-		console.log(vimeo[1]);
-		video = new Vimeo.Player(videoElement, {id: vimeo[1], byline: false, color: "ffffff", height: 4*height, width: 4*width, title: false, portrait: false});
+		video = new Vimeo.Player(element, {id: vimeo[1], byline: false, color: "ffffff", height: 4*height, width: 4*width, title: false, portrait: false});
 		video.enableTextTrack('en');
 	} else if (youTube != null) {
-		video = new YT.Player(videoElement, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0});
+		video = new YT.Player(element, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0});
 	} else {
 		videoElement.innerHTML = blueScreen;
 	}

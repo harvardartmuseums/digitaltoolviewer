@@ -1,5 +1,5 @@
 function openMirador() {
-	socket.emit("openiFrame", this);
+	socket.emit("open", this, true);
 }
 
 function MiradorModule(width, height, module) {
