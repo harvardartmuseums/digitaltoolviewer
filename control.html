@@ -271,7 +271,7 @@ socket.on("setupControl", function(data) {
 	wallDepth = data.wallDepth;
 	wallUnitWidth = data.wallUnitWidth;
 
-	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth*2, wallUnitWidth);
+	camera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
 	camera.position.z = 0;
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
@@ -309,7 +309,7 @@ function animate() {
 
 socket.on("open", function(html) {
 	document.getElementById("mediaViewer").innerHTML = html;
-	document.getElementById("mediaViewer").display = "block";
+	document.getElementById("mediaViewer").display = "flex";
 });
 
 var arrows = ["left", "up", "right", "down"];

@@ -22,7 +22,6 @@ function handleInteraction(e) {
 	for (var i = 0; i < intersections.length; i++) {
 		index = interactiveObjects.indexOf(intersections[i].object);
 		if (index != -1) {
-			console.log(interactionMethod[index]);
 			interactionMethod[index]();
 			break;
 		}
