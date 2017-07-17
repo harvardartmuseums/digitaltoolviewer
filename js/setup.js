@@ -47,7 +47,7 @@ function loaded() {
 function setup() {
 
 	setupAnimations();
-	setupModuleLayout();
+	setupModules();
 	setupRendering();
 
 	buildTour();

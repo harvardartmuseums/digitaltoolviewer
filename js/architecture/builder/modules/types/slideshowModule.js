@@ -6,8 +6,12 @@ function setupAnimations() {
 	styleSheet = styleSheet.sheet;
 }
 
-function openSlideshow() {
-	console.log("slideshow");
+function toggleSlideshow() {
+	if (this.style.animationPlayState == "running") {
+		this.style.animationPlayState = "paused";
+	} else {
+		this.style.animationPlayState = "running";
+	}
 }
 
 function labeledImage(width, height, image, label) {
@@ -75,7 +79,7 @@ function SlideshowModule(width, height, module) {
 		);
 
 		setTimeout(function() {
-			generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openSlideshow.bind(element));
+			generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, toggleSlideshow.bind(container));
 		}.bind(this.mesh), 100);
 
 	} else {

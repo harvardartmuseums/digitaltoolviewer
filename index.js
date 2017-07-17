@@ -82,6 +82,10 @@ screensIO.on('connection', function(socket) {
 			controlIO.to(this).emit("open", html);
 		}.bind(id));
 
+		socket.on("openOverlay", function(html) {
+			controlIO.to(this).emit("openOverlay", html);
+		}.bind(id));
+
 		socket.on("scene", function(data) {
 			scenes[this] = data;
 			controlIO.to(this).emit("setupControl", data);

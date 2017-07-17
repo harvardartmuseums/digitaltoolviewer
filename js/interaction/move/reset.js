@@ -11,16 +11,8 @@ function setupReset() {
 }
 
 // Reset the view to its initial state
-function reset(socket) {
-	if (resetRounds < 5) {
-		resetRounds++;
-	} else {
-		resetRounds = 0;
-
-		socket.emit("reset");
-	}
-
-	if (socket) {
+function reset(s) {
+	if (s) {
 		camera.position.z = 0;
 		camera.position.x = 0;
 		camera.position.y = 200;
@@ -29,5 +21,13 @@ function reset(socket) {
 		stop();
 
 		animate();
+	} else {
+		if (resetRounds < 5) {
+			resetRounds++;
+		} else {
+			resetRounds = 0;
+
+			socket.emit("reset");
+		}	
 	}
 }

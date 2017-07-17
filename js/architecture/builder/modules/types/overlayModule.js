@@ -1,5 +1,5 @@
 function openOverlay() {
-	console.log("overlay");
+	socket.emit("openOverlay", this);
 }
 
 function OverlayModule(width, height, module) {
@@ -14,7 +14,7 @@ function OverlayModule(width, height, module) {
 	element.style.height = 4*height + "px";
 
 	setTimeout(function() {
-		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openOverlay.bind(element));
+		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openOverlay.bind(module.id + "_0"));
 	}.bind(this.mesh), 100);
 	
 	return this.mesh;

@@ -240,7 +240,7 @@ socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to lin
 
 socket.on("setupControl", function(data) {
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		document.getElementById("viewport").empty();
+		$(document.getElementById("viewport")).empty();
 	}
 
 	scene = new THREE.Scene();
@@ -307,9 +307,18 @@ function animate() {
 	renderer.render(scene, camera);
 }
 
+function handleFrames(html) {
+	return html.replace(/width="[0-9]*px"/g, "width=\"" + window.innerWidth + "px\"").replace(/height="[0-9]*px"/g, "height=\"" + 66.6*window.innerHeight + "px\"");
+}
+
 socket.on("open", function(html) {
-	document.getElementById("mediaViewer").innerHTML = html;
-	document.getElementById("mediaViewer").display = "flex";
+	document.getElementById("mediaViewer").innerHTML = handleFrames(html);
+	document.getElementById("mediaViewer").style.display = "flex";
+});
+
+socket.on("openOverlay", function(id) {
+	document.getElementById("mediaViewer").innerHTML = "<input type=\"range\" oninput=\"socket.emit('slideOverlay', '" + id + "', this.value)\">";
+	document.getElementById("mediaViewer").style.display = "flex";
 });
 
 var arrows = ["left", "up", "right", "down"];

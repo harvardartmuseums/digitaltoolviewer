@@ -12,13 +12,17 @@ var gridLocations = [
 	[0, 3], [3, 3]
 ];
 
-function setupModuleLayout() {
+function setupModules() {
 	var l;
 
 	for (var i = 0; i < gridLocations.length; i++) {
 		l = gridLocations[i];
 		moduleLocations.push(new THREE.Vector3((l[0] - 1.5)*(wallUnitWidth - wallDepth*3)/4, (l[1] - 1.5)*(wallUnitWidth - wallDepth*3)/4, .01));
 	}
+
+	socket.on("slideOverlay", function(id, clip) {
+		document.getElementById(id).style.clipPath = "inset(0% " + clip + "% 0% 0%)";
+	});
 }
 
 function cleanModules(modules, slide, fixedModules) {

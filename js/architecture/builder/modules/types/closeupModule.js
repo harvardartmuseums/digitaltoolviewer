@@ -1,5 +1,9 @@
-function openCloseup() {
-	console.log("closeup");
+function toggleCloseup() {
+	if (this.style.animationPlayState == "running") {
+		this.style.animationPlayState = "paused";
+	} else {
+		this.style.animationPlayState = "running";
+	}
 }
 
 function closeup(left, top, label) {
@@ -65,7 +69,7 @@ function CloseupModule(width, height, module) {
 	zoom.appendChild(img);
 
 	setTimeout(function() {
-		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, openCloseup.bind(element));
+		generateCutout(this, element, undefined, 4*width, 4*height, undefined, true, true, toggleCloseup.bind(zoom));
 	}.bind(this.mesh), 100);
 	
 	return this.mesh;

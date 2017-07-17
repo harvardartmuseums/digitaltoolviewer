@@ -1,5 +1,5 @@
 function openEmbed() {
-	console.log("embed");
+	socket.emit("open", this);
 }
 
 function EmbedModule(width, height, module) {
@@ -18,7 +18,7 @@ function EmbedModule(width, height, module) {
 	}
 
 	setTimeout(function() {
-		generateCutout(this, embedElement, undefined, undefined, undefined, undefined, true, true, openEmbed.bind(embedElement)); 
+		generateCutout(this, embedElement, undefined, undefined, undefined, undefined, true, true, openEmbed.bind(embedElement.innerHTML)); 
 	}.bind(this.mesh), 100);
 	
 	return this.mesh;
