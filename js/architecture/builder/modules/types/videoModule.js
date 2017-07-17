@@ -41,7 +41,7 @@ function VideoModule(width, height, module) {
 	var play;
 	var pause;
 	if (vimeo != null) {
-		video = new Vimeo.Player(module.id, {id: vimeo[1], byline: false, color: ffffff, height: 4*height, width: 4*width, title: false, portrait: false});
+		video = new Vimeo.Player(module.id, {id: vimeo[1], byline: false, color: "ffffff", height: 4*height, width: 4*width, title: false, portrait: false});
 		video.enableTextTrack('en');
 	} else if (youTube != null) {
 		video = new YT.Player(module.id, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0});
