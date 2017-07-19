@@ -324,7 +324,7 @@ socket.on("setupControl", function(data) {
 
 	document.getElementById("viewport").appendChild(renderer.domElement);
 	renderer.domElement.ontouchstart = function(e) {
-		socket.emit("click", {x: 2*(e.clientX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.clientY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
+		socket.emit("click", {x: 2*(e.touches[0].clientX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.tocuhes[0].clientY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
 	span = document.createElement("span");
