@@ -78,8 +78,8 @@ screensIO.on('connection', function(socket) {
 			screensIO.to(this).emit("reset");
 		}.bind(id));
 
-		socket.on("open", function(html, notClickable) {
-			controlIO.to(this).emit("open", html, notClickable);
+		socket.on("open", function(html, clickable) {
+			controlIO.to(this).emit("open", html, clickable);
 		}.bind(id));
 
 		socket.on("openOverlay", function(id) {
