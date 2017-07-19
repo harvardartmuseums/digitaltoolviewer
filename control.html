@@ -112,6 +112,7 @@ body, html {
 	width: 100%;
 	height: 66.6%;
 	display: none;
+	z-index: 15;
 }
 
 #mediaClose {
@@ -342,16 +343,25 @@ function handleFrames(html) {
 	return html.replace(/width="[0-9]*(px)?%?"/g, "width=\"" + window.innerWidth + "px\"").replace(/height="[0-9]*(px)?%?"/g, "height=\"" + 66.6*window.innerHeight + "px\"");
 }
 
+function closeMedia() {
+	document.getElementById("mediaViewer").innerHTML = "";
+	document.getElementById("mediaViewer").style.display = "none";
+	document.getElementById("mediaCursorBarrier").style.display = "none";
+	document.getElementById("mediaCursorBarrier").style.pointerEvents = "none";
+}
+
 socket.on("open", function(html, notClickable) {
 	document.getElementById("mediaViewer").innerHTML = handleFrames(html);
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";
-	document.getElementById("mediaCursorBarrier").style.pointerEvents = (notClickable)? "none" : "auto";
+	document.getElementById("mediaCursorBarrier").style.pointerEvents = (notClickable)? "auto" : "none";
 });
 
 socket.on("openOverlay", function(id) {
 	document.getElementById("mediaViewer").innerHTML = "<input type=\"range\" oninput=\"socket.emit('slideOverlay', '" + id + "', this.value)\">";
 	document.getElementById("mediaViewer").style.display = "flex";
+	document.getElementById("mediaCursorBarrier").style.display = "block";
+	document.getElementById("mediaCursorBarrier").style.pointerEvents = "none";
 });
 
 var arrows = ["left", "up", "right", "down"];
