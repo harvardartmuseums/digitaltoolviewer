@@ -147,7 +147,7 @@ body, html {
 </div>
 
 <div id="mediaCursorBarrier">
-<div id="mediaClose" onclick="closeMedia()">Tap here to close</div>
+<div id="mediaClose" ontouchstart="closeMedia()">Tap here to close</div>
 </div>
 
 <script src="js/three.min.js"></script>
@@ -207,10 +207,6 @@ function setupMove() {
 }
 
 function move(direction) {
-	window.addEventListener('touchstart', function (e) {
-		e.preventDefault();
-	});
-
 	if (animationID) {
 		prev = now;
 		now = new Date();
@@ -276,6 +272,10 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("setupControl", function(data) {
+	window.addEventListener('touchstart', function (e) {
+		e.preventDefault();
+	});
+
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
 		$(document.getElementById("viewport")).empty();
 	}
@@ -323,7 +323,7 @@ socket.on("setupControl", function(data) {
 	document.getElementById("viewport").appendChild(span);
 
 	document.getElementById("viewport").appendChild(renderer.domElement);
-	renderer.domElement.onclick = function(e) {
+	renderer.domElement.ontouchstart = function(e) {
 		socket.emit("click", {x: 2*(e.clientX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.clientY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
@@ -355,11 +355,11 @@ function closeMedia() {
 	document.getElementById("mediaCursorBarrier").style.pointerEvents = "none";
 }
 
-socket.on("open", function(html, notClickable) {
+socket.on("open", function(html, clickable) {
 	document.getElementById("mediaViewer").innerHTML = handleFrames(html);
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";
-	document.getElementById("mediaCursorBarrier").style.pointerEvents = (notClickable)? "auto" : "none";
+	document.getElementById("mediaCursorBarrier").style.pointerEvents = (clickable)? "none" : "auto";
 });
 
 socket.on("openOverlay", function(id) {
