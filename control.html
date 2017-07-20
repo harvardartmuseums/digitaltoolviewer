@@ -384,7 +384,7 @@ socket.on("openOverlay", function(id) {
 		e.stopPropagation();
 	};
 	input.oninput = function() {
-		socket.emit('slideOverlay', id, this.value);
+		socket.emit('slideOverlay', id, (100 - this.value));
 	};
 	document.getElementById("mediaViewer").innerHTML = "";
 	document.getElementById("mediaViewer").appendChild(input);
