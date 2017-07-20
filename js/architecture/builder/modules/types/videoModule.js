@@ -50,11 +50,11 @@ function VideoModule(width, height, module) {
 			setTimeout(function() {
 				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
 			}.bind(this.mesh), 100);
-		}.bind(this));
+		});
 	} else if (youTube != null) {
 		video = new YT.Player(element, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0, events: {'onReady': function() {setTimeout(function() {
 			generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-		}.bind(this.mesh), 100);}.bind(this)}});
+		}.bind(this.mesh), 100);}}});
 	} else {
 		videoElement.innerHTML = blueScreen;
 
