@@ -208,6 +208,14 @@ function setupMove() {
 
 	socket.on('move', move);
 	socket.on('stop', stop);
+
+	socket.on('jumpTo', function(location, rotation) {
+		camera.position.x = location.x;
+		camera.position.y = location.y;
+		camera.position.z = location.z;
+
+		camera.rotation.y = rotation;
+	});
 }
 
 function move(direction) {
@@ -399,6 +407,7 @@ function stopEmit(e) {
 	}
 
 	socket.emit("stop", this);
+	socket.emit("jumpTo", camera.position, camera.rotation.y);
 
 	return false;
 }

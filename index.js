@@ -104,6 +104,11 @@ controlIO.on('connection', function(socket) {
 				screensIO.to(id).emit("reset");
 			}
 
+			socket.on("jumpTo", function(location, rotation) {
+				screensIO.to(this).emit("jumpTo", location, rotation);
+				controlIO.to(this).emit("jumpTo", location, rotation);
+			}.bind(id));
+
 			socket.on("move", function(direction) {
 				screensIO.to(this).emit("move", direction);
 				controlIO.to(this).emit("move", direction);

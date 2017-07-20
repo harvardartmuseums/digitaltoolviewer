@@ -1,7 +1,3 @@
-var moveSphere;
-var moveBox;
-var moveRay = new THREE.Raycaster();
-
 var animationID;
 var directions = {"left": false, "up": false, "right": false, "down": false};
 var directionList = Object.keys(directions);
@@ -14,25 +10,17 @@ var distanceTraveled = 0;
 
 var obstacles = [];
 
-function checkMove(newPos) {
-	moveSphere.set(newPos, wallDepth*2);	
-
-	for (var i = 0; i < obstacles.length; i++) {
-		moveBox.setFromObject(obstacles[i]);
-		if (moveBox.intersectsSphere(moveSphere)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 function setupMove() {
-	moveBox = new THREE.Box3();
-	moveSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), wallDepth*3);	
-
 	socket.on('move', move);
 	socket.on('stop', stop);
+
+	socket.on('jumpTo', function(location, rotation) {
+		camera.position.x = location.x;
+		camera.position.y = location.y;
+		camera.position.z = location.z;
+
+		camera.rotation.y = rotation;
+	});
 }
 
 function move(direction) {
@@ -61,14 +49,10 @@ function move(direction) {
 		camera.rotateY(THREE.Math.degToRad(-distanceTraveled/10));
 	}
 	if (directions["up"]) {
-		//if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(distanceTraveled)))) {
-			camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
-		//}
+		camera.position.add(camera.getWorldDirection().multiplyScalar(distanceTraveled));
 	}
 	if (directions["down"]) {
-		//if (checkMove(camera.position.clone().add(camera.getWorldDirection().multiplyScalar(-distanceTraveled)))) {
-			camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
-		//}
+		camera.position.add(camera.getWorldDirection().multiplyScalar(-distanceTraveled));
 	}
 }
 
