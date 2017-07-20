@@ -123,8 +123,8 @@ controlIO.on('connection', function(socket) {
 				screensIO.to(this).emit("click", e);
 			}.bind(id));
 
-			socket.on("slideOverlay", function(id, value) {
-				screensIO.to(this).emit("slideOverlay", id, value);
+			socket.on("slideOverlay", function(overlayID, value) {
+				screensIO.to(this).emit("slideOverlay", overlayID, value);
 			}.bind(id));
 		} else {
 			socket.emit("invalid id");
