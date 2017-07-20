@@ -381,7 +381,19 @@ socket.on("open", function(html, clickable) {
 });
 
 socket.on("openOverlay", function(id) {
-	document.getElementById("mediaViewer").innerHTML = "<input type=\"range\" min=\"0\" max=\"100\" step=\"1\" ontouchstart=\"e.stopPropagation()\" oninput=\"socket.emit('slideOverlay', '" + id + "', this.value)\">";
+	var input = document.createElement("input");
+	input.type = "range";
+	input.min = 0;
+	input.max = 100;
+	input.step = 1;
+	input.ontouchstart = function(e) {
+		e.stopPropagation();
+	};
+	input.oninput = function() {
+		socket.emit('slideOverlay', id, this.value);
+	};
+	document.getElementById("mediaViewer").innerHTML = "";
+	document.getElementById("mediaViewer").appendChild(input);
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";
 	document.getElementById("mediaCursorBarrier").style.pointerEvents = "none";

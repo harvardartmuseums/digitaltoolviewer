@@ -45,15 +45,24 @@ function VideoModule(width, height, module) {
 	if (vimeo != null) {
 		video = new Vimeo.Player(element, {id: vimeo[1], byline: false, color: "ffffff", height: 4*height, width: 4*width, title: false, portrait: false});
 		video.enableTextTrack('en');
+
+		video.ready().then(function() {
+			setTimeout(function() {
+				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+			}.bind(this.mesh), 100);
+		}.bind(this));
 	} else if (youTube != null) {
-		video = new YT.Player(element, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0});
+		video = new YT.Player(element, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0, events: {'onReady': function() {setTimeout(function() {
+			generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+		}.bind(this.mesh), 100);}.bind(this)}});
 	} else {
 		videoElement.innerHTML = blueScreen;
+
+		setTimeout(function() {
+			generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+		}.bind(this.mesh), 100);
 	}
 
-	setTimeout(function() {
-		generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-	}.bind(this.mesh), 100);
-
+	
 	return this.mesh;
 }

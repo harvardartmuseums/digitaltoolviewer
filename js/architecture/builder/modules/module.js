@@ -228,7 +228,6 @@ function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {
 
 	// Create image, wait for it to load
 	var imageElement = document.createElement("img");
-	var start = new Date();
 	imageElement.onload = function () {
 		// calculate size for image in scene, and center
 		var scale = new THREE.Vector3(1, 1, 1);
@@ -241,14 +240,9 @@ function Image3D(mesh, image, pos, boxWidth, boxHeight, interactive) {
 			}
 		}
 
-		var now = new Date();
-		if (start.valueOf() + 100 < now.valueOf()) {
-			setTimeout(function () {
-				generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
-			}, 100 - (now.valueOf() - start.valueOf()));
-		} else {
+		setTimeout(function () {
 			generateCutout(mesh, imageElement, pos, imageElement.width, imageElement.height, scale, interactive, true, openImage.bind(image));
-		}
+		}, 100);
 	};
 	imageElement.src = image;
 	var imageObject = new THREE.CSS3DObject(imageElement);
