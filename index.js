@@ -122,6 +122,10 @@ controlIO.on('connection', function(socket) {
 			socket.on("click", function(e) {
 				screensIO.to(this).emit("click", e);
 			}.bind(id));
+
+			socket.on("slideOverlay", function(id, this.value) {
+				screensIO.to(this).emit("slideOverlay", id, this.value);
+			}.bind(id));
 		} else {
 			socket.emit("invalid id");
 		}

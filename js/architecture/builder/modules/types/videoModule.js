@@ -6,7 +6,7 @@ var blueScreen = "<div class=\"error\">A problem has been detected and Windows h
 function toggleVideo(video, vimeo) {
 	if (video) {
 		if (vimeo) {
-			this.getPaused().then(function(paused) {
+			video.getPaused().then(function(paused) {
 				if (paused) {
 					video.play();
 				} else {
