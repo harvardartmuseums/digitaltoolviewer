@@ -24,7 +24,7 @@ function toggleVideo(vimeo) {
 }
 
 function VideoModule(width, height, module) {
-	this.mesh = new THREE.Group();
+	var mesh = new THREE.Group();
 
 	// Create image, wait for it to load
 	var videoElement = document.createElement("div");
@@ -46,22 +46,22 @@ function VideoModule(width, height, module) {
 		videoElement.innerHTML = "<iframe src=\"https://player.vimeo.com/video/" + vimeo[1] + "?color=ffffff&title=0&byline=0&portrait=0\" width=\"" + 4*width + "\" height=\"" + 4*height + "\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 		videoElement.getElementsByTagName("iframe")[0].onload = function() {
 			setTimeout(function() {
-				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-			}.bind(this.mesh), 100);
-		}.bind(this);
+				generateCutout(mesh, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+			}, 100);
+		};
 		video = new Vimeo.Player(videoElement.getElementsByTagName("iframe")[0]);
 		video.enableTextTrack('en');
 	} else if (youTube != null) {
 		videoElement.innerHTML = "<iframe width=\"" + 4*width + "\" height=\"" + 4*height + "\" src=\"https://www.youtube.com/embed/" + youTube[1] + "?rel=0&amp;controls=0&amp;showinfo=0&amp;enablejsapi=1&amp;cc_load_policy=1&amp;disablekb=1&amp;fs=1&amp;modestbranding=1\" frameborder=\"0\" allowfullscreen></iframe>";
 		videoElement.getElementsByTagName("iframe")[0].onload = function() {
 			setTimeout(function() {
-				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-			}.bind(this.mesh), 100);
-		}.bind(this);
+				generateCutout(mesh, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+			}, 100);
+		};
 		video = new YT.Player(videoElement.getElementsByTagName("iframe")[0], {});
 	} else {
 		videoElement.innerHTML = blueScreen;
 	}
 
-	return this.mesh;
+	return mesh;
 }
