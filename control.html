@@ -125,6 +125,10 @@ body, html {
 	background-color: rgba(0, 0, 0, .5);
 	pointer-events: auto;
 }
+
+input {
+	width: 80%;
+}
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
@@ -363,7 +367,7 @@ socket.on("open", function(html, clickable) {
 });
 
 socket.on("openOverlay", function(id) {
-	document.getElementById("mediaViewer").innerHTML = "<input type=\"range\" oninput=\"socket.emit('slideOverlay', '" + id + "', this.value)\">";
+	document.getElementById("mediaViewer").innerHTML = "<input type=\"range\" min=\"0\" max=\"100\" step=\"1\" ontouchstart=\"e.stopPropagation()\" oninput=\"socket.emit('slideOverlay', '" + id + "', this.value)\">";
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";
 	document.getElementById("mediaCursorBarrier").style.pointerEvents = "none";
