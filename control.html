@@ -157,8 +157,6 @@ input {
 <script src="js/three.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-var thisStopped = false;
-
 var wallDepth = 0;
 var wallUnitWidth = 1000;
 
@@ -268,10 +266,6 @@ function stop(direction) {
 	}
 
 	if (!direction || directions.length == 0) {
-		if (thisStopped) {
-			socket.emit("jumpTo", camera.position, camera.rotation.y);
-			thisStopped = false;
-		}
 		cancelAnimationFrame(animationID);
 		animationID = undefined;
 	}
@@ -424,8 +418,8 @@ function stopEmit(e) {
 		e.preventDefault();
 	}
 
-	thisStopped = true;
 	socket.emit("stop", this);
+	socket.emit("jumpTo", camera.position, camera.rotation.y);
 
 	return false;
 }

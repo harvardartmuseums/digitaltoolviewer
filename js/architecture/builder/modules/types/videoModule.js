@@ -43,26 +43,25 @@ function VideoModule(width, height, module) {
 	var play;
 	var pause;
 	if (vimeo != null) {
-		video = new Vimeo.Player(element, {id: vimeo[1], byline: false, color: "ffffff", height: 4*height, width: 4*width, title: false, portrait: false});
-		video.enableTextTrack('en');
-
-		video.ready().then(function() {
+		videoElement.innerHTML = "<iframe src=\"https://player.vimeo.com/video/" + vimeo[1] + "?color=ffffff&title=0&byline=0&portrait=0\" width=\"" + 4*width + "\" height=\"" + 4*height + "\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+		videoElement.getElementsByTagName("iframe")[0].onload = function() {
 			setTimeout(function() {
 				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
 			}.bind(this.mesh), 100);
-		});
+		}.bind(this);
+		video = new Vimeo.Player(videoElement.getElementsByTagName("iframe")[0]);
+		video.enableTextTrack('en');
 	} else if (youTube != null) {
-		video = new YT.Player(element, {videoId: youTube[1], height: 4*height, width: 4*width, cc_load_policy: 1, controls: 0, disablekb: 1, enablejsapi: 1, fs: 0, modestbranding: 1, origin: "http://digitaltoolviewer.herokuapp.com/", rel: 0, showinfo: 0, events: {'onReady': function() {setTimeout(function() {
-			generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-		}.bind(this.mesh), 100);}}});
+		videoElement.innerHTML = "<iframe width=\"" + 4*width + "\" height=\"" + 4*height + "\" src=\"https://www.youtube.com/embed/" + youTube[1] + "?rel=0&amp;controls=0&amp;showinfo=0&amp;enablejsapi=1&amp;cc_load_policy=1&amp;disablekb=1&amp;fs=1&amp;modestbranding=1\" frameborder=\"0\" allowfullscreen></iframe>";
+		videoElement.getElementsByTagName("iframe")[0].onload = function() {
+			setTimeout(function() {
+				generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
+			}.bind(this.mesh), 100);
+		}.bind(this);
+		video = new YT.Player(videoElement.getElementsByTagName("iframe")[0], {});
 	} else {
 		videoElement.innerHTML = blueScreen;
-
-		setTimeout(function() {
-			generateCutout(this, videoElement, undefined, undefined, undefined, undefined, true, true, toggleVideo.bind(video, vimeo)); 
-		}.bind(this.mesh), 100);
 	}
 
-	
 	return this.mesh;
 }
