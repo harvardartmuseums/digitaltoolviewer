@@ -55,7 +55,7 @@ function SlideshowModule(width, height, module) {
 		keyframes += "100% {left: -" + module.images.length*100 + "%}}";
 		styleSheet.insertRule(keyframes, index);
 		container.style.animation = "s" + module.id + " " + module.images.length*15 + "s infinite";
-		container.style.animationDelay = -15*Math.random() + "s";
+		container.style.animationDelay = -15*random(module.id) + "s";
 
 		var text;
 		for (var i = 0; i < module.images.length; i++) {

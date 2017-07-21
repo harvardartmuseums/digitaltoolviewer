@@ -23,6 +23,7 @@ function getTourFromURL() {
 			renderer.domElement.style.left = 100*offsetHorizontal + "vw";
 			resize();
 		}
+		seed = match[3];
 		socket.emit("id", match[3]);
 		socket.emit("getTour", tourNumber);
 		return true;
@@ -66,13 +67,6 @@ function TourRoom(tourData) {
 	tstand.position.set(0, 0, -wallDepth*3.01);
 	tstand.updateMatrix();
 	this.mesh.add(tstand);
-
-
-	//var light = new THREE.HemisphereLight(0xffffff, 0xaaaaaa, 0.3);
-	//light.position.set(0, 400, 0);
-	//scene.add(light);
-
-	//lights.push(light);
 
 	var light = new THREE.DirectionalLight(0xffffff, .5);
 	light.position.set(-2000, 0, 1750);

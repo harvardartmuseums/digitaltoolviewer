@@ -1,3 +1,15 @@
+var seed;
+
+// Generate a seeded random number
+function random(s) {
+	if (!s) {
+		seed++;
+		s = seed;
+	}
+	var x = Math.sin(s)*10000;
+	return x - Math.floor(x);
+}
+
 // Find index of last space in a string, counting from end
 function lastSpaceIndex(text) {
 	var lastSpace = text.split("").reverse().join("").indexOf(" ");
@@ -87,6 +99,6 @@ function centerText(context, width, height, text, fontSize, font) {
 }
 
 function randomSign() {
-	return (1 - 2*Math.round(Math.random()));
+	return (1 - 2*Math.round(random()));
 }
 

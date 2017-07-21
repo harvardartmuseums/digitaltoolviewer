@@ -63,7 +63,7 @@ function CloseupModule(width, height, module) {
 		}
 		styleSheet.insertRule(keyframes, index);
 		zoom.style.animation = "z" + module.id + " " + module.images[0].hotspots.length*10 + "s infinite";
-		zoom.style.animationDelay = -10*Math.random() + "s";
+		zoom.style.animationDelay = -10*random(module.id) + "s";
 	};
 	img.src = module.images[0].file;
 	zoom.appendChild(img);

@@ -83,7 +83,7 @@ function addModulesToSlide(modules, slide) {
 				break;
 			}
 			module = new Module(modules[i]);
-			location = Math.floor(locations.length*Math.random());
+			location = Math.floor(locations.length*random());
 			module.position.copy(locations[location]);
 			module.updateMatrix();
 			locations.splice(location, 1);
