@@ -1,10 +1,10 @@
-var seed = 1;
+var randomSeed = 1;
 
 // Generate a seeded random number
 function random(s) {
 	if (!s) {
-		seed++;
-		s = seed;
+		randomSeed++;
+		s = randomSeed;
 	}
 	console.log(s);
 	var x = Math.sin(s)*10000;
