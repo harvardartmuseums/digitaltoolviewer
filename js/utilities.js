@@ -1,4 +1,4 @@
-var seed;
+var seed = 1;
 
 // Generate a seeded random number
 function random(s) {
