@@ -6,9 +6,7 @@ function random(s) {
 		randomSeed++;
 		s = randomSeed;
 	}
-	console.log(s);
 	var x = Math.sin(s)*10000;
-	console.log(x);
 	return x - Math.floor(x);
 }
 

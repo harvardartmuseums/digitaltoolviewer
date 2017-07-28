@@ -4,6 +4,7 @@ var cssCanvas;
 var scene;
 
 var camera;
+var interactionCamera;
 
 var renderer;
 
@@ -45,6 +46,13 @@ function setupRendering() {
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
 	camera.updateMatrix();
+
+	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
+	interactionCamera.layers.set(1);
+	interactionCamera.position.z = 0;
+	interactionCamera.position.y = 200;
+	interactionCamera.rotateY(THREE.Math.degToRad(0));
+	interactionCamera.updateMatrix();
 
 	setupCSS();
 	setupWebGL();
