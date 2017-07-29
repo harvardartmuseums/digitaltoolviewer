@@ -6,6 +6,11 @@ function setupInteraction() {
 	mouse = new THREE.Vector2();
 
 	socket.on("click", handleInteraction);
+	document.addEventListener("onclick", click);
+}
+
+function click(e) {
+	handleInteraction({x: e.clientX/window.innerWidth*2 - 1, y: e.clientY/window.innerHeight*2 - 1});
 }
 
 function handleInteraction(e) {
