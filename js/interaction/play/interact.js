@@ -12,7 +12,6 @@ function handleInteraction(e) {
 	mouse.x = e.x;
 	mouse.y = e.y;
 
-	camera.updateMatrix();
 	interactionCamera.position.copy(camera.position);
 	interactionCamera.rotation.copy(camera.rotation);
 	interactionCamera.updateMatrix();
@@ -21,11 +20,8 @@ function handleInteraction(e) {
 
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
-	var index;
-	for (var i = 0; i < interactions.length; i++) {
-		index = interactiveObjects.indexOf(intersections[i].object);
-		if (index != -1) {
-			interactionMethod[index]();
-		}
+	var index = interactiveObjects.indexOf(intersections[0].object);
+	if (index != -1) {
+		interactionMethod[index]();
 	}
 }
