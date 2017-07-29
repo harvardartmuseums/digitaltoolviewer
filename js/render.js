@@ -47,7 +47,7 @@ function setupRendering() {
 	camera.rotateY(THREE.Math.degToRad(0));
 	camera.updateMatrix();
 
-	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
+	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, 10000);
 	interactionCamera.layers.set(1);
 	interactionCamera.position.z = 0;
 	interactionCamera.position.y = 200;
@@ -79,7 +79,7 @@ function setupWebGL() {
 function animate() {
 	renderer.render(scene, interactionCamera);
 
-	cssRenderer.render(cssOverlay, camera);
+	//cssRenderer.render(cssOverlay, camera);
 
 	//mirrorFrameCount++;
 }
