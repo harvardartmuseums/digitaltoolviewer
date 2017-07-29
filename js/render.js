@@ -79,7 +79,7 @@ function setupWebGL() {
 function animate() {
 	renderer.render(scene, interactionCamera);
 
-	//cssRenderer.render(cssOverlay, camera);
+	cssRenderer.render(cssOverlay, camera);
 
 	//mirrorFrameCount++;
 }
