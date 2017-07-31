@@ -1,20 +1,9 @@
 var interactionCamera;
 
-var interactiveObjects = [];
-var interactionMethod = [];
-
 var interactRay;
 var mouse;
 
 function setupInteraction() {
-	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, wallUnitWidth);
-	interactionCamera.layers.set(1);
-	interactionCamera.position.z = 0;
-	interactionCamera.position.y = 200;
-	interactionCamera.rotateY(THREE.Math.degToRad(0));
-	interactionCamera.updateMatrix();
-	scene.add(interactionCamera);
-
 	interactRay = new THREE.Raycaster(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), wallDepth, wallUnitWidth);
 	mouse = new THREE.Vector2();
 
@@ -36,6 +25,7 @@ function handleInteraction(e) {
 
 	if (intersections.length) {
 		var index = interactiveObjects.indexOf(intersections[0].object);
+
 		if (index != -1) {
 			interactionMethod[index]();
 		}
