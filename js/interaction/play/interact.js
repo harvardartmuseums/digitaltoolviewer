@@ -22,7 +22,7 @@ function handleInteraction(e) {
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
 	var index;
-	for (var i = 0; i < interactions.length; i++) {
+	for (var i = 0; i < intersections.length; i++) {
 		index = interactiveObjects.indexOf(intersections[i].object);
 		if (index != -1) {
 			interactionMethod[index]();

@@ -77,7 +77,7 @@ function setupWebGL() {
 
 // Animate both the WebGL and the CSS transforms scenes
 function animate() {
-	renderer.render(scene, interactionCamera);
+	renderer.render(scene, camera);
 
 	cssRenderer.render(cssOverlay, camera);
 
