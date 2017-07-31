@@ -284,12 +284,8 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("setupControl", function(data) {
-	window.addEventListener('touchstart', function (e) {
-		e.preventDefault();
-	});
-
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		$(document.getElementById("viewport")).empty();
+		document.getElementById("viewport").html = "";
 	}
 
 	scene = new THREE.Scene();
@@ -335,7 +331,7 @@ socket.on("setupControl", function(data) {
 	document.getElementById("viewport").appendChild(span);
 
 	document.getElementById("viewport").appendChild(renderer.domElement);
-	renderer.domElement.ontouchstart = function(e) {
+	renderer.domElement.onclick = function(e) {
 		socket.emit("click", {x: 2*(e.touches[0].pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.touches[0].pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
@@ -380,9 +376,6 @@ socket.on("openOverlay", function(id) {
 	input.min = 0;
 	input.max = 100;
 	input.step = 1;
-	input.ontouchstart = function(e) {
-		e.stopPropagation();
-	};
 	input.oninput = function() {
 		socket.emit('slideOverlay', id, (100 - this.value));
 	};
