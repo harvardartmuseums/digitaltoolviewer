@@ -23,8 +23,10 @@ function handleInteraction(e) {
 
 	var index;
 	for (var i = 0; i < intersections.length; i++) {
+		console.log(intersections[i].object);
 		index = interactiveObjects.indexOf(intersections[i].object);
 		if (index != -1) {
+			console.log(interactionMethod[index]);
 			interactionMethod[index]();
 		}
 	}
