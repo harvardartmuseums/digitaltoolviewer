@@ -285,7 +285,7 @@ socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to lin
 
 socket.on("setupControl", function(data) {
 	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		document.getElementById("viewport").html = "";
+		document.getElementById("viewport").innerHTML = "";
 	}
 
 	scene = new THREE.Scene();
@@ -332,7 +332,7 @@ socket.on("setupControl", function(data) {
 
 	document.getElementById("viewport").appendChild(renderer.domElement);
 	renderer.domElement.onclick = function(e) {
-		socket.emit("click", {x: 2*(e.touches[0].pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.touches[0].pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
+		socket.emit("click", {x: 2*(e.pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
 	span = document.createElement("span");
