@@ -34,9 +34,10 @@ function handleInteraction(e) {
 
 	var intersections = interactRay.intersectObjects(interactiveObjects, true);
 
-	var index = interactiveObjects.indexOf(intersections[0].object);
-
-	if (index != -1) {
-		interactionMethod[index]();
+	if (intersections.length) {
+		var index = interactiveObjects.indexOf(intersections[0].object);
+		if (index != -1) {
+			interactionMethod[index]();
+		}
 	}
 }
