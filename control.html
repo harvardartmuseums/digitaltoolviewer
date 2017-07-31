@@ -368,6 +368,7 @@ function closeMedia() {
 }
 
 socket.on("open", function(html, clickable) {
+	console.log(html, clickable);
 	document.getElementById("mediaViewer").innerHTML = handleFrames(html);
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";
