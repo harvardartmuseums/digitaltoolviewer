@@ -284,8 +284,11 @@ socket.on("invalid id", function() {
 socket.emit('id', prompt("Please enter the id of the screen(s) you'd like to link this control to."));
 
 socket.on("setupControl", function(data) {
-	if (document.getElementById("viewport").getElementsByTagName("canvas")[0]) {
-		document.getElementById("viewport").innerHTML = "";
+	var viewport = document.getElementById("viewport");
+	if (viewport.getElementsByTagName("canvas")[0]) {
+		while (viewport.firstChild) {
+			viewport.removeChild(viewport.firstChild);
+		}
 	}
 
 	scene = new THREE.Scene();
@@ -328,16 +331,16 @@ socket.on("setupControl", function(data) {
 
 	var span = document.createElement("span");
 	span.innerHTML = "If you're close enough, objects you can interact with will appear below:";
-	document.getElementById("viewport").appendChild(span);
+	viewport.appendChild(span);
 
-	document.getElementById("viewport").appendChild(renderer.domElement);
+	viewport.appendChild(renderer.domElement);
 	renderer.domElement.onclick = function(e) {
 		socket.emit("click", {x: 2*(e.pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
 	span = document.createElement("span");
 	span.innerHTML = "Tap the silhouettes to interact";
-	document.getElementById("viewport").appendChild(span);
+	viewport.appendChild(span);
 
 	setupMove();
 	setupReset();
