@@ -14,10 +14,10 @@ function handleInteraction(e) {
 
 	console.log(mouse.x, mouse.y);
 
-	camera.updateMatrix();
+	camera.updateMatrixWorld();
 	interactionCamera.position.copy(camera.position);
 	interactionCamera.rotation.copy(camera.rotation);
-	interactionCamera.updateMatrix();
+	interactionCamera.updateMatrixWorld();
 
 	interactRay.setFromCamera(mouse, interactionCamera);
 

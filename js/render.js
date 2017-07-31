@@ -53,6 +53,7 @@ function setupRendering() {
 	interactionCamera.position.y = 200;
 	interactionCamera.rotateY(THREE.Math.degToRad(0));
 	interactionCamera.updateMatrix();
+	scene.add(interactionCamera);
 
 	setupCSS();
 	setupWebGL();
@@ -77,7 +78,7 @@ function setupWebGL() {
 
 // Animate both the WebGL and the CSS transforms scenes
 function animate() {
-	renderer.render(scene, interactionCamera);
+	renderer.render(scene, camera);
 
 	cssRenderer.render(cssOverlay, camera);
 
