@@ -12,6 +12,8 @@ function handleInteraction(e) {
 	mouse.x = e.x;
 	mouse.y = e.y;
 
+	console.log(mouse.x, mouse.y);
+
 	camera.updateMatrix();
 	interactionCamera.position.copy(camera.position);
 	interactionCamera.rotation.copy(camera.rotation);
