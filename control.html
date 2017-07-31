@@ -129,6 +129,11 @@ body, html {
 input {
 	width: 80%;
 }
+
+a:link, a:visited, a:hover, a:active {
+	color: #AAAAAA;
+	text-decoration: none;
+}
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
@@ -335,7 +340,6 @@ socket.on("setupControl", function(data) {
 
 	viewport.appendChild(renderer.domElement);
 	renderer.domElement.onclick = function(e) {
-		console.log({x: 2*(e.pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 		socket.emit("click", {x: 2*(e.pageX - this.offsetLeft - this.clientLeft)/(this.clientWidth) - 1, y: -2*(e.pageY - this.offsetTop - this.clientTop)/(this.clientHeight) + 1});
 	};
 
@@ -368,7 +372,6 @@ function closeMedia() {
 }
 
 socket.on("open", function(html, clickable) {
-	console.log(html, clickable);
 	document.getElementById("mediaViewer").innerHTML = handleFrames(html);
 	document.getElementById("mediaViewer").style.display = "flex";
 	document.getElementById("mediaCursorBarrier").style.display = "block";

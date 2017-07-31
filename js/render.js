@@ -4,15 +4,11 @@ var cssCanvas;
 var scene;
 
 var camera;
-var interactionCamera;
 
 var renderer;
 
 var cssOverlay;
 var cssRenderer;
-
-var interactiveObjects = [];
-var interactionMethod = [];
 
 var mirrors = [];
 var mirrorFrameCount = 0;
@@ -46,14 +42,6 @@ function setupRendering() {
 	camera.position.y = 200;
 	camera.rotateY(THREE.Math.degToRad(0));
 	camera.updateMatrix();
-
-	interactionCamera = new THREE.PerspectiveCamera(75, 16/9, wallDepth, 10000);
-	interactionCamera.layers.set(1);
-	interactionCamera.position.z = 0;
-	interactionCamera.position.y = 200;
-	interactionCamera.rotateY(THREE.Math.degToRad(0));
-	interactionCamera.updateMatrix();
-	scene.add(interactionCamera);
 
 	setupCSS();
 	setupWebGL();
